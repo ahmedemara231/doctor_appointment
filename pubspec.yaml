@@ -55,7 +55,7 @@ dependencies:
   flutter_spinkit: ^5.2.1
   animation_list: ^3.0.0
   easy_localization: ^3.0.7
-  google_fonts: ^6.2.1
+  google_fonts: ^6.0.0
   svg_flutter: ^0.0.1
 
   #  other
