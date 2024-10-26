@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -41,6 +41,7 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: context.horizontalSymmetricPadding(16.w),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MyText(
@@ -51,7 +52,7 @@ class _LoginState extends State<Login> {
               ),
               MyText(
                 text:
-                    'We\'re excited to have you back, can\'t wait to see what you\'ve been up to since you last logged in',
+                'We\'re excited to have you back, can\'t wait to see what you\'ve been up to since you last logged in',
                 color: Colors.grey,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,

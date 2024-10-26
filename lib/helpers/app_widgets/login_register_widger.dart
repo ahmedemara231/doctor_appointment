@@ -37,7 +37,27 @@ class LoginRegisterWidget extends StatelessWidget {
           padding: context.verticalSymmetricPadding(16.h),
           child: const OtherOptions(),
         ),
-        MyText(text: 'By logging, you agree to our  Terms & Conditions and PrivacyPolicy.'),
+        const Text.rich(
+          TextSpan(
+            text: 'By logging, you agree to our ', // Default style for the first part
+            style: TextStyle(color: Colors.grey),
+            children: <TextSpan>[
+              TextSpan(
+                text: 'Terms & Conditions',
+                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
+              ),
+              TextSpan(
+                text: ' and ',
+                style: TextStyle(color: Colors.grey),
+              ),
+              TextSpan(
+                text: 'PrivacyPolicy',
+                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 16.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -46,10 +66,10 @@ class LoginRegisterWidget extends StatelessWidget {
                 onTap: () {
                   switch(secondOption) {
                     case 'Login':
-                      context.removeOldRoute(Login());
+                      context.removeOldRoute(const Login());
                       break;
                     case 'Sign up':
-                      context.normalNewRoute(SignUp());
+                      context.normalNewRoute(const SignUp());
                       break;
                     default:
                       break;

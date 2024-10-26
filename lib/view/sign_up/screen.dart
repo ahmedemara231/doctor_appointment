@@ -41,10 +41,12 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: context.horizontalSymmetricPadding(16.w),
+      appBar: AppBar(),
+      body: Padding(
+        padding: context.horizontalSymmetricPadding(16.w),
+        child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MyText(
                 text: 'Create Account',
@@ -56,6 +58,7 @@ class _SignUpState extends State<SignUp> {
                 text:
                 'Sign up now and start exploring all that our app has to offer. We\'re excited to welcome you to our community!',
                 color: Colors.grey,
+                maxLines: 5,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -85,10 +88,10 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 12.h),
               LoginRegisterWidget(
                 title: 'Sign up',
-                secondTitle: 'Already have an account?',
+                secondTitle: 'Already have an account?  ',
                 secondOption: 'Login',
                 onPressed: () {},
-              )
+              ),
 
             ],
           ),
