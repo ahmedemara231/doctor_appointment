@@ -1,9 +1,11 @@
 import 'package:doctors_appointment/generated/assets.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/model/local/shared.dart';
 import 'package:doctors_appointment/view/error_builder/screen.dart';
 import 'package:doctors_appointment/view/home/widgets/card.dart';
 import 'package:doctors_appointment/view/home/widgets/doctors_card.dart';
+import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +110,9 @@ class _HomeState extends State<Home> {
                       MyText(text: 'Recommendation Doctor', fontSize: 18.sp, fontWeight: FontWeight.w500,),
                       const Spacer(),
                       TextButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            context.normalNewRoute(RecommendedDoctors());
+                          },
                           child: MyText(text: 'See All', color: Colors.blue,)
                       )
                     ],

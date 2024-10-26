@@ -18,10 +18,26 @@ class HomeCubit extends Cubit<HomeState>
           state: States.homeDataSuccess,
           homeData: homeData.getOrThrow().data
       ));
+      getRecommendedDoctors();
     }else{
       emit(state.copyWith(
           state: States.homeDataError,
           errorMessage: 'Failed, Please try again.'));
     }
+  }
+
+  void getRecommendedDoctors() {
+    List recommendedDoctors = [];
+    for(int index = 0; index < state.homeData!.length; index++){
+      for(int doctorIndex = 0; doctorIndex < state.homeData![index].allInfo.length; doctorIndex++){
+        recommendedDoctors.add(state.homeData![index].allInfo[doctorIndex]);
+      }
+    }
+    emit(
+        state.copyWith(
+            state: States.homeDataSuccess,
+            recommendedDoctors: recommendedDoctors
+        )
+    );
   }
 }

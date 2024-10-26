@@ -7,11 +7,13 @@ class HomeState extends Equatable
 {
   States? currentState;
   List<dynamic>? homeData;
+  List<dynamic>? recommendedDoctors;
   String? errorMsg;
 
   HomeState({
     this.currentState,
     this.homeData,
+    this.recommendedDoctors,
     this.errorMsg
   });
 
@@ -19,22 +21,25 @@ class HomeState extends Equatable
     return HomeState(
         currentState : States.homeInitial,
         homeData : const [],
+        recommendedDoctors : const [],
         errorMsg : ''
     );
   }
 
   HomeState copyWith({
     required States state,
-    dynamic homeData, String? errorMessage
+    dynamic homeData, String? errorMessage,
+    List<dynamic>? recommendedDoctors
   })
   {
     return HomeState(
       currentState: state,
       homeData: homeData?? this.homeData,
+      recommendedDoctors: recommendedDoctors?? this.recommendedDoctors,
       errorMsg: errorMessage?? errorMsg,
     );
   }
 
   @override
-  List<Object?> get props => [currentState, homeData, errorMsg];
+  List<Object?> get props => [currentState, homeData, errorMsg, recommendedDoctors];
 }

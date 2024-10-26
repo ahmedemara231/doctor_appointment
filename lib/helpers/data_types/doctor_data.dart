@@ -5,8 +5,8 @@ class AllDoctorsData{
     data: json['data'].map((data) => DoctorsInSpecificField.fromJson(data)).toList(),
   );
 }
-
-
+//                         doctor Index
+// state.homeData![index].allInfo[0].name
 class DoctorsInSpecificField{
   String fieldName;
   List<dynamic> allInfo;
