@@ -1,10 +1,12 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/app_widgets/login_register_widger.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/helpers/base_widgets/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/data_types/register_inputs.dart';
 import 'package:doctors_appointment/helpers/data_types/register_widget_inputs.dart';
 import 'package:doctors_appointment/helpers/helper_methods/validators.dart';
+import 'package:doctors_appointment/view/login/screen.dart';
 import 'package:doctors_appointment/view/login/widgets/text_field.dart';
 import 'package:doctors_appointment/view/sign_up/widgets/select_gender.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
@@ -141,6 +143,8 @@ class _SignUpState extends State<SignUp> {
                       btnController.success();
                       waitAndReset();
                       AppSnakeBar.show(context, title: state.resultMsg);
+
+                      context.removeOldRoute(const Login());
 
                     case States.registerError:
                       btnController.error();
