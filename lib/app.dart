@@ -1,4 +1,5 @@
 import 'package:doctors_appointment/view/home/home.dart';
+import 'package:doctors_appointment/view/login/screen.dart';
 import 'package:doctors_appointment/view/route_observer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -39,17 +40,17 @@ class _AppState extends State<App> {
       child: MaterialApp(
         // shortcuts: ,
         // actions: ,
+        // navigatorObservers: [AppNavigationObserver()],
+        // localizationsDelegates: context.localizationDelegates,
         locale: context.locale, // context.setLocal
-        localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         title: 'App Name'.tr(), // give the translation of App Name for example
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
-        navigatorObservers: [AppNavigationObserver()],
-        theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
-            ? ThemeData.light()
-            : ThemeData.dark(),
-        home: const Home(),
+        // theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
+        //     ? ThemeData.light()
+        //     : ThemeData.dark(),
+        home:  Login(),
         builder: EasyLoading.init(),
       ),
     );
