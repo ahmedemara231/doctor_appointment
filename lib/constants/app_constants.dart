@@ -5,8 +5,7 @@ import 'package:jiffy/jiffy.dart';
 
 class Constants
 {
-  static var appColor = HexColor('#D84D4D');
-  static var scaffoldBackGroundColor = HexColor('#242424');
+  static var appColor = HexColor('#247CFF');
 
   //date time
   static String dataTime = Jiffy().yMMMd;

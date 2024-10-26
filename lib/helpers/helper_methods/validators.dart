@@ -21,7 +21,7 @@ class Validators {
     if (value?.trim().isEmpty ?? true) {
       return 'Please Enter Email';
     } else if (!RegExp(Constants.emailRegExp).hasMatch(value!)) {
-      return 'Done';
+      return 'invalid email format';
     }
     return null;
   }
@@ -29,10 +29,8 @@ class Validators {
   static String? validatePhone(String? value,) {
     if (value?.trim().isEmpty ?? true) {
       return 'Please Enter Phone';
-    } else if (!RegExp(Constants.phoneRegExp).hasMatch(value!)
-        || value.length < 10)
-    {
-      return 'Done';
+    } else if (!RegExp(Constants.phoneRegExp).hasMatch(value!) || value.length < 10) {
+      return 'invalid phone format or length must be less than 10';
     }
     return null;
   }

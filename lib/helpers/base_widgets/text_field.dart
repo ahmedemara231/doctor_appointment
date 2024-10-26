@@ -48,14 +48,14 @@ class TFF extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onTap: onPressed,
       keyboardType: keyboardType,
       obscureText: obscureText,
       controller: controller,
       validator: validator?? (value)
       {
-        if(value!.isEmpty)
-        {
+        if(value!.isEmpty) {
           return 'This Field is required';
         }
         return null;
