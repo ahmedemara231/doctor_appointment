@@ -18,22 +18,21 @@ class DoctorsCard extends StatelessWidget {
   final String speciality;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(
-            width: context.setWidth(4),
-              height: context.setWidth(3.5),
-              child: NetworkImageHandler(url: url)),
-          Column(
-            children: [
-              MyText(text: doctorName, fontWeight: FontWeight.bold, fontSize: 22.sp),
-              MyText(text: speciality, color: Colors.grey, fontSize: 14.sp),
-        ],
-      ),
-        ]
-      )
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        SizedBox(
+          width: context.setWidth(4),
+            height: context.setWidth(3.5),
+            child: NetworkImageHandler(url: url)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MyText(text: doctorName, fontWeight: FontWeight.bold, fontSize: 22.sp),
+            MyText(text: speciality, color: Colors.grey, fontSize: 14.sp),
+      ],
+    ),
+      ]
     );
   }
 }

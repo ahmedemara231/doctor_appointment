@@ -14,7 +14,6 @@ class HomeCubit extends Cubit<HomeState>
     emit(state.copyWith(state: States.homeDataLoading));
     final homeData = await repo.getHomeData();
     if(homeData.isSuccess()){
-      log('asasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasasas');
       emit(state.copyWith(
           state: States.homeDataSuccess,
           homeData: homeData.getOrThrow().data
