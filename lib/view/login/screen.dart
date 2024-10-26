@@ -1,11 +1,15 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
 import 'package:doctors_appointment/helpers/app_widgets/login_register_widger.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_widgets/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/helpers/helper_methods/validators.dart';
 import 'package:doctors_appointment/view/login/widgets/remember_and_forgot_pass.dart';
 import 'package:doctors_appointment/view/login/widgets/text_field.dart';
+import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
+import 'package:doctors_appointment/view_model/auth/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Login extends StatefulWidget {
@@ -73,11 +77,26 @@ class _LoginState extends State<Login> {
                 validation: Validators.validatePassword,
               ),
               const RememberAndForgotPass(),
-              LoginRegisterWidget(
-                  title: 'Login',
-                  onPressed: () {},
-                  secondTitle: 'Don\'t have an account yet? ',
-                  secondOption: 'Sign up'
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state.currentState == States.loginSuccess
+                  || state.currentState == States.loginError) {
+                    AppSnakeBar.show(context, title: state.resultMsg);
+                  }
+                },
+                builder: (context, state) {
+                  return LoginRegisterWidget(
+                      title: 'Login',
+                      onPressed: () async {
+                        context.read<AuthCubit>().login(
+                            emailController.text,
+                            passwordController.text
+                        );
+                      },
+                      secondTitle: 'Don\'t have an account yet? ',
+                      secondOption: 'Sign up'
+                  );
+                },
               ),
             ],
           ),

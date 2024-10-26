@@ -1,12 +1,11 @@
 class ApiConstants
 {
-  static const String baseUrl = '';
+  static const String baseUrl = 'https://vcare.integration25.com/api';
 
   // timeout durations
   static Duration timeoutDuration = const Duration(seconds: 15);
 
   // Auth
-  static const String login = 'login';
-  static const String signUp = 'register';
-  static const String refreshToken = 'register';
+  static const String login = '/auth/login';
+  static const String signUp = '/auth/register';
 }
