@@ -24,15 +24,15 @@ class BadResponseInterceptor extends InterceptorsWrapper
 
         case 401:
           log(err.response!.statusMessage!);
-          await _refreshToken();
-          await _reRequest(
-            RequestModel(
-                method: err.requestOptions.method,
-                endPoint: err.requestOptions.path,
-                headers: HeadersWithToken()
-            ),
-            handler,
-          );
+          // await _refreshToken();
+          // await _reRequest(
+          //   RequestModel(
+          //       method: err.requestOptions.method,
+          //       endPoint: err.requestOptions.path,
+          //       headers: HeadersWithToken()
+          //   ),
+          //   handler,
+          // );
 
         default:
           handler.reject(err);
@@ -43,21 +43,21 @@ class BadResponseInterceptor extends InterceptorsWrapper
     }
   }
 
-  Future<void> _refreshToken() async
-  {
-    await dio.post(
-        ApiConstants.refreshToken,
-        options: Options(
-            headers: await HeadersWithToken().toJson()
-        )
-    ).then((newToken)async
-    {
-      await SecureStorage.getInstance().setData(
-          key: 'userToken',
-          value: newToken.data
-      );
-    });
-  }
+  // Future<void> _refreshToken() async
+  // {
+  //   await dio.post(
+  //       ApiConstants.refreshToken,
+  //       options: Options(
+  //           headers: await HeadersWithToken().toJson()
+  //       )
+  //   ).then((newToken)async
+  //   {
+  //     await SecureStorage.getInstance().setData(
+  //         key: 'userToken',
+  //         value: newToken.data
+  //     );
+  //   });
+  // }
 
   Future<void> _reRequest(RequestModel oldRequest,ErrorInterceptorHandler handler)async
   {

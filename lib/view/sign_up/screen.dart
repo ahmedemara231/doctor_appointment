@@ -1,8 +1,11 @@
 import 'package:doctors_appointment/helpers/app_widgets/login_register_widger.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/data_types/register_inputs.dart';
 import 'package:doctors_appointment/helpers/helper_methods/validators.dart';
 import 'package:doctors_appointment/view/login/widgets/text_field.dart';
+import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../constants/app_constants.dart';
@@ -90,9 +93,16 @@ class _SignUpState extends State<SignUp> {
                 title: 'Sign up',
                 secondTitle: 'Already have an account?  ',
                 secondOption: 'Login',
-                onPressed: () {},
+                onPressed: () async {
+                  context.read<AuthCubit>().signUp(
+                      RegisterInputs(
+                          email: emailCont.text,
+                          password: passCont.text,
+                          phone: phoneCont.text
+                      )
+                  );
+                },
               ),
-
             ],
           ),
         ),

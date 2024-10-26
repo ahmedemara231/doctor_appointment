@@ -1,7 +1,6 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-
+import 'package:doctors_appointment/model/remote/api_service/extensions/file.dart';
 import 'headers.dart';
 
 class RequestModel
@@ -34,16 +33,14 @@ class RequestModel
   {
     if(data != null)
     {
-      for(MapEntry entry in data)
-      {
-        if(entry.value is File)
+      (data as Map<String, dynamic>).forEach((key, value)async {
+        if(value is File)
         {
           isFormData = true;
-          await entry.value.toMultiPartFile();
+          await value.toMultiPartFile();
         }
-      }
+      });
     }
   }
-
 }
 
