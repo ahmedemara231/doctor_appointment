@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../../helpers/base_widgets/text_field.dart';
 
-class AuthTextFields extends StatelessWidget {
+class AuthTextFields extends StatefulWidget {
 
   final String hintText;
-  final bool obscureText;
+  bool obscureText;
   final TextEditingController cont;
   final String? Function(String?) validation;
 
-  const AuthTextFields({Key? key,
+  AuthTextFields({Key? key,
     required this.hintText,
     required this.obscureText,
     required this.cont,
@@ -16,13 +16,29 @@ class AuthTextFields extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<AuthTextFields> createState() => _AuthTextFieldsState();
+}
+
+class _AuthTextFieldsState extends State<AuthTextFields> {
+  @override
   Widget build(BuildContext context) {
     return TFF(
-      obscureText: obscureText,
-      controller: cont,
-      hintText: hintText,
+      obscureText: widget.obscureText,
+      controller: widget.cont,
+      hintText: widget.hintText,
       hintStyle: const TextStyle(color: Colors.grey),
-      validator: validation,
+      validator: widget.validation,
+      suffixIcon: widget.hintText == 'Password' || widget.hintText == 'Confirm Password'?
+      IconButton(
+          onPressed: () {
+            setState(() {
+              widget.obscureText = !widget.obscureText;
+            });
+          },
+          icon: Icon(
+              widget.obscureText?
+              Icons.visibility_off : Icons.visibility
+          )) : null,
       enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.withOpacity(.4)),
           borderRadius: BorderRadius.circular(16)

@@ -1,5 +1,6 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
 import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
+import 'package:doctors_appointment/helpers/app_widgets/app_loading_button.dart';
 import 'package:doctors_appointment/helpers/app_widgets/or_sign_with.dart';
 import 'package:doctors_appointment/helpers/app_widgets/other_options.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
@@ -8,6 +9,7 @@ import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/view/login/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_icon_button/loading_icon_button.dart';
 
 import '../../view/sign_up/screen.dart';
 
@@ -18,19 +20,26 @@ class LoginRegisterWidget extends StatelessWidget {
     required this.secondTitle,
     required this.secondOption,
     required this.onPressed,
+    required this.btnController
   }) : super(key: key);
 
   final String title;
   final String secondTitle;
   final String secondOption;
   final void Function() onPressed;
+
+  final LoadingButtonController btnController;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Padding(
           padding: context.verticalSymmetricPadding(16.h),
-          child: AppButton(title: title, onPressed: onPressed),
+          child: AppLoadingButton(
+            onPressed: onPressed,
+            title: title,
+            btnController: btnController,
+          ),
         ),
         const OrSignWith(),
         Padding(

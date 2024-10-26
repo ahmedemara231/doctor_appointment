@@ -869,6 +869,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.1"
+  loading_icon_button:
+    dependency: "direct main"
+    description:
+      name: loading_icon_button
+      sha256: "5ef8c82796c19b96a5995457410037cbe05cb4840af766e50330b2d108dacdfd"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.6"
   lottie:
     dependency: transitive
     description:

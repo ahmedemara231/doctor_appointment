@@ -16,8 +16,8 @@ class SelectGender extends StatefulWidget {
 }
 
 class _SelectGenderState extends State<SelectGender> {
-  String gender = 0.toString();
-
+  String genderCode = 0.toString();
+  String genderName = 'Male';
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,33 +28,37 @@ class _SelectGenderState extends State<SelectGender> {
             child: MyText(text: 'Gender', fontSize: 10.sp,)),
         title: MyText(text: 'Select Gender'),
         children: <Widget>[
-          const Divider(
-            thickness: 1.0,
-            height: 1.0,
+          Padding(
+            padding: context.horizontalSymmetricPadding(7.w),
+            child: const Divider(
+              thickness: 1.0,
+              height: 1.0,
+            ),
           ),
           RadioListTile<String>(
             title: const Text('Male', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             value: 'Male',
-            selected: gender == 0.toString()? true : false,
-            groupValue: 'Text',
-            activeColor: Colors.blue,
+            selected: genderCode == 0.toString()? true : false,
+            groupValue: genderName,
             onChanged: (value) {
               setState(() {
-                gender = 0.toString();
-                widget.onSelectGender(gender);
+                genderCode = 0.toString();
+                genderName = 'Male';
+                widget.onSelectGender(genderCode);
               });
             },
           ),
           RadioListTile<String>(
             title: const Text('Female', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             value: 'Female',
-            selected: gender == 1.toString()? true : false,
-            groupValue: 'Text',
-            activeColor: Colors.blue,
+            selected: genderCode == 1.toString()? true : false,
+            dense: true,
+            groupValue: genderName,
             onChanged: (value) {
               setState(() {
-                gender = 1.toString();
-                widget.onSelectGender(gender);
+                genderCode = 1.toString();
+                genderName = 'Female';
+                widget.onSelectGender(genderCode);
               });
             },
           ),
