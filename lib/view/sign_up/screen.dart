@@ -1,14 +1,20 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/app_widgets/login_register_widger.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
+import 'package:doctors_appointment/helpers/base_widgets/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/data_types/register_inputs.dart';
 import 'package:doctors_appointment/helpers/data_types/register_widget_inputs.dart';
 import 'package:doctors_appointment/helpers/helper_methods/validators.dart';
+import 'package:doctors_appointment/view/login/screen.dart';
 import 'package:doctors_appointment/view/login/widgets/text_field.dart';
 import 'package:doctors_appointment/view/sign_up/widgets/select_gender.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
+import 'package:doctors_appointment/view_model/auth/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_icon_button/loading_icon_button.dart';
 
 import '../../constants/app_constants.dart';
 import '../../helpers/base_widgets/text.dart';
@@ -66,7 +72,7 @@ class _SignUpState extends State<SignUp> {
       ),
       RegisterWidgetInputs(
           hintText: 'Confirm Password',
-          obscureText: false,
+          obscureText: true,
           cont: confirmPassCont,
           validation: (p0) =>  Validators.validatePasswordConfirm(p0, passCont.text),
       ),
@@ -85,6 +91,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   String gender = 0.toString();
+  LoadingButtonController btnController = LoadingButtonController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,10 +136,30 @@ class _SignUpState extends State<SignUp> {
               SelectGender(
                 onSelectGender: (selectedGender) => gender = selectedGender,
               ),
-              LoginRegisterWidget(
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  switch(state.currentState){
+                    case States.registerSuccess:
+                      btnController.success();
+                      waitAndReset();
+                      AppSnakeBar.show(context, title: state.resultMsg);
+                      context.removeOldRoute(const Login());
+
+                    case States.registerError:
+                      btnController.error();
+                      waitAndReset();
+                      AppSnakeBar.show(context, title: state.resultMsg, type: AnimatedSnackBarType.error);
+
+                    default:
+                      break;
+                  }
+                },
+                builder: (context, state) {
+                  return LoginRegisterWidget(
                 title: 'Sign up',
                 secondTitle: 'Already have an account?  ',
                 secondOption: 'Login',
+                btnController: btnController,
                 onPressed: () async {
                   context.read<AuthCubit>().signUp(
                       RegisterInputs(
@@ -145,11 +172,17 @@ class _SignUpState extends State<SignUp> {
                       )
                   );
                 },
+              );
+                  },
               ),
             ],
           ),
         ),
       ),
     );
+  }
+  Future<void> waitAndReset()async{
+    await Future.delayed(const Duration(seconds: 2));
+    btnController.reset();
   }
 }
