@@ -1,8 +1,10 @@
 import 'package:doctors_appointment/helpers/app_widgets/login_register_widger.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/data_types/register_inputs.dart';
+import 'package:doctors_appointment/helpers/data_types/register_widget_inputs.dart';
 import 'package:doctors_appointment/helpers/helper_methods/validators.dart';
 import 'package:doctors_appointment/view/login/widgets/text_field.dart';
+import 'package:doctors_appointment/view/sign_up/widgets/select_gender.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,28 +21,70 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  late TextEditingController nameCont;
   late TextEditingController emailCont;
 
+  late TextEditingController phoneCont;
   late TextEditingController passCont;
 
-  late TextEditingController phoneCont;
+  late TextEditingController confirmPassCont;
+
+  late List<RegisterWidgetInputs> textFieldsProperties;
 
   @override
   void initState() {
+    nameCont = TextEditingController();
     emailCont = TextEditingController();
-    passCont = TextEditingController();
     phoneCont = TextEditingController();
+    passCont = TextEditingController();
+    confirmPassCont = TextEditingController();
+
+    textFieldsProperties = [
+      RegisterWidgetInputs(
+          hintText: 'Name',
+          obscureText: false,
+          cont: nameCont,
+          validation: Validators.validateEmpty
+      ),
+      RegisterWidgetInputs(
+          hintText: 'Email',
+          obscureText: false,
+          cont: emailCont,
+          validation: Validators.validateEmail
+      ),
+      RegisterWidgetInputs(
+          hintText: 'Phone Number',
+          obscureText: false,
+          cont: phoneCont,
+          validation: Validators.validatePhone
+      ),
+      RegisterWidgetInputs(
+          hintText: 'Password',
+          obscureText: true,
+          cont: passCont,
+          validation: Validators.validatePassword
+      ),
+      RegisterWidgetInputs(
+          hintText: 'Confirm Password',
+          obscureText: false,
+          cont: confirmPassCont,
+          validation: (p0) =>  Validators.validatePasswordConfirm(p0, passCont.text),
+      ),
+    ];
     super.initState();
   }
 
   @override
   void dispose() {
+    nameCont.dispose();
     emailCont.dispose();
     passCont.dispose();
+    confirmPassCont.dispose();
     phoneCont.dispose();
     super.dispose();
   }
 
+  String gender = 0.toString();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,27 +112,23 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 20.h,
               ),
-              AuthTextFields(
-                  hintText: 'Email',
-                  obscureText: false,
-                  cont: emailCont,
-                  validation: Validators.validateEmail
+              Column(
+                children: List.generate(
+                  textFieldsProperties.length,
+                  (index) => Padding(
+                    padding: context.verticalSymmetricPadding(12.h),
+                    child: AuthTextFields(
+                        hintText: textFieldsProperties[index].hintText,
+                        obscureText: textFieldsProperties[index].obscureText,
+                        cont: textFieldsProperties[index].cont,
+                        validation: textFieldsProperties[index].validation
+                    ),
+                  )
+                ),
               ),
-              SizedBox(height: 12.h),
-              AuthTextFields(
-                  hintText: 'Password',
-                  obscureText: true,
-                  cont: passCont,
-                  validation: Validators.validatePassword
+              SelectGender(
+                onSelectGender: (selectedGender) => gender = selectedGender,
               ),
-              SizedBox(height: 12.h),
-              AuthTextFields(
-                  hintText: 'Phone Number',
-                  obscureText: false,
-                  cont: phoneCont,
-                  validation: Validators.validatePhone
-              ),
-              SizedBox(height: 12.h),
               LoginRegisterWidget(
                 title: 'Sign up',
                 secondTitle: 'Already have an account?  ',
@@ -98,7 +138,10 @@ class _SignUpState extends State<SignUp> {
                       RegisterInputs(
                           email: emailCont.text,
                           password: passCont.text,
-                          phone: phoneCont.text
+                          phone: phoneCont.text,
+                          name: nameCont.text,
+                          passConfirmation: confirmPassCont.text,
+                          gender: gender,
                       )
                   );
                 },

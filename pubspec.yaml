@@ -57,6 +57,7 @@ dependencies:
   easy_localization: ^3.0.7
   google_fonts: ^6.0.0
   svg_flutter: ^0.0.1
+  expansion_tile_card: ^3.0.0
 
   #  other
   url_launcher: ^6.2.6
