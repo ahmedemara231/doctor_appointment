@@ -5,6 +5,7 @@ class AppSnakeBar{
   static show(BuildContext context,{required String title, AnimatedSnackBarType? type}){
     AnimatedSnackBar.material(
         title,
+        duration: const Duration(seconds: 3),
         type: type?? AnimatedSnackBarType.info,
         mobileSnackBarPosition: MobileSnackBarPosition.bottom
     ).show(context);
