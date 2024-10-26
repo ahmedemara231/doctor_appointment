@@ -1,13 +1,12 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:doctors_appointment/constants/app_constants.dart';
-import 'package:doctors_appointment/helpers/app_widgets/app_loading_button.dart';
 import 'package:doctors_appointment/helpers/app_widgets/login_register_widger.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_widgets/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/helpers/helper_methods/validators.dart';
-import 'package:doctors_appointment/view/login/widgets/remember_and_forgot_pass.dart';
-import 'package:doctors_appointment/view/login/widgets/text_field.dart';
+import 'package:doctors_appointment/view/auth/login/widgets/remember_and_forgot_pass.dart';
+import 'package:doctors_appointment/view/auth/login/widgets/text_field.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:doctors_appointment/view_model/auth/auth_state.dart';
 import 'package:flutter/material.dart';

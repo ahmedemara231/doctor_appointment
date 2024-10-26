@@ -6,18 +6,17 @@ import 'package:doctors_appointment/helpers/base_widgets/animated_snack_bar.dart
 import 'package:doctors_appointment/helpers/data_types/register_inputs.dart';
 import 'package:doctors_appointment/helpers/data_types/register_widget_inputs.dart';
 import 'package:doctors_appointment/helpers/helper_methods/validators.dart';
-import 'package:doctors_appointment/view/login/screen.dart';
-import 'package:doctors_appointment/view/login/widgets/text_field.dart';
-import 'package:doctors_appointment/view/sign_up/widgets/select_gender.dart';
+import 'package:doctors_appointment/view/auth/sign_up/widgets/select_gender.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:doctors_appointment/view_model/auth/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_icon_button/loading_icon_button.dart';
-
-import '../../constants/app_constants.dart';
-import '../../helpers/base_widgets/text.dart';
+import '../../../constants/app_constants.dart';
+import '../../../helpers/base_widgets/text.dart';
+import '../login/screen.dart';
+import '../login/widgets/text_field.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});

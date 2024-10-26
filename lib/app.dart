@@ -1,8 +1,4 @@
 import 'package:doctors_appointment/view/home/home.dart';
-import 'package:doctors_appointment/view/login/screen.dart';
-import 'package:doctors_appointment/view/route_observer.dart';
-import 'package:doctors_appointment/view/sign_up/screen.dart';
-import 'package:doctors_appointment/view/sign_up/widgets/select_gender.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +54,7 @@ class _AppState extends State<App> {
           // theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
           //     ? ThemeData.light()
           //     : ThemeData.dark(),
-          home: Login(),
+          home: const Home(),
           builder: EasyLoading.init(),
         ),
       ),
