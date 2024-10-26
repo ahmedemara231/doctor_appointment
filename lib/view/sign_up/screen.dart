@@ -143,6 +143,7 @@ class _SignUpState extends State<SignUp> {
                       btnController.success();
                       waitAndReset();
                       AppSnakeBar.show(context, title: state.resultMsg);
+
                       context.removeOldRoute(const Login());
 
                     case States.registerError:
