@@ -21,7 +21,7 @@ class HeadersWithToken extends RequestHeaders
 
   Future<String?> get _getToken async
   {
-    String? token = 'Bearer ${await SecureStorage.getInstance().readData(key: 'userToken')}';
+    String? token = 'Bearer ${await SecureStorage.getInstance().readData(key: 'token')}';
     return token;
   }
 

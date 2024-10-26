@@ -1,5 +1,7 @@
+import 'package:doctors_appointment/view/auth/login/screen.dart';
 import 'package:doctors_appointment/view/home/home.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
+import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'helpers/data_types/permession_process_model.dart';
 import 'helpers/helper_methods/handle_permissions.dart';
 import 'model/local/shared.dart';
+import 'model/remote/api_service/repositories/get.dart';
+import 'model/remote/api_service/service/dio_connection.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -40,6 +44,8 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+          BlocProvider<HomeCubit>(  create: (context) => HomeCubit(GetRepo(apiService: DioConnection.getInstance())),
+          ),
         ],
         child: MaterialApp(
           // shortcuts: ,

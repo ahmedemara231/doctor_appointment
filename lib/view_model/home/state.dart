@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
 
+import '../../helpers/data_types/doctor_data.dart';
+
 enum States {homeInitial, homeDataLoading, homeDataSuccess, homeDataError}
 class HomeState extends Equatable
 {
   States? currentState;
-  dynamic homeData;
+  List<dynamic>? homeData;
   String? errorMsg;
 
   HomeState({

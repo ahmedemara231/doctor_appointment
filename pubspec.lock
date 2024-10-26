@@ -1157,14 +1157,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "6.1.2"
-  rounded_loading_button:
-    dependency: "direct main"
-    description:
-      name: rounded_loading_button
-      sha256: ec4af194330ba688527749059b7c1a3d1ddda6c18794ec4b0696f0cb3b9784ff
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.0"
   rxdart:
     dependency: transitive
     description:
@@ -1245,14 +1237,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.4.0"
-  shimmer:
+  skeletonizer:
     dependency: "direct main"
     description:
-      name: shimmer
-      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
+      name: skeletonizer
+      sha256: "3b202e4fa9c49b017d368fb0e570d4952bcd19972b67b2face071bdd68abbfae"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0"
+    version: "1.4.2"
   sky_engine:
     dependency: transitive
     description: flutter

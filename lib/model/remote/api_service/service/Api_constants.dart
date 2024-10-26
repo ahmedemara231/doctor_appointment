@@ -8,4 +8,8 @@ class ApiConstants
   // Auth
   static const String login = '/auth/login';
   static const String signUp = '/auth/register';
+
+  // Home
+  static const String home = '/home/index';
+
 }

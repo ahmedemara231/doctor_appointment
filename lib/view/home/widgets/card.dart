@@ -11,7 +11,7 @@ class HomeCard extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 60.h),
+          padding: EdgeInsets.only(top: 15.h),
           child: Container(
             width: double.infinity,
             height: context.setHeight(3.2),
@@ -59,7 +59,7 @@ class HomeCard extends StatelessWidget {
           alignment: Alignment.topRight,
           child: Image.asset(
             Assets.imagesHomeDoctorImage,
-            height: context.setHeight(2.45),
+            height: context.setHeight(3),
             fit: BoxFit.fill,
           ),
         ),

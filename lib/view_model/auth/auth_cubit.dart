@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:doctors_appointment/model/local/secure.dart';
 import 'package:doctors_appointment/model/local/shared.dart';
@@ -43,6 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String name,
 })async {
     await SecureStorage.getInstance().setData(key: 'token', value: token);
+    log('${await SecureStorage.getInstance().readData(key: 'token')}');
     await CacheHelper.getInstance().setData(
         key: 'userData',
         value: <String>[
