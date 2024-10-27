@@ -1,8 +1,9 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:flutter/material.dart';
-
-import '../helpers/app_widgets/specialities_widget.dart';
+import '../../helpers/app_widgets/specialities_widget.dart';
+import '../doctors_based_specialities/screen.dart';
 
 class Specialities extends StatelessWidget {
   const Specialities({Key? key}) : super(key: key);
@@ -19,7 +20,13 @@ class Specialities extends StatelessWidget {
           crossAxisCount: 3,
         ),
         itemBuilder: (context, index) => InkWell(
-          onTap: () {},
+          onTap: () {
+            context.normalNewRoute(
+                DoctorsBasedSpecialities(
+                  index: index,
+                )
+            );
+          },
           child: SpecialitiesWidget(
               title: Constants.specialities[index].speciality,
               imageUrl: Constants.specialities[index].image

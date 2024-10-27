@@ -13,10 +13,11 @@ class DoctorsInSpecificField{
 
   DoctorsInSpecificField({required this.allInfo, required this.fieldName});
 
-  factory DoctorsInSpecificField.fromJson(Map<String, dynamic> json) => DoctorsInSpecificField(
-    allInfo: json['doctors'].map((data) => DoctorInfo.fromJson(data)).toList(),
-    fieldName: json['name'],
-  );
+  factory DoctorsInSpecificField.fromJson(Map<String, dynamic> json) =>
+      DoctorsInSpecificField(
+        allInfo: json['doctors'].map((data) => DoctorInfo.fromJson(data)).toList(),
+        fieldName: json['name'],
+      );
 }
 
 class DoctorInfo {

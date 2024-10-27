@@ -18,6 +18,26 @@ class Constants
   static String emailRegExp = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.["r"a-zA-Z]+";
   static String phoneRegExp = r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]'r'{4,6}$)';
 
+  // specialities
+  static List<Speciality> specialities = [
+      Speciality(
+          image: Assets.imagesGeneral,
+          speciality: 'General'
+      ),
+      Speciality(
+          image: Assets.imagesNeurologic,
+          speciality: 'Neurologic'
+      ),
+      Speciality(
+          image: Assets.imagesPediatric,
+          speciality: 'Pediatric'
+      ),
+      Speciality(
+          image: Assets.imagesRadiology,
+          speciality: 'Radiology'
+      ),
+    ];
+
   // other
   static void configLoading() {
     EasyLoading.instance

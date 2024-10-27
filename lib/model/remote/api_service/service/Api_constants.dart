@@ -8,8 +8,8 @@ class ApiConstants
   // Auth
   static const String login = '/auth/login';
   static const String signUp = '/auth/register';
+  static const String doctorsBasedOnSpecialization = '/specialization/show/';
 
   // Home
   static const String home = '/home/index';
-
 }

@@ -1,6 +1,7 @@
 import 'package:doctors_appointment/view/auth/login/screen.dart';
 import 'package:doctors_appointment/view/home/home.dart';
 import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
+import 'package:doctors_appointment/view/specialities/screen.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:easy_localization/easy_localization.dart';

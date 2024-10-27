@@ -1,14 +1,23 @@
 import 'package:equatable/equatable.dart';
 
-import '../../helpers/data_types/doctor_data.dart';
+import '../../model/remote/api_service/models/doctor_data.dart';
 
-enum States {homeInitial, homeDataLoading, homeDataSuccess, homeDataError}
+enum States {
+  homeInitial,
+  homeDataLoading,
+  homeDataSuccess,
+  homeDataError,
+  doctorsBasedOnSpecializationLoading,
+  doctorsBasedOnSpecializationError
+}
 class HomeState extends Equatable
 {
   States? currentState;
   List<dynamic>? homeData;
   List<dynamic>? recommendedDoctors;
   List<dynamic>? filteredDoctors;
+
+  List<dynamic>? doctorsBasedOnSpecialization;
   String? errorMsg;
 
   HomeState({
@@ -16,6 +25,7 @@ class HomeState extends Equatable
     this.homeData,
     this.recommendedDoctors,
     this.filteredDoctors,
+    this.doctorsBasedOnSpecialization,
     this.errorMsg
   });
 
@@ -25,6 +35,7 @@ class HomeState extends Equatable
         homeData : const [],
         recommendedDoctors : const [],
         filteredDoctors : const [],
+        doctorsBasedOnSpecialization : const [],
         errorMsg : ''
     );
   }
@@ -33,7 +44,8 @@ class HomeState extends Equatable
     required States state,
     dynamic homeData, String? errorMessage,
     List<dynamic>? recommendedDoctors,
-    List<dynamic>? filteredDoctors
+    List<dynamic>? filteredDoctors,
+    List<dynamic>? doctorsBasedOnSpecialization
   })
   {
     return HomeState(
@@ -41,10 +53,18 @@ class HomeState extends Equatable
       homeData: homeData?? this.homeData,
       recommendedDoctors: recommendedDoctors?? this.recommendedDoctors,
       filteredDoctors: filteredDoctors?? this.filteredDoctors,
+      doctorsBasedOnSpecialization: doctorsBasedOnSpecialization?? this.doctorsBasedOnSpecialization,
       errorMsg: errorMessage?? errorMsg,
     );
   }
 
   @override
-  List<Object?> get props => [currentState, homeData, errorMsg, recommendedDoctors, filteredDoctors];
+  List<Object?> get props => [
+    currentState,
+    homeData,
+    errorMsg,
+    recommendedDoctors,
+    filteredDoctors,
+    doctorsBasedOnSpecialization
+  ];
 }

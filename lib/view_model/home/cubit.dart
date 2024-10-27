@@ -71,4 +71,21 @@ class HomeCubit extends Cubit<HomeState>
     List filteredDoctors = List.from(state.recommendedDoctors!);
     emit(state.copyWith(state: States.homeDataSuccess, filteredDoctors: filteredDoctors));
   }
+
+  Future<void> showDoctorsBasedOnSpeciality(int specializationIndex)async{
+    emit(state.copyWith(state: States.doctorsBasedOnSpecializationLoading));
+    final result = await repo.showDoctorsBasedOnSpecialization(specializationIndex);
+    if(result.isSuccess()){
+      log(result.getOrThrow().toString());
+      emit(state.copyWith(
+          state: States.homeDataSuccess,
+          doctorsBasedOnSpecialization: result.getOrThrow().allInfo
+      ));
+    }else{
+      emit(state.copyWith(
+          state: States.doctorsBasedOnSpecializationError,
+        errorMessage: 'Failed, Please try again.'
+      ));
+    }
+  }
 }
