@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/constants/app_constants.dart';
 import 'package:doctors_appointment/view/auth/login/screen.dart';
 import 'package:doctors_appointment/view/home/home.dart';
 import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
@@ -36,7 +37,6 @@ class _AppState extends State<App> {
     super.initState();
   }
 
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
       return ScreenUtilInit(
@@ -58,7 +58,10 @@ class _AppState extends State<App> {
           supportedLocales: context.supportedLocales,
           title: 'App Name'.tr(), // give the translation of App Name for example
           debugShowCheckedModeBanner: false,
-          navigatorKey: navigatorKey,
+          navigatorKey: Constants.navigatorKey,
+          routes: {
+            '/login': (context) => const Login(),
+          },
           // theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
           //     ? ThemeData.light()
           //     : ThemeData.dark(),

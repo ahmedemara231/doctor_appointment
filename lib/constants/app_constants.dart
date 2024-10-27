@@ -8,6 +8,7 @@ import '../helpers/data_types/spec.dart';
 
 class Constants
 {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static var appColor = HexColor('#247CFF');
 
   //date time
