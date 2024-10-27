@@ -4,6 +4,7 @@ import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart
 import 'package:doctors_appointment/helpers/base_widgets/divider.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text_field.dart';
+import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
 import 'package:doctors_appointment/view/recommended_doctors/widgets/sort_by.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
@@ -17,6 +18,9 @@ class RecommendedDoctors extends StatelessWidget {
   RecommendedDoctors({super.key});
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   LoadingButtonController btnController = LoadingButtonController();
+  late SortingResult result = SortingResult();
+  List<String> values = const <String>['All', 'General', 'Cardiology', 'Dermatology', 'Gastroenterology', 'Orthopedics', 'Urology', 'Neurology',];
+  List<String> ratingValues = const <String>['1', '2', '3', '4', '5', 'All'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,19 +67,31 @@ class RecommendedDoctors extends StatelessWidget {
                                   padding: context.verticalSymmetricPadding(16.h),
                                   child: const MyDivider(),
                                 ),
-                                const Expanded(
+                                Expanded(
                                     child: SortByWidget(
-                                        sortingType: 'Speciality',
-                                        sortingValues: ['All', 'General', 'Cardiology', 'Dermatology', 'Gastroenterology', 'Orthopedics', 'Urology', 'Neurology',]
+                                      sortingType: 'Speciality',
+                                      sortingValues: values,
+                                      onSort: (selectedOption) => result.speciality = selectedOption,
+                                      selectedIndex: values.indexOf(result.speciality?? 'All'),
                                     )
                                 ),
-                                const Expanded(
+                                Expanded(
                                     child: SortByWidget(
-                                        sortingType: 'Rating',
-                                        sortingValues: ['1', '2', '3', '4', '5', 'All']
+                                      sortingType: 'Rating',
+                                      sortingValues: ratingValues,
+                                      onSort: (selectedOption) => result.rating = selectedOption,
+                                      selectedIndex: ratingValues.indexOf(result.rating?? '1'),
                                     )
                                 ),
-                                AppLoadingButton(onPressed: (){}, title: 'Sort', btnController: btnController)
+                                AppLoadingButton(
+                                    onPressed: ()async{
+                                      btnController.success();
+                                      await Future.delayed(const Duration(seconds: 2));
+                                      Navigator.pop(context);
+                                    },
+                                    title: 'Sort', 
+                                    btnController: btnController
+                                )
                               ],
                             ),
                           ),
@@ -90,11 +106,14 @@ class RecommendedDoctors extends StatelessWidget {
                 builder: (context, state) => Column(
                   children: List.generate(
                     state.recommendedDoctors!.length,
-                        (index) => DoctorsCard(
-                        url: state.recommendedDoctors![index].photo,
-                        doctorName: state.recommendedDoctors![index].name,
-                        speciality: state.recommendedDoctors![index].name
-                    ),
+                        (index) => Padding(
+                          padding: context.verticalSymmetricPadding(12.h),
+                          child: DoctorsCard(
+                          url: state.recommendedDoctors![index].photo,
+                          doctorName: state.recommendedDoctors![index].name,
+                          speciality: state.recommendedDoctors![index].name
+                          ),
+                        ),
                   ),
                 ),
               )

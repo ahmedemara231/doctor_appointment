@@ -40,4 +40,8 @@ class HomeCubit extends Cubit<HomeState>
         )
     );
   }
+
+  void sort(){
+
+  }
 }
