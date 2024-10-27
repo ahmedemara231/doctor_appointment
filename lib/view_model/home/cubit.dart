@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
 import 'package:doctors_appointment/model/remote/api_service/repositories/get.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,20 +29,41 @@ class HomeCubit extends Cubit<HomeState>
 
   void getRecommendedDoctors() {
     List recommendedDoctors = [];
+    List filteredDoctors = [];
+
     for(int index = 0; index < state.homeData!.length; index++){
       for(int doctorIndex = 0; doctorIndex < state.homeData![index].allInfo.length; doctorIndex++){
         recommendedDoctors.add(state.homeData![index].allInfo[doctorIndex]);
       }
     }
+    filteredDoctors = List.from(recommendedDoctors);
     emit(
         state.copyWith(
             state: States.homeDataSuccess,
-            recommendedDoctors: recommendedDoctors
+            recommendedDoctors: recommendedDoctors,
+            filteredDoctors: filteredDoctors
         )
     );
   }
 
-  void sort(){
+  void sortDoctors(SortingResult result) {
+    final selectedSpeciality = result.speciality;
+    final selectedRating = result.rating;
 
+    final List recommendedDoctors = List.from(state.recommendedDoctors!);
+    List filteredDoctors = [];
+
+    switch(selectedSpeciality){
+      case 'All':
+        filteredDoctors = List.from(recommendedDoctors);
+
+      default:
+        filteredDoctors = recommendedDoctors.where((doctor) => doctor.specialization.name == selectedSpeciality).toList();
+    }
+
+    emit(state.copyWith(
+        state: States.homeDataSuccess,
+        filteredDoctors: filteredDoctors
+    ));
   }
 }

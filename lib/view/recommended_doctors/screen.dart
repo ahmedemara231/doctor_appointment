@@ -85,6 +85,7 @@ class RecommendedDoctors extends StatelessWidget {
                                 ),
                                 AppLoadingButton(
                                     onPressed: ()async{
+                                      context.read<HomeCubit>().sortDoctors(result);
                                       btnController.success();
                                       await Future.delayed(const Duration(seconds: 2));
                                       Navigator.pop(context);
@@ -105,13 +106,13 @@ class RecommendedDoctors extends StatelessWidget {
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) => Column(
                   children: List.generate(
-                    state.recommendedDoctors!.length,
+                    state.filteredDoctors!.length,
                         (index) => Padding(
                           padding: context.verticalSymmetricPadding(12.h),
                           child: DoctorsCard(
-                          url: state.recommendedDoctors![index].photo,
-                          doctorName: state.recommendedDoctors![index].name,
-                          speciality: state.recommendedDoctors![index].name
+                              url: state.filteredDoctors![index].photo,
+                              doctorName: state.filteredDoctors![index].name,
+                              speciality: state.filteredDoctors![index].name
                           ),
                         ),
                   ),
