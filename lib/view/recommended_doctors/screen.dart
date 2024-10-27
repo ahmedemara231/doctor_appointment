@@ -14,13 +14,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_icon_button/loading_icon_button.dart';
 import '../home/widgets/doctors_card.dart';
 
-class RecommendedDoctors extends StatelessWidget {
+class RecommendedDoctors extends StatefulWidget {
   RecommendedDoctors({super.key});
+
+  @override
+  State<RecommendedDoctors> createState() => _RecommendedDoctorsState();
+}
+
+class _RecommendedDoctorsState extends State<RecommendedDoctors> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   LoadingButtonController btnController = LoadingButtonController();
+
   late SortingResult result = SortingResult();
+
   List<String> values = const <String>['All', 'General', 'Cardiology', 'Dermatology', 'Gastroenterology', 'Orthopedics', 'Urology', 'Neurology',];
+
   List<String> ratingValues = const <String>['1', '2', '3', '4', '5', 'All'];
+
+  @override
+  void initState() {
+    context.read<HomeCubit>().begin();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +106,7 @@ class RecommendedDoctors extends StatelessWidget {
                                       await Future.delayed(const Duration(seconds: 2));
                                       Navigator.pop(context);
                                     },
-                                    title: 'Sort', 
+                                    title: 'Sort',
                                     btnController: btnController
                                 )
                               ],

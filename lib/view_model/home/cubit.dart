@@ -66,4 +66,9 @@ class HomeCubit extends Cubit<HomeState>
         filteredDoctors: filteredDoctors
     ));
   }
+
+  void begin(){
+    List filteredDoctors = List.from(state.recommendedDoctors!);
+    emit(state.copyWith(state: States.homeDataSuccess, filteredDoctors: filteredDoctors));
+  }
 }
