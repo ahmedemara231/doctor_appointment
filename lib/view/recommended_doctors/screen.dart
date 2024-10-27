@@ -1,24 +1,26 @@
+import 'package:doctors_appointment/helpers/app_widgets/app_loading_button.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/mediaQuery.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_widgets/divider.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text_field.dart';
+import 'package:doctors_appointment/view/recommended_doctors/widgets/sort_by.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:loading_icon_button/loading_icon_button.dart';
 import '../home/widgets/doctors_card.dart';
 
 class RecommendedDoctors extends StatelessWidget {
-
-  // final List recommendedDoctorsData;
-  // const RecommendedDoctors({super.key,
-  //   required this.recommendedDoctorsData,
-  // });
-
+  RecommendedDoctors({super.key});
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  LoadingButtonController btnController = LoadingButtonController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: MyText(text: 'Recommendation Doctor', fontWeight: FontWeight.w500,),
         centerTitle: true,
@@ -47,7 +49,40 @@ class RecommendedDoctors extends StatelessWidget {
                         ),
                       )
                   ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.sort)),
+                  IconButton(
+                      onPressed: () {
+                        _scaffoldKey.currentState?.showBottomSheet((context) => SizedBox(
+                          height: context.setHeight(2),
+                          child: Padding(
+                            padding: context.horizontalSymmetricPadding(12.w),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 16.h),
+                                MyText(text: 'Sort By', fontSize:  20.sp, fontWeight: FontWeight.w500,),
+                                Padding(
+                                  padding: context.verticalSymmetricPadding(16.h),
+                                  child: const MyDivider(),
+                                ),
+                                const Expanded(
+                                    child: SortByWidget(
+                                        sortingType: 'Speciality',
+                                        sortingValues: ['All', 'General', 'Cardiology', 'Dermatology', 'Gastroenterology', 'Orthopedics', 'Urology', 'Neurology',]
+                                    )
+                                ),
+                                const Expanded(
+                                    child: SortByWidget(
+                                        sortingType: 'Rating',
+                                        sortingValues: ['1', '2', '3', '4', '5', 'All']
+                                    )
+                                ),
+                                AppLoadingButton(onPressed: (){}, title: 'Sort', btnController: btnController)
+                              ],
+                            ),
+                          ),
+                        ));
+                      },
+                      icon: const Icon(Icons.sort)
+                  ),
                 ],
               ),
               SizedBox(height: 16.h),

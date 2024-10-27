@@ -3,6 +3,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiffy/jiffy.dart';
 
+import '../generated/assets.dart';
+import '../helpers/data_types/spec.dart';
+
 class Constants
 {
   static var appColor = HexColor('#247CFF');
