@@ -4,6 +4,7 @@ import 'package:doctors_appointment/model/remote/api_service/models/doctor_data.
 import 'package:doctors_appointment/view/doctor_details/widgets/about_widget.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/base_details.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/location_widget.dart';
+import 'package:doctors_appointment/view/doctor_details/widgets/rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -82,7 +83,8 @@ Government: ${widget.info.city.governate.name}
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       AboutWidget(values: aboutDoctorList),
-                      LocationWidget(city: widget.info.city.name)
+                      LocationWidget(city: widget.info.city.name),
+                      const Rating()
                     ],
                   ),
                 ),

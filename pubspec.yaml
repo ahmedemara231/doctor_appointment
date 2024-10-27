@@ -58,6 +58,7 @@ dependencies:
   expansion_tile_card: ^3.0.0
   loading_icon_button: ^0.0.5
   skeletonizer: ^1.4.2
+  rating_summary: ^1.0.3+1
 
   #  other
   url_launcher: ^6.2.6
