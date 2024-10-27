@@ -1,4 +1,5 @@
 import 'package:doctors_appointment/helpers/app_widgets/app_loading_button.dart';
+import 'package:doctors_appointment/helpers/app_widgets/doctors_search.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/mediaQuery.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_widgets/divider.dart';
@@ -24,7 +25,8 @@ class RecommendedDoctors extends StatefulWidget {
 class _RecommendedDoctorsState extends State<RecommendedDoctors> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  LoadingButtonController btnController = LoadingButtonController();
+  late LoadingButtonController btnController;
+  late TextEditingController searchController;
 
   late SortingResult result = SortingResult();
 
@@ -35,7 +37,15 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
   @override
   void initState() {
     context.read<HomeCubit>().begin();
+    searchController = TextEditingController();
+    btnController = LoadingButtonController();
     super.initState();
+  }
+  @override
+  void dispose() {
+    searchController.dispose();
+    btnController.stop();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -53,20 +63,9 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
               Row(
                 children: [
                   Expanded(
-                      child: TFF(
-                        obscureText: false,
-                        controller: TextEditingController(),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.grey,
-                        ),
-                        hintText: 'Search',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: const BorderSide(color: Colors.grey
-                            )
-                        ),
+                      child: DoctorsSearch(
+                          controller: searchController,
+                          onChanged: (p0) {},
                       )
                   ),
                   IconButton(
