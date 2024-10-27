@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
+import '../../helpers/app_widgets/app_button.dart';
 import '../../helpers/base_widgets/text.dart';
 
 class ErrorBuilder extends StatelessWidget {
@@ -31,7 +32,7 @@ class ErrorBuilder extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          // AppButton(text: 'Try Again', onPressed: onPressed)
+          AppButton(title: msg, onPressed: onPressed!)
         ],
       ),
     );

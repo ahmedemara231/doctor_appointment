@@ -3,6 +3,7 @@ import 'package:doctors_appointment/helpers/app_widgets/specialities_widget.dart
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/model/local/shared.dart';
+import 'package:doctors_appointment/view/doctor_details/screen.dart';
 import 'package:doctors_appointment/view/doctors_based_specialities/screen.dart';
 import 'package:doctors_appointment/view/error_builder/screen.dart';
 import 'package:doctors_appointment/view/home/widgets/card.dart';
@@ -93,7 +94,7 @@ class _HomeState extends State<Home> {
                       const Spacer(),
                       TextButton(
                           onPressed: (){
-                            context.normalNewRoute(RecommendedDoctors());
+                            context.normalNewRoute(const RecommendedDoctors());
                           },
                           child: MyText(text: 'See All', color: Colors.blue,)
                       )
@@ -106,13 +107,17 @@ class _HomeState extends State<Home> {
                         child: state.currentState == States.homeDataError?
                         ErrorBuilder(msg: 'Try Again Later', onPressed: () => context.read<HomeCubit>().getHomeData(),) :
                         Column(
-                          children:
-                          List.generate(state.homeData!.length, (index) => Padding(
+                          children: List.generate(state.homeData!.length, (index) => Padding(
                             padding: context.verticalSymmetricPadding(12.h),
-                            child: DoctorsCard(
-                                url: state.homeData![index].allInfo[0].photo,
-                                doctorName: state.homeData![index].allInfo[0].name,
-                                speciality: state.homeData![index].allInfo[0].specialization.name
+                            child: InkWell(
+                              onTap: () => context.normalNewRoute(
+                                DoctorDetails(info:  state.homeData![index].allInfo[0])
+                              ),
+                              child: DoctorsCard(
+                                  url: state.homeData![index].allInfo[0].photo,
+                                  doctorName: state.homeData![index].allInfo[0].name,
+                                  speciality: state.homeData![index].allInfo[0].specialization.name
+                              ),
                             ),
                           ))
                         )

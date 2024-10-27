@@ -2,10 +2,11 @@ import 'package:doctors_appointment/helpers/app_widgets/app_loading_button.dart'
 import 'package:doctors_appointment/helpers/app_widgets/doctors_search.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/mediaQuery.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/helpers/base_widgets/divider.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
-import 'package:doctors_appointment/helpers/base_widgets/text_field.dart';
 import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
+import 'package:doctors_appointment/view/doctor_details/screen.dart';
 import 'package:doctors_appointment/view/recommended_doctors/widgets/sort_by.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
@@ -17,7 +18,7 @@ import 'package:loading_icon_button/loading_icon_button.dart';
 import '../home/widgets/doctors_card.dart';
 
 class RecommendedDoctors extends StatefulWidget {
-  RecommendedDoctors({super.key});
+  const RecommendedDoctors({super.key});
 
   @override
   State<RecommendedDoctors> createState() => _RecommendedDoctorsState();
@@ -82,7 +83,7 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              height: _isSearchBarVisible? 70.h : 0,
+              height: _isSearchBarVisible? 90.h : 0,
               child: _isSearchBarVisible? Row(
                 children: [
                   Expanded(
@@ -147,10 +148,15 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
                 // height: 400,
                 child: ListView.separated(
                   controller: _scrollController,
-                  itemBuilder: (context, index) => DoctorsCard(
-                      url: state.filteredDoctors![index].photo,
-                      doctorName: state.filteredDoctors![index].name,
-                      speciality: state.filteredDoctors![index].specialization.name
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () => context.normalNewRoute(
+                        DoctorDetails(info: state.filteredDoctors![index])
+                    ),
+                    child: DoctorsCard(
+                        url: state.filteredDoctors![index].photo,
+                        doctorName: state.filteredDoctors![index].name,
+                        speciality: state.filteredDoctors![index].specialization.name
+                    ),
                   ),
                   itemCount: state.filteredDoctors!.length,
                   separatorBuilder: (context, index) => SizedBox(height: 12.h),
