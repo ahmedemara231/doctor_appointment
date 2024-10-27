@@ -31,7 +31,9 @@ class DoctorInfo {
   final String description;
   Specialization specialization;
   CityInfo city;
-
+  int appointPrice;
+  String startTime;
+  String endTime;
   DoctorInfo({
     required this.id,
     required this.name,
@@ -43,7 +45,9 @@ class DoctorInfo {
     required this.description,
     required this.specialization,
     required this.city,
-
+    required this.appointPrice,
+    required this.startTime,
+    required this.endTime,
 });
   factory DoctorInfo.fromJson(Map<String, dynamic> json) => DoctorInfo(
     id: json['id'],
@@ -56,6 +60,9 @@ class DoctorInfo {
     description: json['description'],
     specialization: Specialization.fromJson(json['specialization']),
     city: CityInfo.fromJson(json['city']),
+    appointPrice: json['appoint_price'],
+    startTime: json['start_time'],
+    endTime: json['end_time'],
   );
 }
 
