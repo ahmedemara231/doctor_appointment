@@ -1,11 +1,14 @@
-import 'package:doctors_appointment/generated/assets.dart';
+import 'package:doctors_appointment/constants/app_constants.dart';
+import 'package:doctors_appointment/helpers/app_widgets/specialities_widget.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/model/local/shared.dart';
+import 'package:doctors_appointment/view/doctors_based_specialities/screen.dart';
 import 'package:doctors_appointment/view/error_builder/screen.dart';
 import 'package:doctors_appointment/view/home/widgets/card.dart';
 import 'package:doctors_appointment/view/home/widgets/doctors_card.dart';
 import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
+import 'package:doctors_appointment/view/specialities/screen.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../helpers/base_widgets/text.dart';
-import '../../helpers/data_types/spec.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,25 +25,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Speciality> specialities = [
-    Speciality(
-        image: Assets.imagesGeneral,
-        speciality: 'General'
-    ),
-    Speciality(
-        image: Assets.imagesNeurologic,
-        speciality: 'Neurologic'
-    ),
-    Speciality(
-        image: Assets.imagesPediatric,
-        speciality: 'Pediatric'
-    ),
-    Speciality(
-        image: Assets.imagesRadiology,
-        speciality: 'Radiology'
-    ),
-  ];
-
   @override
   void initState() {
     context.read<HomeCubit>().getHomeData();
@@ -77,7 +60,9 @@ class _HomeState extends State<Home> {
                       MyText(text: 'Doctor Speciality', fontSize: 18.sp, fontWeight: FontWeight.w500,),
                       const Spacer(),
                       TextButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            context.normalNewRoute(const Specialities());
+                          },
                           child: MyText(text: 'See All', color: Colors.blue,)
                       )
                     ],
@@ -87,21 +72,18 @@ class _HomeState extends State<Home> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(
-                          specialities.length,
-                              (index) => Column(
-                            children: [
-                              CircleAvatar(
-                                radius: 30.sp,
-                                backgroundColor: Colors.grey[200],
-                                child: Image.asset(specialities[index].image),
-                              ),
-                              const SizedBox(height: 5),
-                              MyText(
-                                text: specialities[index].speciality,
-                                fontSize: 12.sp,
+                          Constants.specialities.sublist(0,4).length,
+                              (index) => InkWell(
+                                onTap: () {
+                                  context.normalNewRoute(
+                                      DoctorsBasedSpecialities(index: index)
+                                  );
+                                },
+                                child: SpecialitiesWidget(
+                                    title: Constants.specialities[index].speciality,
+                                    imageUrl: Constants.specialities[index].image
+                                ),
                               )
-                            ],
-                          )
                       ),
                     ),
                   ),
