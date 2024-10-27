@@ -128,7 +128,7 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
                           child: DoctorsCard(
                               url: state.filteredDoctors![index].photo,
                               doctorName: state.filteredDoctors![index].name,
-                              speciality: state.filteredDoctors![index].name
+                              speciality: state.filteredDoctors![index].specialization.name
                           ),
                         ),
                   ),
