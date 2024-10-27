@@ -10,6 +10,7 @@ import 'package:doctors_appointment/view/recommended_doctors/widgets/sort_by.dar
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_icon_button/loading_icon_button.dart';
@@ -34,16 +35,36 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
 
   List<String> ratingValues = const <String>['1', '2', '3', '4', '5', 'All'];
 
+  late ScrollController _scrollController;
+  bool _isSearchBarVisible = true;
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (_isSearchBarVisible) {
+        setState(() {
+          _isSearchBarVisible = false;
+        });
+      }
+    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      if (!_isSearchBarVisible) {
+        setState(() {
+          _isSearchBarVisible = true;
+        });
+      }
+    }
+  }
   @override
   void initState() {
     context.read<HomeCubit>().begin();
     searchController = TextEditingController();
+    _scrollController = ScrollController()..addListener(_scrollListener);
     btnController = LoadingButtonController();
     super.initState();
   }
   @override
   void dispose() {
     searchController.dispose();
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
     btnController.stop();
     super.dispose();
   }
@@ -55,12 +76,14 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
         title: MyText(text: 'Recommendation Doctor', fontWeight: FontWeight.w500,),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: context.horizontalSymmetricPadding(12.w),
-          child: Column(
-            children: [
-              Row(
+      body: Padding(
+        padding: context.horizontalSymmetricPadding(12.w),
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: _isSearchBarVisible? 70.h : 0,
+              child: _isSearchBarVisible? Row(
                 children: [
                   Expanded(
                       child: DoctorsSearch(
@@ -116,25 +139,25 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
                       icon: const Icon(Icons.sort)
                   ),
                 ],
-              ),
-              SizedBox(height: 16.h),
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) => Column(
-                  children: List.generate(
-                    state.filteredDoctors!.length,
-                        (index) => Padding(
-                          padding: context.verticalSymmetricPadding(12.h),
-                          child: DoctorsCard(
-                              url: state.filteredDoctors![index].photo,
-                              doctorName: state.filteredDoctors![index].name,
-                              speciality: state.filteredDoctors![index].specialization.name
-                          ),
-                        ),
+              ) : const SizedBox.shrink()
+            ),
+            SizedBox(height: 16.h),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) => Expanded(
+                // height: 400,
+                child: ListView.separated(
+                  controller: _scrollController,
+                  itemBuilder: (context, index) => DoctorsCard(
+                      url: state.filteredDoctors![index].photo,
+                      doctorName: state.filteredDoctors![index].name,
+                      speciality: state.filteredDoctors![index].specialization.name
                   ),
+                  itemCount: state.filteredDoctors!.length,
+                  separatorBuilder: (context, index) => SizedBox(height: 12.h),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
