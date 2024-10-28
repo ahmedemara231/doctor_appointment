@@ -15,18 +15,12 @@ class MyStepper extends StatefulWidget {
 }
 
 class _MyStepperState extends State<MyStepper> {
-  late int activeStep;
   List<String> titles = ['Date & Time', 'Payment', 'Summary'];
 
   @override
-  void initState() {
-    activeStep = widget.newStep;
-    super.initState();
-  }
-  @override
   Widget build(BuildContext context) {
     return  EasyStepper(
-      activeStep: activeStep,
+      activeStep: widget.newStep,
       stepShape: StepShape.circle,
       borderThickness: 1,
       padding: context.allPadding(10),
@@ -41,7 +35,7 @@ class _MyStepperState extends State<MyStepper> {
         customStep: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Opacity(
-            opacity: activeStep >= index ? 1 : 0.3,
+            opacity: widget.newStep >= index ? 1 : 0.3,
             child: MyText(text: (index+1).toString(), color: Colors.white,),
           ),
         ),
@@ -51,7 +45,7 @@ class _MyStepperState extends State<MyStepper> {
           ),
         ),
       ),),
-      onStepReached: (index) => setState(() => activeStep = index),
+      // onStepReached: (index) => setState(() => activeStep = index),
     );
   }
 }

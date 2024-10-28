@@ -18,9 +18,10 @@ class DateTimeAppointment extends StatefulWidget {
   State<DateTimeAppointment> createState() => _DateTimeAppointmentState();
 }
 
-class _DateTimeAppointmentState extends State<DateTimeAppointment> {
+class _DateTimeAppointmentState extends State<DateTimeAppointment> with AutomaticKeepAliveClientMixin{
   final List<String> _times = ['8:00 AM','9:30 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM'];
 
+  late DateTime _selectedDate;
   @override
   void initState() {
     context.read<HomeCubit>().getAvailableTimes();
@@ -29,9 +30,6 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: MyText(text: 'Book Appointment'),
-        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -49,12 +47,13 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> {
                     },
                     child: MyText(text: 'Set Manual', color: Constants.appColor,)
                 )
-
               ],
             ),
             MyDatePicker(
-              onSelect: (selectedDate) =>
-                  context.read<HomeCubit>().getAvailableTimes(),
+              onSelect: (selectedDate) {
+                  _selectedDate = selectedDate;
+                context.read<HomeCubit>().getAvailableTimes();
+              }
             ),
             Padding(
               padding: context.verticalSymmetricPadding(16.h),
@@ -70,6 +69,7 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> {
                       onPressed: () => context.read<HomeCubit>().getAvailableTimes(),
                   ) :
                   GridView.builder(
+                    // physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 3,
                         mainAxisSpacing: 12.h,
@@ -102,4 +102,7 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> {
         ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

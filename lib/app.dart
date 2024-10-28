@@ -1,5 +1,6 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
 import 'package:doctors_appointment/view/auth/login/screen.dart';
+import 'package:doctors_appointment/view/book_appointment/main_screen.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/date_time.dart';
 import 'package:doctors_appointment/view/home/home.dart';
 import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
@@ -66,7 +67,7 @@ class _AppState extends State<App> {
           // theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
           //     ? ThemeData.light()
           //     : ThemeData.dark(),
-          home: DateTimeAppointment(),
+          home: DateAppointment(),
           builder: EasyLoading.init(),
         ),
       ),
