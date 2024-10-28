@@ -11,15 +11,17 @@ class LocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MyText(text: 'Practice Place', fontSize: 18.sp, fontWeight: FontWeight.w500,),
-        MyText(text: city, color: Colors.grey,),
-        SizedBox(height: 16.sp),
-        MyText(text: 'Location', fontWeight: FontWeight.w500, fontSize: 16.sp,),
-        Image.asset(Assets.imagesMap)
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MyText(text: 'Practice Place', fontSize: 18.sp, fontWeight: FontWeight.w500,),
+          MyText(text: city, color: Colors.grey,),
+          SizedBox(height: 16.sp),
+          MyText(text: 'Location', fontWeight: FontWeight.w500, fontSize: 16.sp,),
+          Image.asset(Assets.imagesMap)
+        ],
+      ),
     );
   }
 }

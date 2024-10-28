@@ -1,4 +1,6 @@
+import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/model/remote/api_service/models/doctor_data.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/about_widget.dart';
@@ -7,12 +9,12 @@ import 'package:doctors_appointment/view/doctor_details/widgets/location_widget.
 import 'package:doctors_appointment/view/doctor_details/widgets/rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../helpers/data_types/about_doctor.dart';
+import '../book_appointment/screens/date_time.dart';
 
 class DoctorDetails extends StatefulWidget {
   final DoctorInfo info;
-  DoctorDetails({Key? key,
+  const DoctorDetails({Key? key,
     required this.info,
   }) : super(key: key);
 
@@ -87,6 +89,13 @@ Government: ${widget.info.city.governate.name}
                       const Rating()
                     ],
                   ),
+                ),
+              ),
+              Padding(
+                padding: context.verticalSymmetricPadding(12.h),
+                child: AppButton(
+                  title: 'Make An Appointment',
+                  onPressed: () => context.normalNewRoute(const DateTimeAppointment()),
                 ),
               )
             ],

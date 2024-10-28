@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
 import 'package:doctors_appointment/model/remote/api_service/repositories/get.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
@@ -87,5 +86,29 @@ class HomeCubit extends Cubit<HomeState>
         errorMessage: 'Failed, Please try again.'
       ));
     }
+  }
+
+  void getAvailableTimes({DateTime? time, int? doctorId}) async{
+    List<String> availableTimes = [];
+    emit(state.copyWith(state: States.getAvailableTimesLoading));
+
+    await Future.delayed(const Duration(seconds: 3)).whenComplete(() {
+      availableTimes = [
+        '8:00 AM',
+        '9:30 AM'
+      ];
+    });
+
+    emit(state.copyWith(
+        state: States.getAvailableTimesSuccess,
+        availableTimes: availableTimes
+    ));
+  }
+
+  void selectTime(int index){
+    emit(state.copyWith(
+        state: States.changeCurrentTime,
+        currentIndexTime: index
+    ));
   }
 }

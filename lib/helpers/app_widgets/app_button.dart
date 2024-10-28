@@ -6,11 +6,11 @@ import '../base_widgets/text.dart';
 class AppButton extends StatelessWidget {
   const AppButton({Key? key,
     required this.title,
-    required this.onPressed,
+    this.onPressed,
   }) : super(key: key);
 
   final String title;
-  final void Function() onPressed;
+  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(

@@ -1,14 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-import '../../model/remote/api_service/models/doctor_data.dart';
-
 enum States {
   homeInitial,
   homeDataLoading,
   homeDataSuccess,
   homeDataError,
   doctorsBasedOnSpecializationLoading,
-  doctorsBasedOnSpecializationError
+  doctorsBasedOnSpecializationError,
+  getAvailableTimesLoading,
+  getAvailableTimesSuccess,
+  getAvailableTimesError,
+  changeCurrentTime,
 }
 class HomeState extends Equatable
 {
@@ -18,15 +20,18 @@ class HomeState extends Equatable
   List<dynamic>? filteredDoctors;
 
   List<dynamic>? doctorsBasedOnSpecialization;
+  List<String>? availableTimes;
   String? errorMsg;
-
+  int? currentIndexTime;
   HomeState({
     this.currentState,
     this.homeData,
     this.recommendedDoctors,
     this.filteredDoctors,
     this.doctorsBasedOnSpecialization,
-    this.errorMsg
+    this.availableTimes,
+    this.errorMsg,
+    this.currentIndexTime,
   });
 
   factory HomeState.initial(){
@@ -36,7 +41,9 @@ class HomeState extends Equatable
         recommendedDoctors : const [],
         filteredDoctors : const [],
         doctorsBasedOnSpecialization : const [],
-        errorMsg : ''
+        availableTimes : const [],
+        errorMsg : '',
+        currentIndexTime : null,
     );
   }
 
@@ -45,7 +52,9 @@ class HomeState extends Equatable
     dynamic homeData, String? errorMessage,
     List<dynamic>? recommendedDoctors,
     List<dynamic>? filteredDoctors,
-    List<dynamic>? doctorsBasedOnSpecialization
+    List<dynamic>? doctorsBasedOnSpecialization,
+    List<String>? availableTimes,
+    int? currentIndexTime,
   })
   {
     return HomeState(
@@ -54,7 +63,9 @@ class HomeState extends Equatable
       recommendedDoctors: recommendedDoctors?? this.recommendedDoctors,
       filteredDoctors: filteredDoctors?? this.filteredDoctors,
       doctorsBasedOnSpecialization: doctorsBasedOnSpecialization?? this.doctorsBasedOnSpecialization,
+      availableTimes: availableTimes?? this.availableTimes,
       errorMsg: errorMessage?? errorMsg,
+      currentIndexTime: currentIndexTime
     );
   }
 
@@ -65,6 +76,8 @@ class HomeState extends Equatable
     errorMsg,
     recommendedDoctors,
     filteredDoctors,
-    doctorsBasedOnSpecialization
+    doctorsBasedOnSpecialization,
+    availableTimes,
+    currentIndexTime,
   ];
 }
