@@ -19,15 +19,19 @@ class _MyStepperState extends State<MyStepper> {
 
   @override
   Widget build(BuildContext context) {
-    return  EasyStepper(
+    return EasyStepper(
       activeStep: widget.newStep,
       stepShape: StepShape.circle,
       borderThickness: 1,
-      padding: context.allPadding(10),
+      activeStepBorderType: BorderType.normal,
+      unreachedStepBorderType: BorderType.normal,
+      finishedStepBorderType: BorderType.normal,
       stepRadius: 28,
+      activeStepBackgroundColor: Constants.appColor,
+      lineStyle: const LineStyle(lineType: LineType.normal),
       finishedStepBorderColor: Colors.white,
       finishedStepTextColor: Colors.white,
-      finishedStepBackgroundColor: Constants.appColor,
+      finishedStepBackgroundColor: Colors.green,
       unreachedStepBackgroundColor: Colors.grey.withOpacity(.3),
       unreachedStepIconColor: Colors.red,
       showLoadingAnimation: true,
@@ -45,7 +49,6 @@ class _MyStepperState extends State<MyStepper> {
           ),
         ),
       ),),
-      // onStepReached: (index) => setState(() => activeStep = index),
     );
   }
 }

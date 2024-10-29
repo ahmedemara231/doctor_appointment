@@ -23,13 +23,14 @@ class _DateAppointmentState extends State<DateAppointment> {
     Summary()
   ];
 
-  int currentPage = 0;
-
+  ValueNotifier<int> currentPage = ValueNotifier(0);
   late PageController controller;
 
   @override
   void initState() {
-    controller  = PageController(initialPage: currentPage);
+    controller  = PageController(
+        initialPage: currentPage.value
+    );
     super.initState();
   }
   @override
@@ -47,24 +48,27 @@ class _DateAppointmentState extends State<DateAppointment> {
         padding: context.horizontalSymmetricPadding(12.w),
         child: Column(
           children: [
-            MyStepper(newStep: currentPage),
+            ValueListenableBuilder(
+                valueListenable: currentPage,
+                builder: (context, value, child) => MyStepper(newStep: value)
+            ),
             Expanded(
-              child: PageView.builder(
-                controller: controller,
-                  onPageChanged: (value) {
-                    currentPage = value;
-                    setState(() {});
-                  },
-                  itemBuilder: (context, index) => appointmentFlow[index],
-                  itemCount: appointmentFlow.length,
+              child: Padding(
+                padding: context.verticalSymmetricPadding(12.h),
+                child: PageView.builder(
+                  controller: controller,
+                    onPageChanged: (value) {
+                      changeValue(value);
+                    },
+                    itemBuilder: (context, index) => appointmentFlow[index],
+                    itemCount: appointmentFlow.length,
+                ),
               ),
             ),
             AppButton(
                 title: 'Continue',
                 onPressed: () {
-                  currentPage++;
-                  setState(() {});
-
+                  changeValue(currentPage.value + 1);
                   controller.nextPage(
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOutSine
@@ -75,5 +79,9 @@ class _DateAppointmentState extends State<DateAppointment> {
         ),
       ),
     );
+  }
+  void changeValue(int value) {
+    currentPage.value = value;
+    currentPage.notifyListeners();
   }
 }
