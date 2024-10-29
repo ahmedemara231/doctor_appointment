@@ -70,6 +70,10 @@ dependencies:
   audioplayers: ^5.2.1
   device_preview: ^1.1.0
 
+#  payment
+  flutter_stripe: ^10.2.0
+  flutter_paypal_payment: ^1.0.6
+
   #firebase
   firebase_core: ^2.16.0
   google_sign_in: ^6.2.1
