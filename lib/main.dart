@@ -7,16 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'app.dart';
 import 'constants/app_constants.dart';
+import 'firebase_options.dart';
 import 'model/local/secure.dart';
 import 'model/local/shared.dart';
+import 'model/remote/stripe/service/stripe_constants.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await ScreenUtil.ensureScreenSize();
@@ -37,6 +40,7 @@ void main()async {
   //   return true;
   // };
 
+  Stripe.publishableKey = StripeConstants.publishableKey;
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en', 'US'), Locale('ar', 'SA')],

@@ -33,11 +33,14 @@ class StripeConnection extends ApiService
 
     switch(connectivityResult)
     {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.ethernet:
-      case ConnectivityResult.bluetooth:
-      case ConnectivityResult.vpn:
+      case ConnectivityResult.none:
+        return Result.error(
+          NetworkError(
+              'Please check the internet and try again'
+          ),
+        );
+
+      default:
         try{
           final Response response = await dio.request(
             request.endPoint,
@@ -64,13 +67,6 @@ class StripeConnection extends ApiService
 
           return Result.error(CustomError('Error : $e'));
         }
-      case ConnectivityResult.none:
-      default:
-        return Result.error(
-          NetworkError(
-              'Please check the internet and try again'
-          ),
-        );
     }
   }
 }

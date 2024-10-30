@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "278941682571",
+    "project_id": "medimeet-6cd6c",
+    "storage_bucket": "medimeet-6cd6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278941682571:android:3aebcaa6aabd196ecefd8e",
+        "android_client_info": {
+          "package_name": "com.example.doctors_appointment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrAp6y4Zmvxg9JEhe03dPGCmqLhtBzngk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
