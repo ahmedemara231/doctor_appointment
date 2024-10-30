@@ -16,8 +16,7 @@ class StripePostRepo {
   StripePostRepo({required this.apiService});
 
   // create payment intent
-  Future<Result<IntentRequestModel, CustomError>> createPaymentIntent(
-      {required CreateIntentInputModel inputModel}) async {
+  Future<Result<IntentRequestModel, CustomError>> createPaymentIntent({required CreateIntentInputModel inputModel}) async {
     Result<Response, CustomError> createIntentResponse =
     await apiService.callApi(
       request: RequestModel(

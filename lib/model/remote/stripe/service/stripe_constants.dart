@@ -1,7 +1,7 @@
 class StripeConstants{
   // keys
-  static const String tokenSecretKey = 'Bearer sk_test_51Pa6FERuSVADrSkYUf2LSQIWDwwLnGEkYZpAkoSpT4Ox5FyFKtdO2WqBeBMHWr7Z9BpjdcirhBOaYpvUVvD64PVh00qnbQPHVD';
-  static const String publishableKey = 'pk_test_51Pa6FERuSVADrSkYtHqgAlz4EuzgZ7ijxD7BRXKDRjfrUqqxTn270V25akP9bLroShv7WPnMvZmhbQhvd8FgTX3600HSA9g65r';
+  static const String tokenSecretKey = 'Bearer sk_test_51QFdSjDZoacI0UcJVHVhmk0YmMvmtbQ9RUly13XyMvjL5v7tDHD0WSkAr2DXaGdWpt2xY8krnYDIkBJh0DAtp6ob002DJTbory';
+  static const String publishableKey = 'pk_test_51QFdSjDZoacI0UcJCiV32X2Qfy3zA7Q2C08vfBnArnT0S5Bc9hTaP8Z1tVoIONvfMkfvORR0YhRsnf1haIqe59iR00ijoaFRnX';
 
   //base url
   static const String baseUrl = 'https://api.stripe.com/v1/';

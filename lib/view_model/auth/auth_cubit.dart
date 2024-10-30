@@ -7,6 +7,8 @@ import 'package:doctors_appointment/model/remote/api_service/service/Api_constan
 import 'package:doctors_appointment/model/remote/api_service/service/Lang_methods.dart';
 import 'package:doctors_appointment/model/remote/api_service/service/dio_connection.dart';
 import 'package:doctors_appointment/model/remote/api_service/service/request_model/request_model.dart';
+import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
+import 'package:doctors_appointment/model/remote/stripe/service/stripe_connection.dart';
 import 'package:svg_flutter/svg.dart';
 import '../../helpers/data_types/register_inputs.dart';
 import 'auth_state.dart';
@@ -52,8 +54,21 @@ class AuthCubit extends Cubit<AuthState> {
           name,
         ]
     );
+    await createCustomer();
   }
-  
+
+  Future<void> createCustomer() async{
+    final cusId = await StripePostRepo(
+        apiService: StripeConnection.getInstance()).createCustomer(
+        name: CacheHelper.getInstance().getUserData()![0]
+    );
+    log(cusId.getOrThrow());
+    SecureStorage.getInstance().setData(
+        key: 'customerId',
+        value: cusId.getOrThrow()
+    );
+  }
+
   Future<void> signUp(RegisterInputs inputs) async {
     emit(state.copyWith(state: States.registerLoading));
     final loginResponse = await DioConnection.getInstance().callApi(

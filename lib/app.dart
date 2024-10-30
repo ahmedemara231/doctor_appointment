@@ -1,4 +1,6 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
+import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
+import 'package:doctors_appointment/model/remote/stripe/service/stripe_connection.dart';
 import 'package:doctors_appointment/view/auth/login/screen.dart';
 import 'package:doctors_appointment/view/book_appointment/main_screen.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/date_time.dart';
@@ -7,6 +9,7 @@ import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
 import 'package:doctors_appointment/view/specialities/screen.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
+import 'package:doctors_appointment/view_model/stripe/stripe_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,8 +51,11 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
-          BlocProvider<HomeCubit>(  create: (context) => HomeCubit(GetRepo(apiService: DioConnection.getInstance())),
-          ),
+          BlocProvider<HomeCubit>(  create: (context) => HomeCubit(GetRepo(apiService: DioConnection.getInstance())),),
+          BlocProvider<StripeCubit>(create: (context) => StripeCubit(
+            StripePostRepo(apiService: StripeConnection.getInstance())
+          )),
+          // Add more providers as needed
         ],
         child: MaterialApp(
           // shortcuts: ,
