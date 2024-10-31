@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/helpers/data_types/appointment_details.dart';
 import 'package:equatable/equatable.dart';
 
 enum States {
@@ -11,6 +12,7 @@ enum States {
   getAvailableTimesSuccess,
   getAvailableTimesError,
   changeCurrentTime,
+  changeUserAppointmentDetails, changeAppointmentDetails,
 }
 class HomeState extends Equatable
 {
@@ -18,6 +20,7 @@ class HomeState extends Equatable
   List<dynamic>? homeData;
   List<dynamic>? recommendedDoctors;
   List<dynamic>? filteredDoctors;
+  UserAppointmentDetails? details;
 
   List<dynamic>? doctorsBasedOnSpecialization;
   List<String>? availableTimes;
@@ -32,6 +35,7 @@ class HomeState extends Equatable
     this.availableTimes,
     this.errorMsg,
     this.currentIndexTime,
+    this.details
   });
 
   factory HomeState.initial(){
@@ -44,6 +48,7 @@ class HomeState extends Equatable
         availableTimes : const [],
         errorMsg : '',
         currentIndexTime : null,
+        details: null
     );
   }
 
@@ -55,6 +60,7 @@ class HomeState extends Equatable
     List<dynamic>? doctorsBasedOnSpecialization,
     List<String>? availableTimes,
     int? currentIndexTime,
+    UserAppointmentDetails? details
   })
   {
     return HomeState(
@@ -65,6 +71,7 @@ class HomeState extends Equatable
       doctorsBasedOnSpecialization: doctorsBasedOnSpecialization?? this.doctorsBasedOnSpecialization,
       availableTimes: availableTimes?? this.availableTimes,
       errorMsg: errorMessage?? errorMsg,
+      details: details?? this.details,
       currentIndexTime: currentIndexTime
     );
   }

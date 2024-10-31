@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:doctors_appointment/helpers/data_types/appointment_details.dart';
 import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
 import 'package:doctors_appointment/model/remote/api_service/repositories/get.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
@@ -110,5 +111,14 @@ class HomeCubit extends Cubit<HomeState>
         state: States.changeCurrentTime,
         currentIndexTime: index
     ));
+  }
+
+  void changeAppointmentDetails(UserAppointmentDetails details){
+    emit(
+        state.copyWith(
+            state: States.changeAppointmentDetails,
+            details: details
+        )
+    );
   }
 }

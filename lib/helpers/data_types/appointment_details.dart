@@ -1,11 +1,11 @@
 class UserAppointmentDetails {
-  String dateTime;
-  String appointmentType;
+  String? dateTime;
+  String? appointmentType;
   bool pay;
 
   UserAppointmentDetails({
-    required this.dateTime,
-    required this.appointmentType,
-    required this.pay
+    this.dateTime,
+    this.appointmentType,
+    this.pay = false,
   });
 }

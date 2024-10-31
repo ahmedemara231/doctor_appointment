@@ -95,7 +95,7 @@ Government: ${widget.info.city.governate.name}
                 padding: context.verticalSymmetricPadding(12.h),
                 child: AppButton(
                   title: 'Make An Appointment',
-                  onPressed: () => context.normalNewRoute(const DateTimeAppointment()),
+                  onPressed: () => context.normalNewRoute( DateTimeAppointment()),
                 ),
               )
             ],

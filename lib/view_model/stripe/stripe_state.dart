@@ -8,6 +8,7 @@ enum States {
   makePaymentProcessError
 }
 class StripeState extends Equatable {
+
   States? currentState;
   String? clientSecret;
   String? errorMsg;

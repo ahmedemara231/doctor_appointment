@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String iconsApoointmentType = 'assets/icons/apoointment_type.svg';
+  static const String iconsDateTimeResult = 'assets/icons/dateTime_result.svg';
   static const String imagesGeneral = 'assets/images/General.png';
   static const String imagesHomeDoctorImage = 'assets/images/home_doctor_image.png';
   static const String imagesMap = 'assets/images/Map.png';

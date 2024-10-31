@@ -3,6 +3,7 @@ import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/mediaQuery.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
+import 'package:doctors_appointment/view/book_appointment/interface.dart';
 import 'package:doctors_appointment/view/book_appointment/widgets/date_picker.dart';
 import 'package:doctors_appointment/view/error_builder/screen.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
@@ -11,30 +12,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import '../widgets/appointment_type.dart';
 
-class DateTimeAppointment extends StatefulWidget {
-  const DateTimeAppointment({super.key});
+
+class DateTimeAppointment extends StatefulWidget implements CheckingValue{
+  DateTimeAppointment({super.key});
 
   @override
   State<DateTimeAppointment> createState() => _DateTimeAppointmentState();
+
+  @override
+  var value;
 }
 
-class _DateTimeAppointmentState extends State<DateTimeAppointment> with AutomaticKeepAliveClientMixin{
+class _DateTimeAppointmentState extends State<DateTimeAppointment> with AutomaticKeepAliveClientMixin {
   final List<String> _times = ['8:00 AM','9:30 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM'];
 
-  late DateTime _selectedDate;
   @override
   void initState() {
     context.read<HomeCubit>().getAvailableTimes();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return ListView(
-      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -54,8 +57,9 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
         ),
         MyDatePicker(
             onSelect: (selectedDate) {
-              _selectedDate = selectedDate;
-              context.read<HomeCubit>().getAvailableTimes();
+              context.read<HomeCubit>().getAvailableTimes(
+                time: selectedDate
+              );
             }
         ),
         Padding(
@@ -93,6 +97,7 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
                     title: _times[index],
                     onPressed: state.availableTimes!.contains(_times[index])?
                         () {
+                      widget.value = _times[index];
                       context.read<HomeCubit>().selectTime(index);
                     } : null,
                   ),
@@ -105,7 +110,9 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
         ChooseFromAvailableOptions(
           title: 'Appointment Type',
           optionsList: const <String>['In Person', 'Video Call', 'Phone Call'],
-          onSelectAppointmentType: (option) {},
+          onSelectAppointmentType: (option) {
+            // context.read<HomeCubit>().changeAppointmentDetails(option);
+          },
         )
       ],
     );
