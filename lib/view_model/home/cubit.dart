@@ -113,12 +113,42 @@ class HomeCubit extends Cubit<HomeState>
     ));
   }
 
-  void changeAppointmentDetails(UserAppointmentDetails details){
+
+  void changeAppointmentDate(String appointmentDate){
     emit(
         state.copyWith(
             state: States.changeAppointmentDetails,
-            details: details
+            appointmentDate: appointmentDate
         )
     );
+  }
+
+  void changeAppointmentTime(String appointmentTime){
+    emit(
+        state.copyWith(
+            state: States.changeAppointmentDetails,
+            appointmentTime: appointmentTime ,
+        )
+    );
+  }
+
+  void changeAppointmentType(String appointmentType){
+    emit(
+        state.copyWith(
+          state: States.changeAppointmentDetails,
+          appointmentType: appointmentType
+        )
+    );
+  }
+
+  void changeCurrentPage(int page){
+    if(page <= 2){
+      emit(
+          state.copyWith(
+              state: States.changeCurrentPage,
+              currentPage: page
+          )
+      );
+    }
   }
 }

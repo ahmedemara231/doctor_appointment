@@ -1,5 +1,8 @@
+import 'package:doctors_appointment/helpers/base_extensions/string.dart';
 import 'package:doctors_appointment/helpers/data_types/appointment_details.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:intl/intl.dart';
 
 enum States {
   homeInitial,
@@ -12,7 +15,9 @@ enum States {
   getAvailableTimesSuccess,
   getAvailableTimesError,
   changeCurrentTime,
-  changeUserAppointmentDetails, changeAppointmentDetails,
+  changeUserAppointmentDetails,
+  changeAppointmentDetails,
+  changeCurrentPage
 }
 class HomeState extends Equatable
 {
@@ -20,12 +25,16 @@ class HomeState extends Equatable
   List<dynamic>? homeData;
   List<dynamic>? recommendedDoctors;
   List<dynamic>? filteredDoctors;
-  UserAppointmentDetails? details;
+  String? appointmentTime;
+  String? appointmentType;
 
   List<dynamic>? doctorsBasedOnSpecialization;
   List<String>? availableTimes;
   String? errorMsg;
   int? currentIndexTime;
+
+  int? currentPage;
+  String? appointmentDate;
   HomeState({
     this.currentState,
     this.homeData,
@@ -35,20 +44,26 @@ class HomeState extends Equatable
     this.availableTimes,
     this.errorMsg,
     this.currentIndexTime,
-    this.details
+    this.appointmentTime,
+    this.appointmentType,
+    this.currentPage,
+    this.appointmentDate,
   });
 
   factory HomeState.initial(){
     return HomeState(
-        currentState : States.homeInitial,
-        homeData : const [],
-        recommendedDoctors : const [],
-        filteredDoctors : const [],
-        doctorsBasedOnSpecialization : const [],
-        availableTimes : const [],
-        errorMsg : '',
-        currentIndexTime : null,
-        details: null
+      currentState : States.homeInitial,
+      homeData : const [],
+      recommendedDoctors : const [],
+      filteredDoctors : const [],
+      doctorsBasedOnSpecialization : const [],
+      availableTimes : const [],
+      errorMsg : '',
+      currentIndexTime : null,
+      appointmentDate: DateFormat("d-M-yyyy").format(DateTime.now()),
+      appointmentTime: null,
+      appointmentType: '',
+      currentPage: 0,
     );
   }
 
@@ -60,9 +75,11 @@ class HomeState extends Equatable
     List<dynamic>? doctorsBasedOnSpecialization,
     List<String>? availableTimes,
     int? currentIndexTime,
-    UserAppointmentDetails? details
-  })
-  {
+    int? currentPage,
+    String? appointmentDate,
+    String? appointmentTime,
+    String? appointmentType,
+  }) {
     return HomeState(
       currentState: state,
       homeData: homeData?? this.homeData,
@@ -71,8 +88,11 @@ class HomeState extends Equatable
       doctorsBasedOnSpecialization: doctorsBasedOnSpecialization?? this.doctorsBasedOnSpecialization,
       availableTimes: availableTimes?? this.availableTimes,
       errorMsg: errorMessage?? errorMsg,
-      details: details?? this.details,
-      currentIndexTime: currentIndexTime
+      appointmentDate: appointmentDate?? this.appointmentDate,
+      appointmentTime: appointmentTime?? this.appointmentTime,
+      appointmentType: appointmentType?? this.appointmentType,
+      currentIndexTime: currentIndexTime,
+      currentPage: currentPage?? this.currentPage
     );
   }
 
@@ -86,5 +106,6 @@ class HomeState extends Equatable
     doctorsBasedOnSpecialization,
     availableTimes,
     currentIndexTime,
+    currentPage
   ];
 }

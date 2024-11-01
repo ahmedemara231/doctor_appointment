@@ -1,6 +1,6 @@
 part of 'stripe_cubit.dart';
 
-enum States {
+enum StripeStates {
   stripeInitial,
   makePaymentProcessLoading,
   getClientSecret,
@@ -9,7 +9,7 @@ enum States {
 }
 class StripeState extends Equatable {
 
-  States? currentState;
+  StripeStates? currentState;
   String? clientSecret;
   String? errorMsg;
   StripeState({
@@ -20,14 +20,14 @@ class StripeState extends Equatable {
 
   factory StripeState.initial(){
     return StripeState(
-      currentState : States.stripeInitial,
+      currentState : StripeStates.stripeInitial,
       clientSecret : '',
       errorMsg : '',
     );
   }
 
   StripeState copyWith({
-    required States state,
+    required StripeStates state,
     dynamic clientSecret,
     String? errorMessage,
   })

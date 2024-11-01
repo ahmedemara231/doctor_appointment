@@ -1,5 +1,5 @@
 class UserAppointmentDetails {
-  String? dateTime;
+  DateTime? dateTime;
   String? appointmentType;
   bool pay;
 
@@ -8,4 +8,14 @@ class UserAppointmentDetails {
     this.appointmentType,
     this.pay = false,
   });
+
+  UserAppointmentDetails copyWith({
+    DateTime? dateTime, String? appointmentType, bool? pay
+  }) {
+    return UserAppointmentDetails(
+        dateTime: dateTime ?? this.dateTime,
+        appointmentType: appointmentType ?? this.appointmentType,
+        pay: pay ?? this.pay
+    );
+  }
 }

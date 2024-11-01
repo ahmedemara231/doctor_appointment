@@ -1,11 +1,9 @@
 extension ConvertToInt on String{
-  int toInt()
-  {
+  int toInt() {
     return int.parse(this);
   }
 
-  double toDouble()
-  {
+  double toDouble() {
     return double.parse(this);
   }
 }

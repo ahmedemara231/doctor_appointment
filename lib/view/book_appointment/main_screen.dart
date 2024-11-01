@@ -1,6 +1,8 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
+import 'package:doctors_appointment/view/book_appointment/paymentSuccess.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/date_time.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/payment.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/summary.dart';
@@ -13,32 +15,35 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../helpers/base_widgets/animated_snack_bar.dart';
 import '../../helpers/base_widgets/text.dart';
+import '../../model/local/secure.dart';
+import '../../model/remote/stripe/models/payment_intent_model.dart';
+import '../../view_model/stripe/stripe_cubit.dart';
 import 'interface.dart';
 
-class DateAppointment extends StatefulWidget {
-  const DateAppointment({super.key});
+class MakeAppointment extends StatefulWidget {
+  const MakeAppointment({super.key});
 
   @override
-  State<DateAppointment> createState() => _DateAppointmentState();
+  State<MakeAppointment> createState() => _MakeAppointmentState();
 }
 
-class _DateAppointmentState extends State<DateAppointment> {
+class _MakeAppointmentState extends State<MakeAppointment> {
   List<CheckingValue> appointmentFlow = [
     DateTimeAppointment(),
     Payment(),
     Summary()
   ];
 
-  ValueNotifier<int> currentPage = ValueNotifier(0);
+  // ValueNotifier<int> currentPage = ValueNotifier(0);
   late PageController controller;
 
   @override
   void initState() {
-    controller = PageController(
-        initialPage: currentPage.value,
-    );
+    controller = PageController();
+    context.read<HomeCubit>().changeCurrentPage(0);
     super.initState();
   }
+
   @override
   void dispose() {
     controller.dispose();
@@ -55,53 +60,64 @@ class _DateAppointmentState extends State<DateAppointment> {
         padding: context.horizontalSymmetricPadding(12.w),
         child: Column(
           children: [
-            ValueListenableBuilder(
-                valueListenable: currentPage,
-                builder: (context, value, child) => MyStepper(newStep: value)
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return MyStepper(newStep: state.currentPage!);
+              },
             ),
             Expanded(
               child: Padding(
                 padding: context.verticalSymmetricPadding(12.h),
                 child: PageView.builder(
                   physics: const NeverScrollableScrollPhysics(),
-
                   controller: controller,
-                  onPageChanged: (value) {
-                    changeValue(value);
-                  },
                   itemBuilder: (context, index) => appointmentFlow[index],
                   itemCount: appointmentFlow.length,
                 ),
               ),
             ),
             BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) => AppButton(
-                  title: 'Continue',
-                  onPressed: () async {
-                    if (appointmentFlow[currentPage.value].value == null) {
-                        AppSnakeBar.show(
-                            context,
-                            title: 'Please fill all required fields!',
-                            type: AnimatedSnackBarType.error
-                        );
-                    } else {
-                      changeValue(currentPage.value + 1);
-                      controller.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOutSine
-                      );
-                    }
-                  }
-              ),
+              builder: (context, state) =>
+                  AppButton(
+                      title: state.currentPage != 2? 'Continue' : 'Pay',
+
+                      onPressed: () async {
+                        switch(appointmentFlow[state.currentPage!].value){
+                          case null:
+                            AppSnakeBar.show(
+                                context,
+                                title: 'Please fill all required fields!',
+                                type: AnimatedSnackBarType.error
+                            );
+                          default:
+                            switch(state.currentPage){
+                              case 2:
+                                context.read<StripeCubit>().makePaymentProcess(
+                                    model: CreateIntentInputModel(
+                                        amount: 100.toString(),
+                                        currency: 'USD',
+                                        customerId: await SecureStorage.getInstance().readData(key: 'customerId') as String
+                                    )
+                                ).then((value) {
+                                  context.replacementRoute(const PaymentSuccess());
+                                  // context.read<HomeCubit>().confirmAppointment();
+                                });
+                              default:
+                                context.read<HomeCubit>().changeCurrentPage(
+                                    state.currentPage! + 1
+                                );
+                                controller.nextPage(
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeInOutSine
+                                );
+                            }
+                        }
+                      }
+                  ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  void changeValue(int value) {
-    currentPage.value = value;
-    currentPage.notifyListeners();
   }
 }

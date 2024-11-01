@@ -26,7 +26,7 @@ class StripeCubit extends Cubit<StripeState> {
         inputModel: model // جواه cus id
     );
     emit(state.copyWith(
-        state: States.getClientSecret,
+        state: StripeStates.getClientSecret,
         clientSecret: resultOfRequestingCreatePaymentIntent.getOrThrow().client_secret
     ));
   }
@@ -63,7 +63,7 @@ class StripeCubit extends Cubit<StripeState> {
     required CreateIntentInputModel model,
 })async
   {
-    emit(state.copyWith(state: States.makePaymentProcessLoading));
+    emit(state.copyWith(state: StripeStates.makePaymentProcessLoading));
 
     await createPaymentIntent(model);
     await initPaymentSheet(
@@ -71,6 +71,6 @@ class StripeCubit extends Cubit<StripeState> {
     );
     await presentPaymentSheet();
     
-    emit(state.copyWith(state: States.makePaymentProcessSuccess));
+    emit(state.copyWith(state: StripeStates.makePaymentProcessSuccess));
   }
 }
