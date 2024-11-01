@@ -3,7 +3,7 @@ import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart
 import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/model/remote/api_service/models/doctor_data.dart';
-import 'package:doctors_appointment/view/book_appointment/main_screen.dart';
+import 'package:doctors_appointment/view/book_appointment/main/main_screen.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/about_widget.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/base_details.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/location_widget.dart';

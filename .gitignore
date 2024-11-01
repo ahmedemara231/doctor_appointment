@@ -31,6 +31,7 @@ migrate_working_dir/
 .pub/
 /build/
 lib/model/remote/stripe/service/stripe_constants.dart
+lib/model/remote/paypal/service/paypal_constants.dart
 
 
 # Symbolication related

@@ -1,24 +1,20 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
-import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
-import 'package:doctors_appointment/view/book_appointment/paymentSuccess.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/date_time.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/payment.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/summary.dart';
 import 'package:doctors_appointment/view/book_appointment/widgets/stepper.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
+import 'package:doctors_appointment/view_model/payment/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../helpers/base_widgets/animated_snack_bar.dart';
-import '../../helpers/base_widgets/text.dart';
-import '../../model/local/secure.dart';
-import '../../model/remote/stripe/models/payment_intent_model.dart';
-import '../../view_model/stripe/stripe_cubit.dart';
-import 'interface.dart';
+import '../../../helpers/base_widgets/animated_snack_bar.dart';
+import '../../../helpers/base_widgets/text.dart';
+import '../interface.dart';
 
 class MakeAppointment extends StatefulWidget {
   const MakeAppointment({super.key});
@@ -34,7 +30,6 @@ class _MakeAppointmentState extends State<MakeAppointment> {
     Summary()
   ];
 
-  // ValueNotifier<int> currentPage = ValueNotifier(0);
   late PageController controller;
 
   @override
@@ -78,41 +73,35 @@ class _MakeAppointmentState extends State<MakeAppointment> {
             ),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) =>
-                  AppButton(
-                      title: state.currentPage != 2? 'Continue' : 'Pay',
+                  Padding(
+                    padding: context.verticalSymmetricPadding(10.h),
+                    child: AppButton(
+                        title: state.currentPage != 2? 'Continue' : 'Pay',
+                        onPressed: () async {
+                          switch(appointmentFlow[state.currentPage!].value){
+                            case null:
+                              AppSnakeBar.show(
+                                  context,
+                                  title: 'Please fill all required fields!',
+                                  type: AnimatedSnackBarType.error
+                              );
+                            default:
+                              switch(state.currentPage){
+                                case 2:
+                                  context.read<PaymentCubit>().pay(context);
 
-                      onPressed: () async {
-                        switch(appointmentFlow[state.currentPage!].value){
-                          case null:
-                            AppSnakeBar.show(
-                                context,
-                                title: 'Please fill all required fields!',
-                                type: AnimatedSnackBarType.error
-                            );
-                          default:
-                            switch(state.currentPage){
-                              case 2:
-                                context.read<StripeCubit>().makePaymentProcess(
-                                    model: CreateIntentInputModel(
-                                        amount: 100.toString(),
-                                        currency: 'USD',
-                                        customerId: await SecureStorage.getInstance().readData(key: 'customerId') as String
-                                    )
-                                ).then((value) {
-                                  context.replacementRoute(const PaymentSuccess());
-                                  // context.read<HomeCubit>().confirmAppointment();
-                                });
-                              default:
-                                context.read<HomeCubit>().changeCurrentPage(
-                                    state.currentPage! + 1
-                                );
-                                controller.nextPage(
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.easeInOutSine
-                                );
-                            }
+                                default:
+                                  context.read<HomeCubit>().changeCurrentPage(
+                                      state.currentPage! + 1
+                                  );
+                                  controller.nextPage(
+                                      duration: const Duration(milliseconds: 500),
+                                      curve: Curves.easeInOutSine
+                                  );
+                              }
+                          }
                         }
-                      }
+                    ),
                   ),
             ),
           ],

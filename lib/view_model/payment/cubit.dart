@@ -1,17 +1,15 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:doctors_appointment/model/local/secure.dart';
-import 'package:doctors_appointment/model/local/shared.dart';
+import 'package:doctors_appointment/model/remote/paypal/service.dart';
 import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import '../../model/remote/stripe/models/payment_intent_model.dart';
-part 'stripe_state.dart';
+part 'state.dart';
 
-
-class StripeCubit extends Cubit<StripeState> {
-  StripeCubit(this.repo) : super(StripeState.initial());
+class PaymentCubit extends Cubit<PaymentState> {
+  PaymentCubit(this.repo) : super(PaymentState.initial());
   StripePostRepo repo;
 
 
@@ -26,7 +24,7 @@ class StripeCubit extends Cubit<StripeState> {
         inputModel: model // جواه cus id
     );
     emit(state.copyWith(
-        state: StripeStates.getClientSecret,
+        state: PaymentStates.getClientSecret,
         clientSecret: resultOfRequestingCreatePaymentIntent.getOrThrow().client_secret
     ));
   }
@@ -59,11 +57,11 @@ class StripeCubit extends Cubit<StripeState> {
     await Stripe.instance.presentPaymentSheet();
   }
 
-  Future<void> makePaymentProcess({
+  Future<void> makeStripePaymentProcess({
     required CreateIntentInputModel model,
 })async
   {
-    emit(state.copyWith(state: StripeStates.makePaymentProcessLoading));
+    emit(state.copyWith(state: PaymentStates.makePaymentProcessLoading));
 
     await createPaymentIntent(model);
     await initPaymentSheet(
@@ -71,6 +69,41 @@ class StripeCubit extends Cubit<StripeState> {
     );
     await presentPaymentSheet();
     
-    emit(state.copyWith(state: StripeStates.makePaymentProcessSuccess));
+    emit(state.copyWith(state: PaymentStates.makeStripeProcessSuccess));
+  }
+  Future<void> makePaypalPaymentProcess(BuildContext context, {required int amount})async{
+    await PaypalService().makePaypalPaymentProcess(context, amount: amount);
+  }
+
+  void setPaymentMethod(String payMethod){
+    late PaymentMethods method;
+    switch(payMethod){
+      case 'PayPal':
+        method = PaymentMethods.paypal;
+
+      default:
+        method = PaymentMethods.stripe;
+    }
+
+    emit(state.copyWith(
+        state: PaymentStates.setPaymentMethod,
+        paymentMethod: method
+    ));
+  }
+  Future<void> pay(BuildContext context)async{
+    const int amount = 100*100;
+    switch(state.paymentMethod){
+      case PaymentMethods.stripe:
+        await makeStripePaymentProcess(
+            model: CreateIntentInputModel(
+                amount: amount.toString(),
+                currency: 'USD',
+                customerId: await SecureStorage.getInstance().readData(key: 'customerId') as String
+            )
+        );
+
+      default:
+        await makePaypalPaymentProcess(context, amount: amount);
+    }
   }
 }

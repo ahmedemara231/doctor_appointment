@@ -1,6 +1,7 @@
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
+import 'package:doctors_appointment/view_model/payment/cubit.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../interface.dart';
 import '../widgets/appointment_type.dart';
 
@@ -27,6 +28,7 @@ class _PaymentState extends State<Payment> with AutomaticKeepAliveClientMixin{
             title: 'Payment Method',
             optionsList: const <String>['Credit Card', 'PayPal'],
             onSelectAppointmentType: (option) {
+              context.read<PaymentCubit>().setPaymentMethod(option);
               widget.value = option;
             },
           )

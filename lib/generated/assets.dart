@@ -8,8 +8,11 @@ class Assets {
   static const String imagesHomeDoctorImage = 'assets/images/home_doctor_image.png';
   static const String imagesMap = 'assets/images/Map.png';
   static const String imagesNeurologic = 'assets/images/Neurologic.png';
+  static const String imagesPaypal = 'assets/images/paypal.jpeg';
   static const String imagesPediatric = 'assets/images/Pediatric.png';
   static const String imagesRadiology = 'assets/images/Radiology.png';
+  static const String imagesSuccessfulPay = 'assets/images/successful_pay.svg';
+  static const String imagesVisa = 'assets/images/visa.jpeg';
   static const String translationEn = 'assets/translation/en.json';
 
 }

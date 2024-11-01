@@ -1,11 +1,6 @@
 import 'package:doctors_appointment/generated/assets.dart';
-import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
-import 'package:doctors_appointment/model/local/secure.dart';
-import 'package:doctors_appointment/model/remote/stripe/models/payment_intent_model.dart';
-import 'package:doctors_appointment/view/book_appointment/paymentSuccess.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
-import 'package:doctors_appointment/view_model/stripe/stripe_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

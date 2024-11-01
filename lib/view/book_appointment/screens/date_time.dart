@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:doctors_appointment/constants/app_constants.dart';
 import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/mediaQuery.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
@@ -91,7 +88,6 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
                       context.read<HomeCubit>().changeAppointmentTime(_times[index]);
                       widget.value = _times[index];
                       context.read<HomeCubit>().selectTime(index);
-                      // context.read<HomeCubit>().changeAppointmentTime(_times[index]);
                     } : null,
                   ),
                 ),
@@ -110,7 +106,6 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
       ],
     );
   }
-
   @override
   bool get wantKeepAlive => true;
 }
