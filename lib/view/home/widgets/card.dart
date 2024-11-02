@@ -1,5 +1,7 @@
 import 'package:doctors_appointment/generated/assets.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/mediaQuery.dart';
+import 'package:doctors_appointment/helpers/base_widgets/text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +28,7 @@ class HomeCard extends StatelessWidget {
                 SizedBox(
                   width : context.setWidth(2),
                   child: Text(
-                    'Book and schedule with nearest doctor',
+                    'Book and schedule with nearest doctor'.tr(),
                     style: TextStyle(
                       fontSize: 22.sp,
                       color: Colors.white,
@@ -43,12 +45,10 @@ class HomeCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    'Find Nearby',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: MyText(
+                    text: 'Find Nearby'.tr(),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
                   ),
                 ),
               ],
@@ -56,7 +56,8 @@ class HomeCard extends StatelessWidget {
           ),
         ),
         Align(
-          alignment: Alignment.topRight,
+          alignment: context.locale.languageCode == 'en'?
+          Alignment.topRight : Alignment.topLeft,
           child: Image.asset(
             Assets.imagesHomeDoctorImage,
             height: context.setHeight(3),

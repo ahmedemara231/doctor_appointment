@@ -13,6 +13,7 @@ class Assets {
   static const String imagesRadiology = 'assets/images/Radiology.png';
   static const String imagesSuccessfulPay = 'assets/images/successful_pay.svg';
   static const String imagesVisa = 'assets/images/visa.jpeg';
-  static const String translationEn = 'assets/translation/en.json';
+  static const String translationArSA = 'assets/translation/ar-SA.json';
+  static const String translationEnUS = 'assets/translation/en-US.json';
 
 }

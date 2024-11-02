@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class ErrorBuilder extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          AppButton(title: msg, onPressed: onPressed!)
+          AppButton(title: 'Try Again'.tr(), onPressed: onPressed!)
         ],
       ),
     );

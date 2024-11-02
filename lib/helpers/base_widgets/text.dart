@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class MyText extends StatelessWidget {
 
-  String text;
-  double? fontSize;
-  FontWeight? fontWeight;
-  int? maxLines;
-  Color? color;
-  TextDecoration? textDecoration;
+  final String text;
+  final double? fontSize;
+  final FontWeight? fontWeight;
+  final int? maxLines;
+  final Color? color;
+  final TextDecoration? textDecoration;
 
-  MyText({Key? key,
+  const MyText({Key? key,
     required this.text,
     this.fontSize,
     this.fontWeight,

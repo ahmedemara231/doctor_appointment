@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/view/error_builder/unexpected_error_handler.dart';
 import 'package:doctors_appointment/view_model/bloc_observer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,11 +31,13 @@ void main()async {
     DeviceOrientation.portraitUp,
   ]);
 
-  // Flutter crashlyticserError.onError = (errorDetails) {
+  // FlutterError.onError = (errorDetails) {
   //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  //   FlutterError.dumpErrorToConsole(errorDetails);
+  //   runApp(MyErrorWidget(errorDetails: errorDetails));
   // };
-  //
-  // // asynchronous errors
+
+  // asynchronous errors
   // PlatformDispatcher.instance.onError = (error, stack) {
   //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
   //   return true;
@@ -43,7 +46,10 @@ void main()async {
   Stripe.publishableKey = StripeConstants.publishableKey;
   runApp(
     EasyLocalization(
-        supportedLocales: const [Locale('en', 'US'), Locale('ar', 'SA')],
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('ar', 'SA')
+        ],
         path: 'assets/translation',
         fallbackLocale: const Locale('en', 'US'),
         child: const App()
