@@ -50,7 +50,7 @@ void main()async {
           Locale('en', 'US'),
           Locale('ar', 'SA')
         ],
-        path: 'assets/translation',
+        path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
         child: const App()
     ),

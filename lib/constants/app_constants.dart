@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,19 +25,19 @@ class Constants
   static List<Speciality> specialities = [
       Speciality(
           image: Assets.imagesGeneral,
-          speciality: 'General'
+          speciality: LocaleKeys.general
       ),
       Speciality(
           image: Assets.imagesNeurologic,
-          speciality: 'Neurologic'
+          speciality: LocaleKeys.neurologic
       ),
       Speciality(
           image: Assets.imagesPediatric,
-          speciality: 'Pediatric'
+          speciality: LocaleKeys.pediatric
       ),
       Speciality(
           image: Assets.imagesRadiology,
-          speciality: 'Radiology'
+          speciality: LocaleKeys.radiology
       ),
     ];
 

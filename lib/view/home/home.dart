@@ -5,6 +5,7 @@ import 'package:doctors_appointment/helpers/app_widgets/specialities_widget.dart
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/model/local/shared.dart';
+import 'package:doctors_appointment/translations/locale_keys.g.dart';
 import 'package:doctors_appointment/view/doctor_details/screen.dart';
 import 'package:doctors_appointment/view/doctors_based_specialities/screen.dart';
 import 'package:doctors_appointment/view/error_builder/screen.dart';
@@ -50,11 +51,11 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MyText(
-                  text: '${'Welcome'.tr()}  ${CacheHelper.getInstance().getUserData()?[0]}',
+                  text: '${LocaleKeys.welcome.tr()}  ${CacheHelper.getInstance().getUserData()?[0]}',
                   fontWeight: FontWeight.w500,
                 ),
                 MyText(
-                  text: 'How are you today?'.tr(),
+                  text: LocaleKeys.howAreYouToday.tr(),
                   color: Colors.grey,
                   fontSize: 16.sp,
                 ),
@@ -84,14 +85,14 @@ class _HomeState extends State<Home> {
                   const HomeCard(),
                   Row(
                     children: [
-                      MyText(text: 'Doctor Speciality'.tr(), fontSize: 18.sp, fontWeight: FontWeight.w500,),
+                      MyText(text: LocaleKeys.doctorSpeciality.tr(), fontSize: 18.sp, fontWeight: FontWeight.w500,),
                       const Spacer(),
                       TextButton(
                           onPressed: (){
                             context.normalNewRoute(const Specialities());
                           },
                           child: MyText(
-                            text: 'See All'.tr(),
+                            text: LocaleKeys.seeAll.tr(),
                             color: Colors.blue,
                           )
                       )
@@ -120,7 +121,7 @@ class _HomeState extends State<Home> {
                   Row(
                     children: [
                       MyText(
-                        text: 'Recommendation Doctor'.tr(),
+                        text: LocaleKeys.recommendationDoctor.tr(),
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                       ),
@@ -129,7 +130,7 @@ class _HomeState extends State<Home> {
                           onPressed: (){
                             context.normalNewRoute(const RecommendedDoctors());
                           },
-                          child: MyText(text: 'See All'.tr(), color: Colors.blue,)
+                          child: MyText(text: LocaleKeys.seeAll.tr(), color: Colors.blue,)
                       )
                     ],
                   ),

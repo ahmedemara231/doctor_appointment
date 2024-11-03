@@ -1,0 +1,15 @@
+{
+  "HomeWords" : "",
+  "welcome" : "مرحبا",
+  "doctorSpeciality" : "تخصص الدكتور",
+  "howAreYouToday" : "كيف حالك اليوم؟",
+  "seeAll" : "عرض الكل",
+  "recommendationDoctor" : "الدكاترة الموصى بهم",
+  "general" : "عام",
+  "neurologic": "الاعصاب",
+  "pediatric" : "الاطفال",
+  "radiology" : "ألاشعة",
+  "bookAndSchedule" : "احجز مع اقرب دكتور لك",
+  "findNearby": "ابحث على الاقرب",
+  "tryAgain" : "حاول مرة اخري"
+}
