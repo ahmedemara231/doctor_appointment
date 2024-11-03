@@ -1,13 +1,19 @@
 import 'package:doctors_appointment/generated/assets.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/mediaQuery.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
+import 'package:doctors_appointment/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeCard extends StatelessWidget {
+class HomeCard extends StatefulWidget {
   const HomeCard({super.key});
 
+  @override
+  State<HomeCard> createState() => _HomeCardState();
+}
+
+class _HomeCardState extends State<HomeCard> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -28,7 +34,7 @@ class HomeCard extends StatelessWidget {
                 SizedBox(
                   width : context.setWidth(2),
                   child: Text(
-                    'Book and schedule with nearest doctor'.tr(),
+                    LocaleKeys.bookAndSchedule.tr(),
                     style: TextStyle(
                       fontSize: 22.sp,
                       color: Colors.white,
@@ -46,7 +52,7 @@ class HomeCard extends StatelessWidget {
                     ),
                   ),
                   child: MyText(
-                    text: 'Find Nearby'.tr(),
+                    text: LocaleKeys.findNearby.tr(),
                     fontWeight: FontWeight.bold,
                     color: Colors.blue,
                   ),

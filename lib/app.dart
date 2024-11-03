@@ -22,14 +22,14 @@ import 'model/local/shared.dart';
 import 'model/remote/api_service/repositories/get.dart';
 import 'model/remote/api_service/service/dio_connection.dart';
 
-class App extends StatefulWidget {
-  const App({super.key});
+class MediMeetApp extends StatefulWidget {
+  const MediMeetApp({super.key});
 
   @override
-  State<App> createState() => _AppState();
+  State<MediMeetApp> createState() => _MediMeetAppState();
 }
 
-class _AppState extends State<App> {
+class _MediMeetAppState extends State<MediMeetApp> {
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _AppState extends State<App> {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          title: 'App Name'.tr(), // give the translation of App Name for example
+          title: 'MediMeet'.tr(), // give the translation of App Name for example
           debugShowCheckedModeBanner: false,
           navigatorKey: Constants.navigatorKey,
           routes: {

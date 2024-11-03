@@ -1,21 +1,28 @@
 class UserAppointmentDetails {
-  DateTime? dateTime;
-  String? appointmentType;
-  bool pay;
+  final String appointmentDate;
+  final String appointmentTime;
+  final String appointmentType;
 
   UserAppointmentDetails({
-    this.dateTime,
-    this.appointmentType,
-    this.pay = false,
+    required this.appointmentDate,
+    required this.appointmentTime,
+    required this.appointmentType,
   });
 
-  UserAppointmentDetails copyWith({
-    DateTime? dateTime, String? appointmentType, bool? pay
-  }) {
-    return UserAppointmentDetails(
-        dateTime: dateTime ?? this.dateTime,
-        appointmentType: appointmentType ?? this.appointmentType,
-        pay: pay ?? this.pay
-    );
+  Map<String, dynamic> toJson(){
+    return {
+      'appointmentDate': appointmentDate,
+      'appointmentTime': appointmentTime,
+      'appointmentType': appointmentType,
+    };
   }
+  // UserAppointmentDetails copyWith({
+  //   DateTime? dateTime, String? appointmentType, bool? pay
+  // }) {
+  //   return UserAppointmentDetails(
+  //       dateTime: dateTime ?? this.dateTime,
+  //       appointmentType: appointmentType ?? this.appointmentType,
+  //       pay: pay ?? this.pay
+  //   );
+  // }
 }

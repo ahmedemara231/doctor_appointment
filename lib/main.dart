@@ -52,7 +52,7 @@ void main()async {
         ],
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
-        child: const App()
+        child: const MediMeetApp()
     ),
   );
 }

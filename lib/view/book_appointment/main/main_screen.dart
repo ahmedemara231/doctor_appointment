@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../helpers/base_widgets/animated_snack_bar.dart';
 import '../../../helpers/base_widgets/text.dart';
+import '../../../helpers/data_types/appointment_details.dart';
 import '../interface.dart';
 
 class MakeAppointment extends StatefulWidget {
@@ -49,7 +50,7 @@ class _MakeAppointmentState extends State<MakeAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: MyText(text: 'Book Appointment'),
+        title: const MyText(text: 'Book Appointment'),
       ),
       body: Padding(
         padding: context.horizontalSymmetricPadding(12.w),
@@ -88,7 +89,15 @@ class _MakeAppointmentState extends State<MakeAppointment> {
                             default:
                               switch(state.currentPage){
                                 case 2:
-                                  context.read<PaymentCubit>().pay(context);
+                                  context.read<PaymentCubit>().pay(
+                                      context,
+                                      amount: 100,
+                                      details: UserAppointmentDetails(
+                                        appointmentDate: state.appointmentDate!,
+                                        appointmentTime: state.appointmentTime!,
+                                        appointmentType: state.appointmentType!,
+                                      )
+                                  );
 
                                 default:
                                   context.read<HomeCubit>().changeCurrentPage(

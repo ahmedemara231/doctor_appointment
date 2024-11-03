@@ -5,6 +5,7 @@ import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import '../../helpers/data_types/appointment_details.dart';
 import '../../model/remote/stripe/models/payment_intent_model.dart';
 part 'state.dart';
 
@@ -71,8 +72,15 @@ class PaymentCubit extends Cubit<PaymentState> {
     
     emit(state.copyWith(state: PaymentStates.makeStripeProcessSuccess));
   }
-  Future<void> makePaypalPaymentProcess(BuildContext context, {required int amount})async{
-    await PaypalService().makePaypalPaymentProcess(context, amount: amount);
+  Future<void> makePaypalPaymentProcess(BuildContext context, {
+    required int amount,
+    required UserAppointmentDetails details
+  })async{
+    await PaypalService().makePaypalPaymentProcess(
+      context,
+      amount: amount,
+      details: details
+    );
   }
 
   void setPaymentMethod(String payMethod){
@@ -90,8 +98,10 @@ class PaymentCubit extends Cubit<PaymentState> {
         paymentMethod: method
     ));
   }
-  Future<void> pay(BuildContext context)async{
-    const int amount = 100*100;
+  Future<void> pay(BuildContext context, {
+    required int amount,
+    required UserAppointmentDetails details
+  })async{
     switch(state.paymentMethod){
       case PaymentMethods.stripe:
         await makeStripePaymentProcess(
@@ -103,7 +113,11 @@ class PaymentCubit extends Cubit<PaymentState> {
         );
 
       default:
-        await makePaypalPaymentProcess(context, amount: amount);
+        await makePaypalPaymentProcess(
+            context,
+            amount: amount * 100,
+            details: details
+        );
     }
   }
 }

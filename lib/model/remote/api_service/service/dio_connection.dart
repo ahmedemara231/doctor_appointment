@@ -82,8 +82,8 @@ class DioConnection implements ApiService
             cancelToken: cancelRequest,
           );
 
-          String prettyJson = const JsonEncoder.withIndent('  ').convert(response.data);
-          log(prettyJson);
+          // String prettyJson = const JsonEncoder.withIndent('  ').convert(response.data);
+          // log(prettyJson);
 
           return Result.success(response);
         }on DioException catch(e)
