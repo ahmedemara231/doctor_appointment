@@ -3,11 +3,8 @@ part of 'cubit.dart';
 enum PaymentStates {
   stripeInitial,
   makePaymentProcessLoading,
-  getClientSecret,
-  makeStripeProcessSuccess,
-  makeStripeProcessError,
-  makePaypalProcessSuccess,
-  makePaypalProcessError,
+  makePaymentProcessSuccess,
+  makePaymentProcessError,
   setPaymentMethod,
 }
 enum PaymentMethods {stripe, paypal}
@@ -16,12 +13,10 @@ class PaymentState extends Equatable {
   PaymentStates? currentState;
 
   PaymentMethods? paymentMethod;
-  String? clientSecret;
   String? errorMsg;
   PaymentState({
     this.currentState,
     this.paymentMethod,
-    this.clientSecret,
     this.errorMsg,
   });
 
@@ -29,7 +24,6 @@ class PaymentState extends Equatable {
     return PaymentState(
       currentState : PaymentStates.stripeInitial,
       paymentMethod : PaymentMethods.stripe,
-      clientSecret : '',
       errorMsg : '',
     );
   }
@@ -37,14 +31,12 @@ class PaymentState extends Equatable {
   PaymentState copyWith({
     required PaymentStates state,
     PaymentMethods? paymentMethod,
-    dynamic clientSecret,
     String? errorMessage,
   })
   {
     return PaymentState(
         currentState: state,
         paymentMethod: paymentMethod?? this.paymentMethod,
-        clientSecret: clientSecret?? this.clientSecret,
         errorMsg: errorMessage?? errorMsg,
     );
   }
@@ -53,7 +45,6 @@ class PaymentState extends Equatable {
   List<Object?> get props => [
     currentState,
     paymentMethod,
-    clientSecret,
     errorMsg,
   ];
 }

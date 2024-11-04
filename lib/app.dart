@@ -1,4 +1,5 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
+import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
 import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
 import 'package:doctors_appointment/model/remote/stripe/service/stripe_connection.dart';
 import 'package:doctors_appointment/view/auth/login/screen.dart';
@@ -51,7 +52,7 @@ class _MediMeetAppState extends State<MediMeetApp> {
       splitScreenMode: true,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+          BlocProvider<AuthCubit>(create: (context) => AuthCubit(PostRepo(apiService: DioConnection.getInstance()))),
           BlocProvider<HomeCubit>(  create: (context) => HomeCubit(GetRepo(apiService: DioConnection.getInstance())),),
           BlocProvider<PaymentCubit>(create: (context) => PaymentCubit(
             StripePostRepo(apiService: StripeConnection.getInstance())

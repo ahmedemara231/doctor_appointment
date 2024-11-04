@@ -4,16 +4,15 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:doctors_appointment/model/remote/api_service/service/request_model/request_model.dart';
-import 'package:multiple_result/multiple_result.dart';
 import 'Api_constants.dart';
 import 'api_request.dart';
+import 'error_handling/base_remote_error_class.dart';
 import 'error_handling/error_handler.dart';
 import 'error_handling/errors.dart';
 import 'error_handling/interceptors/bad_response.dart';
 import 'error_handling/interceptors/unknown.dart';
 
-class DioConnection implements ApiService
-{
+class DioConnection implements ApiService{
   late Dio dio;
   // late Dio dioForDownload;
   DioConnection()
@@ -23,8 +22,7 @@ class DioConnection implements ApiService
       ..options.connectTimeout = ApiConstants.timeoutDuration
       ..options.receiveTimeout = ApiConstants.timeoutDuration;
 
-    List<InterceptorsWrapper> myInterceptors =
-    [
+    List<InterceptorsWrapper> myInterceptors = [
       BadResponseInterceptor(dio),
       UnknownErrorInterceptor(),
     ];
@@ -43,13 +41,12 @@ class DioConnection implements ApiService
 
   final cancelRequest = CancelToken();
 
-  void cancelApiRequest()
-  {
+  void cancelApiRequest() {
     cancelRequest.cancel('canceled');
   }
 
   @override
-  Future<Result<Response,CustomError>> callApi({
+  Future<Response> callApi({
     required RequestModel request
   }) async
   {
@@ -57,11 +54,10 @@ class DioConnection implements ApiService
     switch(connectivityResult)
     {
       case ConnectivityResult.none :
-        return Result.error(
-          NetworkError(
-              'Please check the internet and try again'
-          ),
+        RemoteError networkError = NetworkError(
+            'Please check the internet and try again'
         );
+        throw networkError;
 
       default:
         try{
@@ -85,12 +81,11 @@ class DioConnection implements ApiService
           // String prettyJson = const JsonEncoder.withIndent('  ').convert(response.data);
           // log(prettyJson);
 
-          return Result.success(response);
-        }on DioException catch(e)
-        {
+          return response;
+        }on DioException catch(e) {
           String prettyJson = const JsonEncoder.withIndent('  ').convert(e.response?.data);
           log(prettyJson);
-          return Result.error(handleErrors(e));
+          throw handleDioErrors(e);
         }
     }
   }

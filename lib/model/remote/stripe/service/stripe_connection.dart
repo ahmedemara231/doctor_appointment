@@ -3,16 +3,16 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
+import 'package:doctors_appointment/model/remote/stripe/service/error_handling/errors.dart';
 import 'package:doctors_appointment/model/remote/stripe/service/stripe_constants.dart';
-import 'package:multiple_result/src/result.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import '../../api_service/service/Api_constants.dart';
 import '../../api_service/service/api_request.dart';
+import '../../api_service/service/error_handling/base_remote_error_class.dart';
 import '../../api_service/service/error_handling/errors.dart';
 import '../../api_service/service/request_model/request_model.dart';
 
-class StripeConnection extends ApiService
-{
-
+class StripeConnection extends ApiService {
   late Dio dio;
 
   static StripeConnection? instance;
@@ -21,24 +21,19 @@ class StripeConnection extends ApiService
           ..options.connectTimeout = ApiConstants.timeoutDuration
           ..options.receiveTimeout = ApiConstants.timeoutDuration;
 
-  static StripeConnection getInstance()
-  {
+  static StripeConnection getInstance() {
     return instance ??= StripeConnection();
   }
 
 
   @override
-  Future<Result<Response, CustomError>> callApi({required RequestModel request})async{
+  Future<Response> callApi({required RequestModel request})async{
     final connectivityResult = await Connectivity().checkConnectivity();
 
     switch(connectivityResult)
     {
       case ConnectivityResult.none:
-        return Result.error(
-          NetworkError(
-              'Please check the internet and try again'
-          ),
-        );
+        throw NetworkError('Please check the internet and try again');
 
       default:
         try{
@@ -57,15 +52,17 @@ class StripeConnection extends ApiService
             onReceiveProgress: request.onReceiveProgress,
           );
 
-          return Result.success(response);
-        }on DioException catch(e)
-        {
-          // return Result.error(handleErrors(e));
-
+          return response;
+        }on DioException catch(e) {
           String prettyJson = const JsonEncoder.withIndent('  ').convert(e.response?.data);
           log(prettyJson);
 
-          return Result.error(CustomError('Error : $e'));
+          throw RemoteError('Error : $e');
+        }on StripeException catch(e) {
+          String prettyJson = const JsonEncoder.withIndent('  ').convert(e.toJson());
+          log(prettyJson);
+
+          throw GeneralStripeError(e.error.message);
         }
     }
   }

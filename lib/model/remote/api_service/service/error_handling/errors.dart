@@ -1,51 +1,41 @@
-import 'dart:developer';
+import 'package:doctors_appointment/model/remote/api_service/service/error_handling/base_remote_error_class.dart';
 
-class CustomError implements Exception
-{
-  String? message;
-
-  CustomError(this.message)
-  {
-    log(message??'error');
-  }
-}
-
-class NetworkError extends CustomError {
+class NetworkError extends RemoteError {
   NetworkError(super.message);
 }
 
-class BadResponseError extends CustomError {
+class BadResponseError extends RemoteError {
   BadResponseError(super.message);
 }
 
-class BadRequestError extends CustomError {
+class BadRequestError extends RemoteError {
   BadRequestError(super.message);
 }
 
-class UnAuthorizedError extends CustomError {
+class UnAuthorizedError extends RemoteError {
   UnAuthorizedError(super.message);
 }
 
-class NotFoundError extends CustomError {
+class NotFoundError extends RemoteError {
   NotFoundError(super.message);
 }
 
-class ConflictError extends CustomError {
+class ConflictError extends RemoteError {
   ConflictError(super.message);
 }
 
-class UnprocessableEntityError extends CustomError {
+class UnprocessableEntityError extends RemoteError {
   UnprocessableEntityError(super.message);
 }
 
-class BadCertificateError extends CustomError {
+class BadCertificateError extends RemoteError {
   BadCertificateError(super.message);
 }
 
-class CancelError extends CustomError {
+class CancelError extends RemoteError {
   CancelError(super.message);
 }
 
-class UnknownError extends CustomError {
+class UnknownError extends RemoteError {
   UnknownError(super.message);
 }

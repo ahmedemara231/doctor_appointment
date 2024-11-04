@@ -1,30 +1,24 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:doctors_appointment/model/local/secure.dart';
 import 'package:doctors_appointment/model/local/shared.dart';
-import 'package:doctors_appointment/model/remote/api_service/service/Api_constants.dart';
-import 'package:doctors_appointment/model/remote/api_service/service/Lang_methods.dart';
-import 'package:doctors_appointment/model/remote/api_service/service/dio_connection.dart';
-import 'package:doctors_appointment/model/remote/api_service/service/request_model/request_model.dart';
-import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
-import 'package:doctors_appointment/model/remote/stripe/service/stripe_connection.dart';
-import 'package:svg_flutter/svg.dart';
+import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
 import '../../helpers/data_types/register_inputs.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthState.initial());
+  AuthCubit(this.repo) : super(AuthState.initial());
+
+  late PostRepo repo;
 
   Future<void> login(String email, String password) async {
     emit(state.copyWith(state: States.loginLoading));
-    final loginResponse = await DioConnection.getInstance().callApi(
-        request: RequestModel(
-          method: Methods.POST,
-          endPoint: ApiConstants.login,
-          data: {'email': email, 'password': password},
-        )
+
+    final loginResponse = await repo.login(
+        email: email,
+        password: password
     );
+
     if(loginResponse.isSuccess()){
       final data = loginResponse.getOrThrow().data['data'];
       onLoginSuccess(token: data['token'], name: data['username']);
@@ -35,9 +29,10 @@ class AuthCubit extends Cubit<AuthState> {
       ));
     }
     else{
+      log('failed');
       emit(state.copyWith(
           state: States.loginError,
-          resultMsg: 'Login Failed'
+          resultMsg: loginResponse.tryGetError()?.message
       ));
     }
   }
@@ -58,27 +53,21 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> createCustomer() async{
-    final cusId = await StripePostRepo(
-        apiService: StripeConnection.getInstance()).createCustomer(
-        name: CacheHelper.getInstance().getUserData()![0]
-    );
-    log(cusId.getOrThrow());
-    SecureStorage.getInstance().setData(
-        key: 'customerId',
-        value: cusId.getOrThrow()
-    );
+    // final cusId = await StripePostRepo(
+    //     apiService: StripeConnection.getInstance()).createCustomer(
+    //     name: CacheHelper.getInstance().getUserData()![0]
+    // );
+    // log(cusId.getOrThrow());
+    // SecureStorage.getInstance().setData(
+    //     key: 'customerId',
+    //     value: cusId.getOrThrow()
+    // );
   }
 
   Future<void> signUp(RegisterInputs inputs) async {
     emit(state.copyWith(state: States.registerLoading));
-    final loginResponse = await DioConnection.getInstance().callApi(
-        request: RequestModel(
-          method: Methods.POST,
-          endPoint: ApiConstants.signUp,
-          data: inputs.toJson(),
-        )
-    );
-    if(loginResponse.isSuccess()){
+    final signUpResponse = await repo.signUp(inputs);
+    if(signUpResponse.isSuccess()){
       emit(state.copyWith(
           state: States.registerSuccess,
           resultMsg: 'Sign up Successful'

@@ -13,26 +13,10 @@ class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit(this.repo) : super(PaymentState.initial());
   StripePostRepo repo;
 
-
-  Future<String> createEphemeralKey()async
-  {
-    final key = await repo.createEphemeralKey();
-    return key.getOrThrow();
-  }
-
-  Future<void> createPaymentIntent(CreateIntentInputModel model)async{
-      final resultOfRequestingCreatePaymentIntent = await repo.createPaymentIntent(
-        inputModel: model // جواه cus id
-    );
-    emit(state.copyWith(
-        state: PaymentStates.getClientSecret,
-        clientSecret: resultOfRequestingCreatePaymentIntent.getOrThrow().client_secret
-    ));
-  }
-
   Future<void> initPaymentSheet({
     required String paymentIntentClientSecret,
-    // required String customerId
+    required String ephemeralKey,
+    required String? customerId,
   }) async {
 
     // 2. initialize the payment sheet
@@ -47,8 +31,8 @@ class PaymentCubit extends Cubit<PaymentState> {
         paymentIntentClientSecret: paymentIntentClientSecret,
 
         // Customer keys
-        customerId:  await SecureStorage.getInstance().readData(key: 'customerId')?? '',
-        customerEphemeralKeySecret: await createEphemeralKey(), // has customer id
+        customerId: customerId,
+        customerEphemeralKeySecret: ephemeralKey, // has customer id
       ),
     );
   }
@@ -63,15 +47,32 @@ class PaymentCubit extends Cubit<PaymentState> {
 })async
   {
     emit(state.copyWith(state: PaymentStates.makePaymentProcessLoading));
+    final payResponse = await repo.makeStripePayment(inputModel: model);
+    payResponse.when(
+            (success) async{
+              await initPaymentSheet(
+                  paymentIntentClientSecret: payResponse.getOrThrow().model.client_secret!,
+                  ephemeralKey: payResponse.getOrThrow().ephemeralKey,
+                  customerId: model.customerId
+              );
+              await presentPaymentSheet();
 
-    await createPaymentIntent(model);
-    await initPaymentSheet(
-      paymentIntentClientSecret: state.clientSecret!
+              emit(
+                  state.copyWith(
+                    state: PaymentStates.makePaymentProcessSuccess,
+                  )
+              );
+            },
+            (error) {
+              emit(
+                  state.copyWith(
+                    state: PaymentStates.makePaymentProcessError,
+                  )
+              );
+            }
     );
-    await presentPaymentSheet();
-    
-    emit(state.copyWith(state: PaymentStates.makeStripeProcessSuccess));
   }
+
   Future<void> makePaypalPaymentProcess(BuildContext context, {
     required int amount,
     required UserAppointmentDetails details
@@ -106,7 +107,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       case PaymentMethods.stripe:
         await makeStripePaymentProcess(
             model: CreateIntentInputModel(
-                amount: amount.toString(),
+                amount: (amount * 100).toString(),
                 currency: 'USD',
                 customerId: await SecureStorage.getInstance().readData(key: 'customerId') as String
             )

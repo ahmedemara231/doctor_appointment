@@ -1,51 +1,49 @@
 import 'package:doctors_appointment/model/remote/api_service/models/doctor_data.dart';
 import 'package:doctors_appointment/model/remote/api_service/service/Api_constants.dart';
 import 'package:doctors_appointment/model/remote/api_service/service/Lang_methods.dart';
-import 'package:doctors_appointment/model/remote/api_service/service/error_handling/errors.dart';
+import 'package:doctors_appointment/model/remote/api_service/service/error_handling/error_checker.dart';
 import 'package:doctors_appointment/model/remote/api_service/service/request_model/headers.dart';
 import 'package:doctors_appointment/model/remote/api_service/service/request_model/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../service/api_request.dart';
 
-class GetRepo
-{
+class GetRepo {
   ApiService apiService;
-
   GetRepo({required this.apiService});
 
-  Future<Result<AllDoctorsData, CustomError>> getHomeData()async{
-    final homeResponse = await apiService.callApi(
-        request: RequestModel(
-            method: Methods.GET,
-            endPoint: ApiConstants.home, 
-            headers: HeadersWithToken()
-        )
-    );
-    if(homeResponse.isSuccess()){
-      AllDoctorsData data = AllDoctorsData.fromJson(homeResponse.getOrThrow().data);
+  Future<Result<AllDoctorsData, ErrorInfo>> getHomeData()async{
+    try{
+      final homeResponse = await apiService.callApi(
+          request: RequestModel(
+              method: Methods.GET,
+              endPoint: ApiConstants.home,
+              headers: HeadersWithToken()
+          )
+      );
+
+      AllDoctorsData data = AllDoctorsData.fromJson(homeResponse.data);
       return Result.success(data);
-    } else{
-      return Result.error(homeResponse.tryGetError()!);
+    }catch(e){
+      return Result.error(ErrorChecker.check(e));
     }
   }
 
-  Future<Result<DoctorsInSpecificField, CustomError>> showDoctorsBasedOnSpecialization(int specializationIndex)async{
-    final response = await apiService.callApi(
-        request: RequestModel(
-            method: Methods.GET,
-            endPoint: ApiConstants.doctorsBasedOnSpecialization+specializationIndex.toString(),
-            headers: HeadersWithToken()
-        )
-    );
-    if(response.isSuccess()){
-
+  Future<Result<DoctorsInSpecificField, ErrorInfo>> showDoctorsBasedOnSpecialization(int specializationIndex)async{
+    try{
+      final response = await apiService.callApi(
+          request: RequestModel(
+              method: Methods.GET,
+              endPoint: ApiConstants.doctorsBasedOnSpecialization+specializationIndex.toString(),
+              headers: HeadersWithToken()
+          )
+      );
       DoctorsInSpecificField data = DoctorsInSpecificField.fromJson(
-          response.getOrThrow().data['data']
+          response.data['data']
       );
       return Result.success(data);
-    } else{
-      return Result.error(response.tryGetError()!);
+    }catch(e){
+      return Result.error(ErrorChecker.check(e));
     }
   }
 }

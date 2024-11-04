@@ -142,7 +142,7 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           height: 200.h,
                             child: ErrorBuilder(
-                              msg: 'Try Again Later',
+                              msg: state.errorMsg!,
                               onPressed: () => context.read<HomeCubit>().getHomeData(),
                             )
                         ):

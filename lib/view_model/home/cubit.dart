@@ -23,7 +23,7 @@ class HomeCubit extends Cubit<HomeState>
     }else{
       emit(state.copyWith(
           state: States.homeDataError,
-          errorMessage: 'Failed, Please try again.'));
+          errorMessage: homeData.tryGetError()?.message));
     }
   }
 

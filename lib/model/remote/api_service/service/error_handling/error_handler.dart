@@ -1,14 +1,13 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'base_remote_error_class.dart';
 import 'errors.dart';
 
-CustomError handleErrors(DioException e)
-{
+RemoteError handleDioErrors(DioException e) {
   log('code : ${e.response?.statusCode}');
   log('response error message : ${e.response?.data['message']}');
 
-  switch(e.type)
-  {
+  switch(e.type) {
     case DioExceptionType.sendTimeout:
     case DioExceptionType.connectionTimeout:
     case DioExceptionType.receiveTimeout:
@@ -18,16 +17,15 @@ CustomError handleErrors(DioException e)
       );
 
     case DioExceptionType.badResponse:
-      switch(e.response!.statusCode)
-      {
+      switch(e.response!.statusCode) {
         case 400:
           return BadRequestError(
-            e.response?.data['msg'],
+            e.response?.data['msg']?? 'BadRequestError',
           );
 
         case 401:
           return UnAuthorizedError(
-            e.response?.data['msg'],
+            e.response?.data['msg']?? 'UnAuthorizedError',
           );
 
         case 404:
@@ -36,17 +34,17 @@ CustomError handleErrors(DioException e)
           );
         case 409:
           return ConflictError(
-            e.response?.data['msg'],
+            e.response?.data['msg']?? 'conflictError',
           );
 
         case 422:
           return UnprocessableEntityError(
-              e.response!.data['msg']
+              e.response!.data['msg']?? 'UnProcessableEntity'
           );
 
         default:
           return BadResponseError(
-            e.response?.data['error']['email'][0],
+            e.response?.data['error']['email'][0]?? 'Bad response Error',
           );
       }
 
@@ -66,7 +64,7 @@ CustomError handleErrors(DioException e)
       );
 
     default:
-      return CustomError(
+      return RemoteError(
         e.response?.statusMessage,
       );
   }
