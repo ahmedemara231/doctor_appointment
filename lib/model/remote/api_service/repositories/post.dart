@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:doctors_appointment/helpers/data_types/register_inputs.dart';
 import 'package:multiple_result/multiple_result.dart';
 
+import '../../../../helpers/data_types/make_appointment.dart';
 import '../service/Api_constants.dart';
 import '../service/Lang_methods.dart';
 import '../service/api_request.dart';
@@ -46,6 +47,24 @@ class PostRepo
       );
 
       return Result.success(signUpResponse);
+    }catch(e){
+      return Result.error(ErrorChecker.check(e));
+    }
+  }
+
+  Future<Result<Response, ErrorInfo>> storeAppointment({
+    required MakeAppComponent model
+}) async{
+    try{
+      final storeAppointmentResponse = await apiService.callApi(
+          request: RequestModel(
+            method: Methods.POST,
+            endPoint: ApiConstants.makeAppointment,
+            data: model.toJson()
+          )
+      );
+
+      return Result.success(storeAppointmentResponse);
     }catch(e){
       return Result.error(ErrorChecker.check(e));
     }

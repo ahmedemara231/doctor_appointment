@@ -2,18 +2,23 @@ import 'dart:developer';
 import 'package:doctors_appointment/helpers/data_types/appointment_details.dart';
 import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
 import 'package:doctors_appointment/model/remote/api_service/repositories/get.dart';
+import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../helpers/data_types/make_appointment.dart';
+import '../../model/remote/api_service/models/doctor_data.dart';
+
 class HomeCubit extends Cubit<HomeState>
 {
-  HomeCubit(this.repo) : super(HomeState.initial());
+  HomeCubit({required this.getRepo, required this.postRepo}) : super(HomeState.initial());
   factory HomeCubit.getInstance(context) => BlocProvider.of(context);
 
-  GetRepo repo;
+  GetRepo getRepo;
+  PostRepo postRepo;
   Future<void> getHomeData()async{
     emit(state.copyWith(state: States.homeDataLoading));
-    final homeData = await repo.getHomeData();
+    final homeData = await getRepo.getHomeData();
     if(homeData.isSuccess()){
       emit(state.copyWith(
           state: States.homeDataSuccess,
@@ -74,7 +79,7 @@ class HomeCubit extends Cubit<HomeState>
 
   Future<void> showDoctorsBasedOnSpeciality(int specializationIndex)async{
     emit(state.copyWith(state: States.doctorsBasedOnSpecializationLoading));
-    final result = await repo.showDoctorsBasedOnSpecialization(specializationIndex);
+    final result = await getRepo.showDoctorsBasedOnSpecialization(specializationIndex);
     if(result.isSuccess()){
       log(result.getOrThrow().toString());
       emit(state.copyWith(
@@ -89,6 +94,12 @@ class HomeCubit extends Cubit<HomeState>
     }
   }
 
+  void selectDoctor({required DoctorInfo? selectedDoctor}){
+    emit(state.copyWith(
+        state: States.selectDoctor,
+        selectedDoctor: selectedDoctor
+    ));
+  }
   void getAvailableTimes({DateTime? time, int? doctorId}) async{
     List<String> availableTimes = [];
     emit(state.copyWith(state: States.getAvailableTimesLoading));
@@ -150,5 +161,21 @@ class HomeCubit extends Cubit<HomeState>
           )
       );
     }
+  }
+
+  Future<void> makeAppointment({required String doctorId})async{
+    log(doctorId);
+    // emit(state.copyWith(state: States.makeAppointmentLoading));
+    // final response = await postRepo.storeAppointment(
+    //     model: MakeAppComponent(
+    //       appointmentDate: state.appointmentDate!,
+    //       appointmentTime: state.appointmentTime!,
+    //       doctorId: doctorId
+    //     )
+    // );
+    // response.when(
+    //         (success) => emit(state.copyWith(state: States.makeAppointmentSuccess)),
+    //         (error) => emit(state.copyWith(state: States.makeAppointmentError))
+    // );
   }
 }

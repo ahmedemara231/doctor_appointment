@@ -19,6 +19,7 @@ class MyDatePicker extends StatefulWidget {
 class _MyDatePickerState extends State<MyDatePicker> {
   DateTime _selectedValue = DateTime.now();
 
+
   final cont = DatePickerController();
 
   @override
@@ -27,17 +28,19 @@ class _MyDatePickerState extends State<MyDatePicker> {
       children: [
         Row(
           children: [
-            MyText(text: 'Select Date', fontWeight: FontWeight.w500,),
+            const MyText(text: 'Select Date', fontWeight: FontWeight.w500,),
             const Spacer(),
             TextButton(
                 onPressed: () {
                   showDatePicker(
                     context: context,
-                    firstDate:DateTime.now(),
+                    firstDate: DateTime.now(),
+                    currentDate: _selectedValue,
                     lastDate:DateTime.now().add(const Duration(days: 14)),
                   ).then((value) {
                     _selectedValue = value!;
                     widget.onSelect?.call(value);
+                    setState(() {});
                   });
                 },
                 child: MyText(text: 'Set Manual', color: Constants.appColor,)
@@ -46,6 +49,7 @@ class _MyDatePickerState extends State<MyDatePicker> {
         ),
         DatePicker(
          DateTime.now(),
+          newDate: _selectedValue,
           daysCount: 14,
           deactivatedColor: Colors.grey.withOpacity(.3),
           dateTextStyle: TextStyle(fontSize: 14.sp),
@@ -65,3 +69,10 @@ class _MyDatePickerState extends State<MyDatePicker> {
     );
   }
 }
+/*
+* @override
+  void didUpdateWidget(covariant DatePicker oldWidget) {
+    _currentDate = widget.newDate;
+    widget.controller!.setDateAndAnimate(_currentDate!);
+    super.didUpdateWidget(oldWidget);
+  }*/

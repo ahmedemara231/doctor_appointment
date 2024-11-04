@@ -74,7 +74,7 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: MyText(text: 'Recommendation Doctor', fontWeight: FontWeight.w500,),
+        title: const MyText(text: 'Recommendation Doctor', fontWeight: FontWeight.w500,),
         centerTitle: true,
       ),
       body: Padding(
@@ -149,9 +149,15 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
                 child: ListView.separated(
                   controller: _scrollController,
                   itemBuilder: (context, index) => InkWell(
-                    onTap: () => context.normalNewRoute(
-                        DoctorDetails(info: state.filteredDoctors![index])
-                    ),
+                    onTap: () {
+                      context.read<HomeCubit>().selectDoctor(
+                          selectedDoctor: state.filteredDoctors![index].id
+                      );
+
+                      context.normalNewRoute(
+                          DoctorDetails(info: state.filteredDoctors![index])
+                      );
+                    },
                     child: DoctorsCard(
                         url: state.filteredDoctors![index].photo,
                         doctorName: state.filteredDoctors![index].name,

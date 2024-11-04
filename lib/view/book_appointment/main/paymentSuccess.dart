@@ -31,7 +31,7 @@ class PaymentSuccess extends StatelessWidget {
 
             AppButton(
               title: 'Done',
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pop(context, 'fromSuccess'),
             )
           ],
         ),

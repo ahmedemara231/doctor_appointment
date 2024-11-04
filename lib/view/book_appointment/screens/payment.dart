@@ -12,10 +12,12 @@ class Payment extends StatefulWidget implements CheckingValue{
   State<Payment> createState() => _PaymentState();
 
   @override
-  var value;
+  var mainValue;
 }
 
 class _PaymentState extends State<Payment> with AutomaticKeepAliveClientMixin{
+  final List<String> options = const ['Credit Card', 'PayPal'];
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -23,13 +25,13 @@ class _PaymentState extends State<Payment> with AutomaticKeepAliveClientMixin{
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MyText(text: 'Payment option', fontWeight: FontWeight.w500),
+          const MyText(text: 'Payment option', fontWeight: FontWeight.w500),
           ChooseFromAvailableOptions(
             title: 'Payment Method',
-            optionsList: const <String>['Credit Card', 'PayPal'],
+            optionsList: options,
             onSelectAppointmentType: (option) {
               context.read<PaymentCubit>().setPaymentMethod(option);
-              widget.value = option;
+              widget.mainValue = option;
             },
           )
         ],

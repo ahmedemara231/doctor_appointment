@@ -1,5 +1,6 @@
 import 'package:doctors_appointment/helpers/base_extensions/string.dart';
 import 'package:doctors_appointment/helpers/data_types/appointment_details.dart';
+import 'package:doctors_appointment/model/remote/api_service/models/doctor_data.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:intl/intl.dart';
@@ -11,13 +12,17 @@ enum States {
   homeDataError,
   doctorsBasedOnSpecializationLoading,
   doctorsBasedOnSpecializationError,
+  selectDoctor,
   getAvailableTimesLoading,
   getAvailableTimesSuccess,
   getAvailableTimesError,
   changeCurrentTime,
   changeUserAppointmentDetails,
   changeAppointmentDetails,
-  changeCurrentPage
+  changeCurrentPage,
+  makeAppointmentLoading,
+  makeAppointmentSuccess,
+  makeAppointmentError
 }
 class HomeState extends Equatable
 {
@@ -29,6 +34,8 @@ class HomeState extends Equatable
   String? appointmentType;
 
   List<dynamic>? doctorsBasedOnSpecialization;
+
+  DoctorInfo? selectedDoctor;
   List<String>? availableTimes;
   String? errorMsg;
   int? currentIndexTime;
@@ -41,6 +48,7 @@ class HomeState extends Equatable
     this.recommendedDoctors,
     this.filteredDoctors,
     this.doctorsBasedOnSpecialization,
+    this.selectedDoctor,
     this.availableTimes,
     this.errorMsg,
     this.currentIndexTime,
@@ -57,6 +65,7 @@ class HomeState extends Equatable
       recommendedDoctors : const [],
       filteredDoctors : const [],
       doctorsBasedOnSpecialization : const [],
+      selectedDoctor: null,
       availableTimes : const [],
       errorMsg : '',
       currentIndexTime : null,
@@ -73,6 +82,7 @@ class HomeState extends Equatable
     List<dynamic>? recommendedDoctors,
     List<dynamic>? filteredDoctors,
     List<dynamic>? doctorsBasedOnSpecialization,
+    DoctorInfo? selectedDoctor,
     List<String>? availableTimes,
     int? currentIndexTime,
     int? currentPage,
@@ -86,6 +96,7 @@ class HomeState extends Equatable
       recommendedDoctors: recommendedDoctors?? this.recommendedDoctors,
       filteredDoctors: filteredDoctors?? this.filteredDoctors,
       doctorsBasedOnSpecialization: doctorsBasedOnSpecialization?? this.doctorsBasedOnSpecialization,
+      selectedDoctor: selectedDoctor?? this.selectedDoctor,
       availableTimes: availableTimes?? this.availableTimes,
       errorMsg: errorMessage?? errorMsg,
       appointmentDate: appointmentDate?? this.appointmentDate,

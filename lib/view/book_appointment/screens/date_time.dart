@@ -22,11 +22,13 @@ class DateTimeAppointment extends StatefulWidget implements CheckingValue{
   State<DateTimeAppointment> createState() => _DateTimeAppointmentState();
 
   @override
-  var value;
+  var mainValue;
 }
 
 class _DateTimeAppointmentState extends State<DateTimeAppointment> with AutomaticKeepAliveClientMixin {
   final List<String> _times = ['8:00 AM','9:30 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM'];
+  final List<String> options = ['In Person', 'Video Call', 'Phone Call'];
+
 
   @override
   void initState() {
@@ -34,7 +36,6 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
     super.initState();
   }
 
-  DateTime? _selectedDate;
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -52,7 +53,7 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
         ),
         Padding(
           padding: context.verticalSymmetricPadding(16.h),
-          child: MyText(text: 'Available time', fontWeight: FontWeight.w500,),
+          child: const MyText(text: 'Available time', fontWeight: FontWeight.w500,),
         ),
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) => SizedBox(
@@ -86,7 +87,7 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
                     onPressed: state.availableTimes!.contains(_times[index])?
                         () {
                       context.read<HomeCubit>().changeAppointmentTime(_times[index]);
-                      widget.value = _times[index];
+                      widget.mainValue = _times[index];
                       context.read<HomeCubit>().selectTime(index);
                     } : null,
                   ),
@@ -98,7 +99,7 @@ class _DateTimeAppointmentState extends State<DateTimeAppointment> with Automati
         ),
         ChooseFromAvailableOptions(
           title: 'Appointment Type',
-          optionsList: const <String>['In Person', 'Video Call', 'Phone Call'],
+          optionsList: options,
           onSelectAppointmentType: (option) {
             context.read<HomeCubit>().changeAppointmentType(option);
           },

@@ -11,7 +11,7 @@ class Summary extends StatelessWidget implements CheckingValue {
   Summary({Key? key}) : super(key: key);
 
   @override
-  var value = '';
+  var mainValue = '';
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +21,16 @@ class Summary extends StatelessWidget implements CheckingValue {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MyText(text: 'Booking Information', fontWeight: FontWeight.w500),
+              const MyText(text: 'Booking Information', fontWeight: FontWeight.w500),
               ListTile(
                 leading: SvgPicture.asset(Assets.iconsDateTimeResult),
-                title: MyText(
+                title: const MyText(
                   text: 'Date & Time', fontWeight: FontWeight.w500,),
                 subtitle: MyText(text: '${state.appointmentDate} ${state.appointmentTime}'),
               ),
               ListTile(
                 leading: SvgPicture.asset(Assets.iconsApoointmentType),
-                title: MyText(text: 'Appointment Type', fontWeight: FontWeight.w500,),
+                title: const MyText(text: 'Appointment Type', fontWeight: FontWeight.w500,),
                 subtitle: MyText(text: state.appointmentType!),
               ),
             ],

@@ -11,6 +11,7 @@ import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
 import 'package:doctors_appointment/view/specialities/screen.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
+import 'package:doctors_appointment/view_model/part_of_test/main_file.dart';
 import 'package:doctors_appointment/view_model/payment/cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,6 @@ import 'model/remote/api_service/service/dio_connection.dart';
 
 class MediMeetApp extends StatefulWidget {
   const MediMeetApp({super.key});
-
   @override
   State<MediMeetApp> createState() => _MediMeetAppState();
 }
@@ -53,7 +53,10 @@ class _MediMeetAppState extends State<MediMeetApp> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthCubit>(create: (context) => AuthCubit(PostRepo(apiService: DioConnection.getInstance()))),
-          BlocProvider<HomeCubit>(  create: (context) => HomeCubit(GetRepo(apiService: DioConnection.getInstance())),),
+          BlocProvider<HomeCubit>(  create: (context) => HomeCubit(
+              getRepo: GetRepo(apiService: DioConnection.getInstance()),
+              postRepo: PostRepo(apiService: DioConnection.getInstance())
+          ),),
           BlocProvider<PaymentCubit>(create: (context) => PaymentCubit(
             StripePostRepo(apiService: StripeConnection.getInstance())
           )),
@@ -75,7 +78,7 @@ class _MediMeetAppState extends State<MediMeetApp> {
           // theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
           //     ? ThemeData.light()
           //     : ThemeData.dark(),
-          home: Home(),
+          home: MakeAppointment(),
           builder: EasyLoading.init(),
         ),
       ),

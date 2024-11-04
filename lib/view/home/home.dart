@@ -150,9 +150,12 @@ class _HomeState extends State<Home> {
                           children: List.generate(state.homeData!.length, (index) => Padding(
                             padding: context.verticalSymmetricPadding(12.h),
                             child: InkWell(
-                              onTap: () => context.normalNewRoute(
-                                DoctorDetails(info:  state.homeData![index].allInfo[0])
-                              ),
+                              onTap: () {
+                                context.read<HomeCubit>().selectDoctor(selectedDoctor: state.homeData![index].allInfo[0]);
+                                context.normalNewRoute(
+                                    DoctorDetails(info:  state.homeData![index].allInfo[0])
+                                );
+                              },
                               child: DoctorsCard(
                                   url: state.homeData![index].allInfo[0].photo,
                                   doctorName: state.homeData![index].allInfo[0].name,

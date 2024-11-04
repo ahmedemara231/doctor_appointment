@@ -97,9 +97,15 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
                       controller: _scrollController,
                         itemBuilder: (context, index) =>
                             InkWell(
-                              onTap: () => context.normalNewRoute(
-                                  DoctorDetails(info: state.doctorsBasedOnSpecialization?[index])
-                              ),
+                              onTap: () {
+                                context.read<HomeCubit>().selectDoctor(
+                                    selectedDoctor: state.doctorsBasedOnSpecialization?[index].id
+                                );
+
+                                context.normalNewRoute(
+                                    DoctorDetails(info: state.doctorsBasedOnSpecialization?[index])
+                                );
+                              },
                               child: DoctorsCard(
                                   url: state.doctorsBasedOnSpecialization?[index].photo,
                                   doctorName: state.doctorsBasedOnSpecialization?[index].name,

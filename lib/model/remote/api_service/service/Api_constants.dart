@@ -9,6 +9,7 @@ class ApiConstants
   static const String login = '/auth/login';
   static const String signUp = '/auth/register';
   static const String doctorsBasedOnSpecialization = '/specialization/show/';
+  static const String makeAppointment = '/appointment/store';
 
   // Home
   static const String home = '/home/index';

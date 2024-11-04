@@ -52,6 +52,7 @@ Government: ${widget.info.city.governate.name}
     ];
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +97,16 @@ Government: ${widget.info.city.governate.name}
                 padding: context.verticalSymmetricPadding(12.h),
                 child: AppButton(
                   title: 'Make An Appointment',
-                  onPressed: () => context.normalNewRoute( const MakeAppointment()),
+                  onPressed: ()async {
+                    final result = await context.normalNewRoute( const MakeAppointment());
+                    if (result == 'return_from_screen_3') {
+                      print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+                      // _performActionOnReturn();
+                    }
+                    else{
+                      print('the result is ${result}');
+                    }
+                  },
                 ),
               )
             ],

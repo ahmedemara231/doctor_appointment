@@ -39,6 +39,12 @@ class _MakeAppointmentState extends State<MakeAppointment> {
   void initState() {
     controller = PageController();
     context.read<HomeCubit>().changeCurrentPage(0);
+
+    // ModalRoute.of(context)?.removeScopedWillPopCallback(() {
+    //   print('popppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp2');
+    //   return Future(() => true);
+    // });
+
     super.initState();
   }
 
@@ -94,7 +100,7 @@ class _MakeAppointmentState extends State<MakeAppointment> {
                       child: AppButton(
                           title: state.currentPage != 2? 'Continue' : 'Pay',
                           onPressed: () async {
-                            switch(appointmentFlow[state.currentPage!].value){
+                            switch(appointmentFlow[state.currentPage!].mainValue){
                               case null:
                                 AppSnakeBar.show(
                                     context,
@@ -104,15 +110,22 @@ class _MakeAppointmentState extends State<MakeAppointment> {
                               default:
                                 switch(state.currentPage){
                                   case 2:
-                                    context.read<PaymentCubit>().pay(
-                                        context,
-                                        amount: 100,
-                                        details: UserAppointmentDetails(
-                                          appointmentDate: state.appointmentDate!,
-                                          appointmentTime: state.appointmentTime!,
-                                          appointmentType: state.appointmentType!,
-                                        )
+                                    final details = UserAppointmentDetails(
+                                      appointmentDate: state.appointmentDate!,
+                                      appointmentTime: state.appointmentTime!,
+                                      appointmentType: state.appointmentType!,
                                     );
+                                    await Future.wait([
+                                      context.read<PaymentCubit>().pay(
+                                          context,
+                                          amount: 100,
+                                          details: details
+                                      ),
+                                      context.read<HomeCubit>().makeAppointment(
+                                          doctorId: state.selectedDoctor!.id.toString()
+                                      ),
+                                    ]);
+
 
                                   default:
                                     context.read<HomeCubit>().changeCurrentPage(

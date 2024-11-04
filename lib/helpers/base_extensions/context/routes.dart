@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 extension Routes on BuildContext
 {
-  normalNewRoute(Widget newRoute)
-  {
-    Navigator.push(
+  normalNewRoute(Widget newRoute)async {
+    await Navigator.push(
         this,
         MaterialPageRoute(
             builder: (context) => newRoute,
@@ -12,8 +11,7 @@ extension Routes on BuildContext
     );
   }
 
-  removeOldRoute(Widget newRoute)
-  {
+  removeOldRoute(Widget newRoute) {
     Navigator.pushAndRemoveUntil(
         this,
         MaterialPageRoute(
@@ -22,8 +20,7 @@ extension Routes on BuildContext
     );
   }
 
-  replacementRoute(Widget newRoute)
-  {
+  replacementRoute(Widget newRoute) {
     Navigator.pushReplacement(
       this,
       MaterialPageRoute(
