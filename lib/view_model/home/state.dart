@@ -22,7 +22,10 @@ enum States {
   changeCurrentPage,
   makeAppointmentLoading,
   makeAppointmentSuccess,
-  makeAppointmentError
+  makeAppointmentError,
+  giveRateLoading,
+  giveRateSuccess,
+  giveRateError,
 }
 class HomeState extends Equatable
 {

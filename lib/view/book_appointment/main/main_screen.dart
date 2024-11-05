@@ -21,10 +21,7 @@ import '../../../helpers/data_types/appointment_details.dart';
 import '../interface.dart';
 
 class MakeAppointment extends StatefulWidget {
-  final void Function()? onPop;
-  const MakeAppointment({super.key,
-    required this.onPop,
-  });
+  const MakeAppointment({super.key});
 
   @override
   State<MakeAppointment> createState() => _MakeAppointmentState();
@@ -84,12 +81,10 @@ class _MakeAppointmentState extends State<MakeAppointment> {
                     listener: (context, state) async{
                       switch(state.currentState){
                         case PaymentStates.makePaymentProcessSuccess:
-                          context.replacementRoute(const PaymentSuccess())
-                              .whenComplete(widget.onPop!);
+                          context.replacementRoute(const PaymentSuccess());
 
                         case PaymentStates.makePaymentProcessError:
-                          context.replacementRoute(const PaymentError())
-                              .whenComplete(widget.onPop!);
+                          context.replacementRoute(const PaymentError());
 
                         default:
                           return;

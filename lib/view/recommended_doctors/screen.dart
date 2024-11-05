@@ -151,7 +151,7 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       context.read<HomeCubit>().selectDoctor(
-                          selectedDoctor: state.filteredDoctors![index].id
+                          selectedDoctor: state.filteredDoctors![index]
                       );
 
                       context.normalNewRoute(

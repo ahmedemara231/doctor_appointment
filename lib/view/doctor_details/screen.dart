@@ -7,7 +7,7 @@ import 'package:doctors_appointment/view/book_appointment/main/main_screen.dart'
 import 'package:doctors_appointment/view/doctor_details/widgets/about_widget.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/base_details.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/location_widget.dart';
-import 'package:doctors_appointment/view/doctor_details/widgets/rating.dart';
+import 'package:doctors_appointment/view/doctor_details/widgets/rating/rating.dart';
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +28,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
   late List<AboutDoctor> aboutDoctorList;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey =  GlobalKey<ScaffoldState>();
   @override
   void initState() {
     aboutDoctorList = [
@@ -56,6 +57,7 @@ Government: ${widget.info.city.governate.name}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: MyText(text: widget.info.name),
         centerTitle: true,
@@ -88,7 +90,9 @@ Government: ${widget.info.city.governate.name}
                     children: [
                       AboutWidget(values: aboutDoctorList),
                       LocationWidget(city: widget.info.city.name),
-                      const Rating()
+                      Rating(
+                        scaffoldKey: _scaffoldKey,
+                      )
                     ],
                   ),
                 ),
@@ -99,14 +103,7 @@ Government: ${widget.info.city.governate.name}
                   title: 'Make An Appointment',
                   onPressed: ()async {
                     await context.normalNewRoute(
-                        MakeAppointment(
-                          onPop: () {
-                            Future.delayed(const Duration(seconds: 1))
-                                .whenComplete(() =>
-                                BetterFeedback.of(context).show((UserFeedback feedback) {})
-                            );
-                          },
-                        )
+                        const MakeAppointment()
                     );
                   },
                 ),

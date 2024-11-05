@@ -99,7 +99,7 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
                             InkWell(
                               onTap: () {
                                 context.read<HomeCubit>().selectDoctor(
-                                    selectedDoctor: state.doctorsBasedOnSpecialization?[index].id
+                                    selectedDoctor: state.doctorsBasedOnSpecialization?[index]
                                 );
 
                                 context.normalNewRoute(

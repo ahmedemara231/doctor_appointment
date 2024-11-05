@@ -1,6 +1,5 @@
 import 'package:doctors_appointment/helpers/base_widgets/image_handler.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
-import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,7 +24,6 @@ class BaseDetails extends StatelessWidget {
         onPressed: () {},
         icon: const Icon(Icons.chat_outlined),
       ),
-
     );
   }
 }

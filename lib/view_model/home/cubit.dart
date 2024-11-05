@@ -178,4 +178,13 @@ class HomeCubit extends Cubit<HomeState>
     //         (error) => emit(state.copyWith(state: States.makeAppointmentError))
     // );
   }
+
+  Future<void> giveRate()async{
+    emit(state.copyWith(state: States.giveRateLoading));
+    final result = await postRepo.giveRate(state.selectedDoctor!.id);
+    result.when(
+            (success) => emit(state.copyWith(state: States.giveRateSuccess)),
+            (error) => emit(state.copyWith(state: States.giveRateError)),
+    );
+  }
 }

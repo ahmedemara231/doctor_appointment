@@ -69,4 +69,14 @@ class PostRepo
       return Result.error(ErrorChecker.check(e));
     }
   }
+
+  Future<Result<void, ErrorInfo>> giveRate(int doctorId) async{
+    try{
+      Future.delayed(const Duration(seconds: 1)); // simulation
+
+      return const Result.success(null);
+    }catch(e){
+      return Result.error(ErrorChecker.check(e));
+    }
+  }
 }
