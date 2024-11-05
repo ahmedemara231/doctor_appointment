@@ -3,7 +3,7 @@ import 'dart:developer';
 class DoctorsDataSource{
   late DatabaseReference doctorsRef;
   void initDatabase()async{
-    doctorsRef = FirebaseDatabase.instance.ref('users/Doctors');
+    doctorsRef = FirebaseDatabase.instance.ref('users/doctors');
   }
 
   Future<void> sendMessage()async{

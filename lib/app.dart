@@ -1,8 +1,10 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
 import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
+import 'package:doctors_appointment/model/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
 import 'package:doctors_appointment/model/remote/stripe/service/stripe_connection.dart';
 import 'package:doctors_appointment/view/auth/login/screen.dart';
+import 'package:doctors_appointment/view/auth/sign_up/screen.dart';
 import 'package:doctors_appointment/view/book_appointment/main/main_screen.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/date_time.dart';
 import 'package:doctors_appointment/view/home/home.dart';
@@ -34,6 +36,9 @@ class _MediMeetAppState extends State<MediMeetApp> {
 
   @override
   void initState() {
+    PatientsDataSource.getInstance().initRef(
+        CacheHelper.getInstance().getUserData()![1]
+    );
     checkPermission(
       PermissionProcessModel(
         permissionClient: PermissionClient.notification,

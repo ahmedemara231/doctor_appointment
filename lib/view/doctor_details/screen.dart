@@ -70,9 +70,7 @@ Government: ${widget.info.city.governate.name}
           child: Column(
             children: [
               BaseDetails(
-                  imageUrl: widget.info.photo,
-                  name: widget.info.name,
-                  specialization: widget.info.specialization.name
+                  info: widget.info,
               ),
               TabBar(
                   tabs: List.generate(

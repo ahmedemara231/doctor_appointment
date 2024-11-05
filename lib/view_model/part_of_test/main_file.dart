@@ -8,6 +8,7 @@ class MainMath{
 }
 
 final class B extends A{
+  int? bAtt;
   @override
   void methodA() {
     // TODO: implement methodA
