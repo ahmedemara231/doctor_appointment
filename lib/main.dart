@@ -1,5 +1,6 @@
 import 'package:doctors_appointment/view/error_builder/unexpected_error_handler.dart';
 import 'package:doctors_appointment/view_model/bloc_observer.dart';
+import 'package:doctors_appointment/view_model/home/chats.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -22,6 +23,7 @@ void main()async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await ScreenUtil.ensureScreenSize();

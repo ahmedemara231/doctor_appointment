@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:doctors_appointment/helpers/data_types/register_inputs.dart';
+import 'package:doctors_appointment/model/remote/api_service/service/request_model/headers.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../../../../helpers/data_types/make_appointment.dart';
@@ -60,7 +61,8 @@ class PostRepo
           request: RequestModel(
             method: Methods.POST,
             endPoint: ApiConstants.makeAppointment,
-            data: model.toJson()
+            data: model.toJson(),
+            headers: HeadersWithToken()
           )
       );
 
@@ -70,7 +72,10 @@ class PostRepo
     }
   }
 
-  Future<Result<void, ErrorInfo>> giveRate(int doctorId) async{
+  Future<Result<void, ErrorInfo>> giveRate({
+    required int doctorId,
+    required double rating
+}) async{
     try{
       Future.delayed(const Duration(seconds: 1)); // simulation
 

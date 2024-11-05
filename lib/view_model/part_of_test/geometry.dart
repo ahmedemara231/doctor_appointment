@@ -5,3 +5,8 @@ class MathTwo{
     final result = math.tan(180);
   }
 }
+ base class A{
+  void methodA(){}
+}
+
+

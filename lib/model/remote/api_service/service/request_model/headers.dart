@@ -2,8 +2,7 @@ import 'dart:io';
 
 import '../../../../local/secure.dart';
 
-abstract class RequestHeaders
-{
+abstract class RequestHeaders {
   String contentType;
   String accept;
 
@@ -15,20 +14,17 @@ abstract class RequestHeaders
   Future<Map<String,dynamic>> toJson();
 }
 
-class HeadersWithToken extends RequestHeaders
-{
+class HeadersWithToken extends RequestHeaders {
   HeadersWithToken({super.contentType});
 
-  Future<String?> get _getToken async
-  {
+  Future<String?> get _getToken async {
     String? token = 'Bearer ${await SecureStorage.getInstance().readData(key: 'token')}';
     return token;
   }
 
   @override
   Future<Map<String, dynamic>> toJson()async {
-    return
-      {
+    return {
         HttpHeaders.contentTypeHeader : accept,
         HttpHeaders.acceptHeader : contentType,
         HttpHeaders.authorizationHeader : await _getToken,
@@ -36,14 +32,12 @@ class HeadersWithToken extends RequestHeaders
   }
 }
 
-class HeadersWithoutToken extends RequestHeaders
-{
+class HeadersWithoutToken extends RequestHeaders {
   HeadersWithoutToken({super.contentType});
 
   @override
   Future<Map<String, dynamic>> toJson()async {
-    return
-      {
+    return {
         HttpHeaders.contentTypeHeader : accept,
         HttpHeaders.acceptHeader : contentType,
       };

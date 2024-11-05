@@ -37,6 +37,7 @@ class _GiveRateSheetState extends State<GiveRateSheet> {
     super.dispose();
   }
 
+  double rating = 1;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,8 +60,8 @@ class _GiveRateSheetState extends State<GiveRateSheet> {
                 size: 40.sp,
                 filledIcon: Icons.star,
                 emptyIcon: Icons.star_border,
-                onRatingChanged: (value) => debugPrint('$value'),
-                initialRating: 0,
+                onRatingChanged: (value) => rating = value,
+                initialRating: 1,
                 maxRating: 5,
               ),
             ),
@@ -88,7 +89,7 @@ class _GiveRateSheetState extends State<GiveRateSheet> {
                 },
                 child: AppLoadingButton(
                     onPressed: () {
-                      context.read<HomeCubit>().giveRate();
+                      context.read<HomeCubit>().giveRate(rating);
                     },
                     title: 'Submit',
                     btnController: controller

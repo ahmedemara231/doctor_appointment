@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:doctors_appointment/helpers/data_types/appointment_details.dart';
 import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
 import 'package:doctors_appointment/model/remote/api_service/repositories/get.dart';
 import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
@@ -163,25 +162,27 @@ class HomeCubit extends Cubit<HomeState>
     }
   }
 
-  Future<void> makeAppointment({required String doctorId})async{
-    log(doctorId);
-    // emit(state.copyWith(state: States.makeAppointmentLoading));
-    // final response = await postRepo.storeAppointment(
-    //     model: MakeAppComponent(
-    //       appointmentDate: state.appointmentDate!,
-    //       appointmentTime: state.appointmentTime!,
-    //       doctorId: doctorId
-    //     )
-    // );
-    // response.when(
-    //         (success) => emit(state.copyWith(state: States.makeAppointmentSuccess)),
-    //         (error) => emit(state.copyWith(state: States.makeAppointmentError))
-    // );
+  Future<void> makeAppointment()async{
+    emit(state.copyWith(state: States.makeAppointmentLoading));
+    final response = await postRepo.storeAppointment(
+        model: MakeAppComponent(
+          appointmentDate: state.appointmentDate!,
+          appointmentTime: state.appointmentTime!,
+          doctorId: state.selectedDoctor!.id.toString()
+        )
+    );
+    response.when(
+            (success) => emit(state.copyWith(state: States.makeAppointmentSuccess)),
+            (error) => emit(state.copyWith(state: States.makeAppointmentError))
+    );
   }
 
-  Future<void> giveRate()async{
+  Future<void> giveRate(double rating)async{
     emit(state.copyWith(state: States.giveRateLoading));
-    final result = await postRepo.giveRate(state.selectedDoctor!.id);
+    final result = await postRepo.giveRate(
+      doctorId: state.selectedDoctor!.id,
+      rating: rating
+    );
     result.when(
             (success) => emit(state.copyWith(state: States.giveRateSuccess)),
             (error) => emit(state.copyWith(state: States.giveRateError)),

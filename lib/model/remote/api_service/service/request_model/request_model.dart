@@ -29,8 +29,7 @@ class RequestModel
 
 
 
-  Future<void> prepareDataForRequest()async
-  {
+  Future<void> prepareDataForRequest()async {
     if(data != null)
     {
       (data as Map<String, dynamic>).forEach((key, value)async {

@@ -33,12 +33,12 @@ class PaymentCubit extends Cubit<PaymentState> {
         // Customer keys
         customerId: customerId,
         customerEphemeralKeySecret: ephemeralKey, // has customer id
+
       ),
     );
   }
 
-  Future<void> presentPaymentSheet()async
-  {
+  Future<void> presentPaymentSheet()async {
     await Stripe.instance.presentPaymentSheet();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
@@ -110,17 +112,12 @@ class _MakeAppointmentState extends State<MakeAppointment> {
                                       appointmentTime: state.appointmentTime!,
                                       appointmentType: state.appointmentType!,
                                     );
-                                    await Future.wait([
-                                      context.read<PaymentCubit>().pay(
-                                          context,
-                                          amount: 100,
-                                          details: details
-                                      ),
-                                      context.read<HomeCubit>().makeAppointment(
-                                          doctorId: state.selectedDoctor!.id.toString()
-                                      ),
-                                    ]);
-
+                                    context.read<PaymentCubit>().pay(
+                                        context,
+                                        amount: 100,
+                                        details: details
+                                    );
+                                    // context.read<HomeCubit>().makeAppointment();
 
                                   default:
                                     context.read<HomeCubit>().changeCurrentPage(
