@@ -3,6 +3,7 @@ import 'package:doctors_appointment/helpers/app_widgets/app_button.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/view/book_appointment/main/paymentSuccess.dart';
+import 'package:doctors_appointment/view/book_appointment/main/payment_error.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/date_time.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/payment.dart';
 import 'package:doctors_appointment/view/book_appointment/screens/summary.dart';
@@ -20,7 +21,10 @@ import '../../../helpers/data_types/appointment_details.dart';
 import '../interface.dart';
 
 class MakeAppointment extends StatefulWidget {
-  const MakeAppointment({super.key});
+  final void Function()? onPop;
+  const MakeAppointment({super.key,
+    required this.onPop,
+  });
 
   @override
   State<MakeAppointment> createState() => _MakeAppointmentState();
@@ -39,12 +43,6 @@ class _MakeAppointmentState extends State<MakeAppointment> {
   void initState() {
     controller = PageController();
     context.read<HomeCubit>().changeCurrentPage(0);
-
-    // ModalRoute.of(context)?.removeScopedWillPopCallback(() {
-    //   print('popppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp2');
-    //   return Future(() => true);
-    // });
-
     super.initState();
   }
 
@@ -83,13 +81,15 @@ class _MakeAppointmentState extends State<MakeAppointment> {
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) =>
                   BlocListener<PaymentCubit, PaymentState>(
-                    listener: (context, state) {
+                    listener: (context, state) async{
                       switch(state.currentState){
                         case PaymentStates.makePaymentProcessSuccess:
-                          context.replacementRoute(const PaymentSuccess());
+                          context.replacementRoute(const PaymentSuccess())
+                              .whenComplete(widget.onPop!);
 
                         case PaymentStates.makePaymentProcessError:
-                          context.replacementRoute(const PaymentSuccess());
+                          context.replacementRoute(const PaymentError())
+                              .whenComplete(widget.onPop!);
 
                         default:
                           return;

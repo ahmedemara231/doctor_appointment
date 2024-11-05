@@ -1,5 +1,4 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
-import 'package:doctors_appointment/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/helpers/base_widgets/text.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';

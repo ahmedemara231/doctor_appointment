@@ -8,10 +8,10 @@ import 'package:doctors_appointment/view/doctor_details/widgets/about_widget.dar
 import 'package:doctors_appointment/view/doctor_details/widgets/base_details.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/location_widget.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/rating.dart';
+import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../helpers/data_types/about_doctor.dart';
-import '../book_appointment/screens/date_time.dart';
 
 class DoctorDetails extends StatefulWidget {
   final DoctorInfo info;
@@ -98,14 +98,16 @@ Government: ${widget.info.city.governate.name}
                 child: AppButton(
                   title: 'Make An Appointment',
                   onPressed: ()async {
-                    final result = await context.normalNewRoute( const MakeAppointment());
-                    if (result == 'return_from_screen_3') {
-                      print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-                      // _performActionOnReturn();
-                    }
-                    else{
-                      print('the result is ${result}');
-                    }
+                    await context.normalNewRoute(
+                        MakeAppointment(
+                          onPop: () {
+                            Future.delayed(const Duration(seconds: 1))
+                                .whenComplete(() =>
+                                BetterFeedback.of(context).show((UserFeedback feedback) {})
+                            );
+                          },
+                        )
+                    );
                   },
                 ),
               )

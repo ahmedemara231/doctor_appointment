@@ -15,6 +15,7 @@ import 'firebase_options.dart';
 import 'model/local/secure.dart';
 import 'model/local/shared.dart';
 import 'model/remote/stripe/service/stripe_constants.dart';
+import 'package:feedback/feedback.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +53,9 @@ void main()async {
         ],
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
-        child: const MediMeetApp()
+        child: const BetterFeedback(
+            child: MediMeetApp()
+        )
     ),
   );
 }

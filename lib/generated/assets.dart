@@ -11,9 +11,10 @@ class Assets {
   static const String imagesPaypal = 'assets/images/paypal.jpeg';
   static const String imagesPediatric = 'assets/images/Pediatric.png';
   static const String imagesRadiology = 'assets/images/Radiology.png';
+  static const String imagesSadFace = 'assets/images/sad_face.webp';
   static const String imagesSuccessfulPay = 'assets/images/successful_pay.svg';
   static const String imagesVisa = 'assets/images/visa.jpeg';
-  static const String translationArSA = 'assets/translation/ar-SA.json';
-  static const String translationEnUS = 'assets/translation/en-US.json';
+  static const String translationsArSA = 'assets/translations/ar-SA.json';
+  static const String translationsEnUS = 'assets/translations/en-US.json';
 
 }

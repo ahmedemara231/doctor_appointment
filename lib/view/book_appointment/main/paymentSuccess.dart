@@ -20,9 +20,9 @@ class PaymentSuccess extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(Assets.imagesSuccessfulPay),
-            MyText(text: 'Booking Confirmed', fontSize: 20.sp),
-            SizedBox(
-              height: 16.sp,
+            Padding(
+              padding: context.verticalSymmetricPadding(25.h),
+              child: MyText(text: 'Booking Confirmed', fontSize: 20.sp),
             ),
             SizedBox(
                 height: context.setHeight(3),
@@ -31,7 +31,7 @@ class PaymentSuccess extends StatelessWidget {
 
             AppButton(
               title: 'Done',
-              onPressed: () => Navigator.pop(context, 'fromSuccess'),
+              onPressed: () => Navigator.pop(context, 'return_from_screen_3'),
             )
           ],
         ),
