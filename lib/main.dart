@@ -1,22 +1,18 @@
-import 'package:doctors_appointment/view/error_builder/unexpected_error_handler.dart';
-import 'package:doctors_appointment/view_model/bloc_observer.dart';
+import 'package:doctors_appointment/src/core/constants/app_constants.dart';
+import 'package:doctors_appointment/src/core/data_source/local/secure.dart';
+import 'package:doctors_appointment/src/core/data_source/local/shared.dart';
+import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
+import 'package:doctors_appointment/src/core/data_source/remote/stripe/service/stripe_constants.dart';
+import 'package:doctors_appointment/src/core/shared/observers/bloc_observer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'app.dart';
-import 'constants/app_constants.dart';
 import 'firebase_options.dart';
-import 'model/local/secure.dart';
-import 'model/local/shared.dart';
-import 'model/remote/firebase/realtime_database/services/patients_service/data_source.dart';
-import 'model/remote/stripe/service/stripe_constants.dart';
 import 'package:feedback/feedback.dart';
 
 void main()async {
