@@ -4,6 +4,7 @@ import 'package:doctors_appointment/src/core/data_source/local/shared.dart';
 import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:doctors_appointment/src/core/data_source/remote/stripe/service/stripe_constants.dart';
 import 'package:doctors_appointment/src/core/shared/observers/bloc_observer.dart';
+import 'package:doctors_appointment/src/core/shared/service_locator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:feedback/feedback.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+  ServiceLocator().setUpBlocs();
   await CacheHelper.getInstance().cacheInit();
   SecureStorage.getInstance().init();
 

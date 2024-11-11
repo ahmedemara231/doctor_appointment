@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 
 
 class MediMeetApp extends StatefulWidget {
@@ -51,20 +52,10 @@ class _MediMeetAppState extends State<MediMeetApp> {
       splitScreenMode: true,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<AuthCubit>(create: (context) => AuthCubit(
-              AuthRepo(AuthDataSource(DioConnection.getInstance()))
-          )),
-          BlocProvider<HomeCubit>(  create: (context) => HomeCubit(
-              getRepo: HomeGetRepo(HomeDataSource(DioConnection.getInstance())),
-              postRepo: HomePostRepo(HomeDataSource(DioConnection.getInstance()))
-          ),),
-          BlocProvider<PaymentCubit>(create: (context) => PaymentCubit(
-            StripePostRepo(apiService: StripeConnection.getInstance())
-          )),
-          BlocProvider<ChatCubit>(create: (context) => ChatCubit(
-            homeGetRepo: HomeGetRepo(HomeDataSource(DioConnection.getInstance())),
-            homePostRepo: HomePostRepo(HomeDataSource(DioConnection.getInstance(), PatientsDataSource.getInstance()))
-          )),
+          BlocProvider<AuthCubit>(create: (context) => GetIt.instance.get<AuthCubit>()),
+          BlocProvider<HomeCubit>(  create: (context) => GetIt.instance.get<HomeCubit>(),),
+          BlocProvider<PaymentCubit>(create: (context) => GetIt.instance.get<PaymentCubit>()),
+          BlocProvider<ChatCubit>(create: (context) => GetIt.instance.get<ChatCubit>()),
         ],
         child: MaterialApp(
           // shortcuts: ,
