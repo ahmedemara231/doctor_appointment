@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart';
 
-class Message {
+class ChatMessage {
   final String message;
   final String date;
 
-  Message({
+  ChatMessage({
     required this.message,
     String? date,
   }) : date = date ?? DateFormat('dd-MM-yyyy / HH:mm').format(DateTime.now());

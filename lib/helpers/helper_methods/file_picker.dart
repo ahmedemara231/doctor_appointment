@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 
 class MyFilePicker{
-  static void pick({bool? allowMultiply})async{
+  static Future<void> pick({bool? allowMultiply})async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
       allowMultiple: allowMultiply?? false,
       allowedExtensions: ['jpg', 'pdf', 'doc'],
     );

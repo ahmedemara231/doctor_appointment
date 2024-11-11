@@ -1,20 +1,31 @@
-import 'package:doctors_appointment/model/remote/api_service/service/error_handling/error_checker.dart';
+import 'package:doctors_appointment/model/remote/firebase/realtime_database/error_handling/firebase_error_handler.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class RealtimeDatabaseHandler{
-  static ErrorInfo handleDatabaseError(FirebaseException e) {
+class DatabaseErrorCode {
+  static const String unavailable = 'No internet connection, please try again later';
+  static const String permissionDenied = 'You do not have permission to perform this operation';
+  static const String defaultError = 'can\'t make changes, please try again later';
+}
+
+class RealTimeErrorHandler extends FirebaseError {
+  RealTimeErrorHandler(super.errorMessage);
+  factory RealTimeErrorHandler.handle(FirebaseException e){
+    String? errorMsg;
     switch (e.code) {
       case 'database/permission-denied':
-        return ErrorInfo('Check the permission rules');
+        errorMsg = DatabaseErrorCode.permissionDenied;
 
       case 'database/network-error':
-        return ErrorInfo('Check your internet connection');
+        errorMsg = DatabaseErrorCode.unavailable;
 
       case 'database/timeout':
-        return ErrorInfo('Timeout, Check your internet connection');
+        errorMsg = DatabaseErrorCode.unavailable;
 
       default:
-        return ErrorInfo('Try Again Later');
+        errorMsg = DatabaseErrorCode.defaultError;
     }
+    return RealTimeErrorHandler(
+        errorMsg
+    );
   }
 }

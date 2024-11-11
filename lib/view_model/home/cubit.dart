@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:doctors_appointment/helpers/data_types/sorting_result.dart';
-import 'package:doctors_appointment/model/remote/api_service/repositories/get.dart';
-import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
+import 'package:doctors_appointment/model/remote/api_service/repositories/get_repo/get.dart';
+import 'package:doctors_appointment/model/remote/api_service/repositories/post_repo/post.dart';
 import 'package:doctors_appointment/view_model/home/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +13,7 @@ class HomeCubit extends Cubit<HomeState>
   HomeCubit({required this.getRepo, required this.postRepo}) : super(HomeState.initial());
   factory HomeCubit.getInstance(context) => BlocProvider.of(context);
 
-  GetRepo getRepo;
+  GetRepoImpl getRepo;
   PostRepo postRepo;
   Future<void> getHomeData()async{
     emit(state.copyWith(state: States.homeDataLoading));
@@ -122,7 +122,6 @@ class HomeCubit extends Cubit<HomeState>
         currentIndexTime: index
     ));
   }
-
 
   void changeAppointmentDate(String appointmentDate){
     emit(

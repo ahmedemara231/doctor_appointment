@@ -1,8 +1,5 @@
-import 'package:doctors_appointment/helpers/base_extensions/string.dart';
-import 'package:doctors_appointment/helpers/data_types/appointment_details.dart';
 import 'package:doctors_appointment/model/remote/api_service/models/doctor_data.dart';
 import 'package:equatable/equatable.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:intl/intl.dart';
 
 enum States {
@@ -26,6 +23,7 @@ enum States {
   giveRateLoading,
   giveRateSuccess,
   giveRateError,
+  sendMessageError,
 }
 class HomeState extends Equatable
 {
@@ -35,16 +33,14 @@ class HomeState extends Equatable
   List<dynamic>? filteredDoctors;
   String? appointmentTime;
   String? appointmentType;
-
   List<dynamic>? doctorsBasedOnSpecialization;
-
   DoctorInfo? selectedDoctor;
   List<String>? availableTimes;
   String? errorMsg;
   int? currentIndexTime;
-
   int? currentPage;
   String? appointmentDate;
+
   HomeState({
     this.currentState,
     this.homeData,
@@ -120,6 +116,10 @@ class HomeState extends Equatable
     doctorsBasedOnSpecialization,
     availableTimes,
     currentIndexTime,
+    selectedDoctor,
+    appointmentTime,
+    appointmentType,
+    appointmentDate,
     currentPage
   ];
 }

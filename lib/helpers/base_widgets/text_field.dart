@@ -21,7 +21,8 @@ class TFF extends StatelessWidget {
   EdgeInsetsGeometry? contentPadding;
   Color? fillColor;
   bool? filled;
-
+  Iterable<String>? autofillHints;
+  AutovalidateMode? autoValidateMode;
   TFF({super.key,
     required this.obscureText,
     required this.controller,
@@ -43,12 +44,15 @@ class TFF extends StatelessWidget {
     this.contentPadding,
     this.fillColor,
     this.filled,
+    this.autofillHints,
+    this.autoValidateMode
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autofillHints: autofillHints,
+      autovalidateMode: autoValidateMode?? AutovalidateMode.onUserInteraction,
       onTap: onPressed,
       keyboardType: keyboardType,
       obscureText: obscureText,

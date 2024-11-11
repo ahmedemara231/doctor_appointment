@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:doctors_appointment/model/local/secure.dart';
 import 'package:doctors_appointment/model/local/shared.dart';
-import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
+import 'package:doctors_appointment/model/remote/api_service/repositories/post_repo/post.dart';
 import 'package:doctors_appointment/model/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../helpers/data_types/register_inputs.dart';

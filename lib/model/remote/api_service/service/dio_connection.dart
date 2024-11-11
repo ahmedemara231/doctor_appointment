@@ -85,7 +85,7 @@ class DioConnection implements ApiService{
         }on DioException catch(e) {
           String prettyJson = const JsonEncoder.withIndent('  ').convert(e.response?.data);
           log(prettyJson);
-          throw handleDioErrors(e);
+          throw ReceivedError.handle(e);
         }
     }
   }

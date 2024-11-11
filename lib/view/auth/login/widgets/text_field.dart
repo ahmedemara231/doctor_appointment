@@ -8,12 +8,14 @@ class AuthTextFields extends StatefulWidget {
   bool obscureText;
   final TextEditingController cont;
   final String? Function(String?) validation;
+  Iterable<String>? autofillHints;
 
   AuthTextFields({Key? key,
     required this.hintText,
     required this.obscureText,
     required this.cont,
     required this.validation,
+    this.autofillHints
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class _AuthTextFieldsState extends State<AuthTextFields> {
   @override
   Widget build(BuildContext context) {
     return TFF(
+      autofillHints: widget.autofillHints,
       obscureText: widget.obscureText,
       controller: widget.cont,
       hintText: widget.hintText,

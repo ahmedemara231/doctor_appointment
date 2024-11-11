@@ -8,7 +8,6 @@ import 'package:doctors_appointment/view/doctor_details/widgets/about_widget.dar
 import 'package:doctors_appointment/view/doctor_details/widgets/base_details.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/location_widget.dart';
 import 'package:doctors_appointment/view/doctor_details/widgets/rating/rating.dart';
-import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../helpers/data_types/about_doctor.dart';
@@ -99,11 +98,9 @@ Government: ${widget.info.city.governate.name}
                 padding: context.verticalSymmetricPadding(12.h),
                 child: AppButton(
                   title: 'Make An Appointment',
-                  onPressed: ()async {
-                    await context.normalNewRoute(
+                  onPressed: () => context.normalNewRoute(
                         const MakeAppointment()
-                    );
-                  },
+                    )
                 ),
               )
             ],

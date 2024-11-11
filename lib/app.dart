@@ -1,5 +1,5 @@
 import 'package:doctors_appointment/constants/app_constants.dart';
-import 'package:doctors_appointment/model/remote/api_service/repositories/post.dart';
+import 'package:doctors_appointment/model/remote/api_service/repositories/post_repo/post.dart';
 import 'package:doctors_appointment/model/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:doctors_appointment/model/remote/stripe/repos/post.dart';
 import 'package:doctors_appointment/model/remote/stripe/service/stripe_connection.dart';
@@ -12,6 +12,7 @@ import 'package:doctors_appointment/view/error_builder/unexpected_error_handler.
 import 'package:doctors_appointment/view/recommended_doctors/screen.dart';
 import 'package:doctors_appointment/view/specialities/screen.dart';
 import 'package:doctors_appointment/view_model/auth/auth_cubit.dart';
+import 'package:doctors_appointment/view_model/chat/cubit.dart';
 import 'package:doctors_appointment/view_model/home/cubit.dart';
 import 'package:doctors_appointment/view_model/part_of_test/main_file.dart';
 import 'package:doctors_appointment/view_model/payment/cubit.dart';
@@ -23,7 +24,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'helpers/data_types/permession_process_model.dart';
 import 'helpers/helper_methods/handle_permissions.dart';
 import 'model/local/shared.dart';
-import 'model/remote/api_service/repositories/get.dart';
+import 'model/remote/api_service/repositories/get_repo/get.dart';
 import 'model/remote/api_service/service/dio_connection.dart';
 
 class MediMeetApp extends StatefulWidget {
@@ -36,9 +37,6 @@ class _MediMeetAppState extends State<MediMeetApp> {
 
   @override
   void initState() {
-    PatientsDataSource.getInstance().initRef(
-        CacheHelper.getInstance().getUserData()![1]
-    );
     checkPermission(
       PermissionProcessModel(
         permissionClient: PermissionClient.notification,
@@ -59,13 +57,13 @@ class _MediMeetAppState extends State<MediMeetApp> {
         providers: [
           BlocProvider<AuthCubit>(create: (context) => AuthCubit(PostRepo(apiService: DioConnection.getInstance()))),
           BlocProvider<HomeCubit>(  create: (context) => HomeCubit(
-              getRepo: GetRepo(apiService: DioConnection.getInstance()),
+              getRepo: GetRepoImpl(apiService: DioConnection.getInstance()),
               postRepo: PostRepo(apiService: DioConnection.getInstance())
           ),),
           BlocProvider<PaymentCubit>(create: (context) => PaymentCubit(
             StripePostRepo(apiService: StripeConnection.getInstance())
           )),
-          // Add more providers as needed
+          BlocProvider<ChatCubit>(create: (context) => ChatCubit(PatientsDataSource.getInstance(),)),
         ],
         child: MaterialApp(
           // shortcuts: ,

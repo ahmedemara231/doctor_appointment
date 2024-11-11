@@ -3,6 +3,7 @@ import 'package:doctors_appointment/view_model/bloc_observer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,20 +15,25 @@ import 'constants/app_constants.dart';
 import 'firebase_options.dart';
 import 'model/local/secure.dart';
 import 'model/local/shared.dart';
+import 'model/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'model/remote/stripe/service/stripe_constants.dart';
 import 'package:feedback/feedback.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.getInstance().cacheInit();
+  SecureStorage.getInstance().init();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  PatientsDataSource.getInstance()..initRef(
+      CacheHelper.getInstance().getUserData()![1]
+  )..databaseConfig();
 
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await ScreenUtil.ensureScreenSize();
-  await CacheHelper.getInstance().cacheInit();
-  SecureStorage.getInstance().init();
   Constants.configLoading();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

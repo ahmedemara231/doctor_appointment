@@ -49,31 +49,36 @@ class _SignUpState extends State<SignUp> {
           hintText: 'Name',
           obscureText: false,
           cont: nameCont,
-          validation: Validators.validateEmpty
+          validation: Validators.validateEmpty,
+        autofillHints: [AutofillHints.name]
       ),
       RegisterWidgetInputs(
           hintText: 'Email',
           obscureText: false,
           cont: emailCont,
-          validation: Validators.validateEmail
+          validation: Validators.validateEmail,
+        autofillHints: [AutofillHints.email]
       ),
       RegisterWidgetInputs(
           hintText: 'Phone Number',
           obscureText: false,
           cont: phoneCont,
-          validation: Validators.validatePhone
+          validation: Validators.validatePhone,
+        autofillHints: [AutofillHints.telephoneNumber]
       ),
       RegisterWidgetInputs(
           hintText: 'Password',
           obscureText: true,
           cont: passCont,
-          validation: Validators.validatePassword
+          validation: Validators.validatePassword,
+        autofillHints: null
       ),
       RegisterWidgetInputs(
           hintText: 'Confirm Password',
           obscureText: true,
           cont: confirmPassCont,
           validation: (p0) =>  Validators.validatePasswordConfirm(p0, passCont.text),
+        autofillHints: null
       ),
     ];
     super.initState();
@@ -123,11 +128,14 @@ class _SignUpState extends State<SignUp> {
                   textFieldsProperties.length,
                   (index) => Padding(
                     padding: context.verticalSymmetricPadding(12.h),
-                    child: AuthTextFields(
-                        hintText: textFieldsProperties[index].hintText,
-                        obscureText: textFieldsProperties[index].obscureText,
-                        cont: textFieldsProperties[index].cont,
-                        validation: textFieldsProperties[index].validation
+                    child: AutofillGroup(
+                      child: AuthTextFields(
+                          autofillHints: textFieldsProperties[index].autofillHints,
+                          hintText: textFieldsProperties[index].hintText,
+                          obscureText: textFieldsProperties[index].obscureText,
+                          cont: textFieldsProperties[index].cont,
+                          validation: textFieldsProperties[index].validation
+                      ),
                     ),
                   )
                 ),
