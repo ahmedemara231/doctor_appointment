@@ -14,5 +14,4 @@ abstract class  LocaleKeys {
   static const bookAndSchedule = 'bookAndSchedule';
   static const findNearby = 'findNearby';
   static const tryAgain = 'tryAgain';
-
 }
