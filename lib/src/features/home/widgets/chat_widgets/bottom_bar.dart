@@ -20,10 +20,23 @@ class ChatBottomBar extends StatefulWidget {
 }
 
 class _ChatBottomBarState extends State<ChatBottomBar> {
-  final TextEditingController typingController = TextEditingController();
-  final _scrollController = ScrollController();
+  late final TextEditingController typingController;
+  late final ScrollController scrollController;
   bool emojiShowing = false;
 
+  @override
+  void initState() {
+    typingController = TextEditingController();
+    scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    typingController.dispose();
+    scrollController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -98,7 +111,7 @@ class _ChatBottomBarState extends State<ChatBottomBar> {
             child: EmojiPicker(
               onEmojiSelected: (category, emoji) => setState(() {}),
               textEditingController: typingController,
-              scrollController: _scrollController,
+              scrollController: scrollController,
               config: Config(
                 height: 256,
                 checkPlatformCompatibility: true,

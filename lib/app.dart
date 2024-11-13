@@ -16,6 +16,7 @@ import 'package:doctors_appointment/src/features/home/data_source/home_data_sour
 import 'package:doctors_appointment/src/features/home/repositories/get.dart';
 import 'package:doctors_appointment/src/features/home/repositories/post.dart';
 import 'package:doctors_appointment/src/features/home/screens/home.dart';
+import 'package:doctors_appointment/src/features/home/screens/user_chats.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

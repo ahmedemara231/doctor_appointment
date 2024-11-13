@@ -13,6 +13,7 @@ class DoctorsSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TFF(
+      autoValidateMode: AutovalidateMode.disabled,
       obscureText: false,
       controller: controller,
       onChanged: onChanged,
