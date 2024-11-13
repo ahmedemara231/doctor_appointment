@@ -22,7 +22,7 @@ class BaseDetails extends StatelessWidget {
       subtitle: MyText(text: info.specialization.name),
       trailing: IconButton(
         onPressed: () => context.normalNewRoute(
-            const Chatting(),
+            Chatting(info: info),
             type: PageTransitionType.rightToLeft
         ),
         icon: const Icon(Icons.chat_outlined),

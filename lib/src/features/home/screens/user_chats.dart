@@ -1,8 +1,13 @@
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/src/core/helpers/base_widgets/text.dart';
+import 'package:doctors_appointment/src/features/home/blocs/chat/cubit.dart';
+import 'package:doctors_appointment/src/features/home/blocs/chat/state.dart';
+import 'package:doctors_appointment/src/features/home/screens/chat.dart';
 import 'package:doctors_appointment/src/features/home/widgets/user_chats_widgets/chat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/helpers/app_widgets/doctors_search.dart';
 
@@ -20,15 +25,20 @@ class _UserChatsState extends State<UserChats> {
 
   ValueNotifier<bool> isSearchBarVisible = ValueNotifier(true);
 
-  void _scrollListener(){
-    if(scrollingController.position.userScrollDirection == ScrollDirection.forward){
-      isSearchBarVisible.value = true;
-    }else{
-      isSearchBarVisible.value = false;
+  void _scrollListener() {
+    if (scrollingController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (isSearchBarVisible.value) {
+        isSearchBarVisible.value = false;
+      }
+    } else if (scrollingController.position.userScrollDirection == ScrollDirection.forward) {
+      if (!isSearchBarVisible.value) {
+        isSearchBarVisible.value = true;
+      }
     }
   }
   @override
   void initState() {
+    context.read<ChatCubit>().getChats();
     searchController = TextEditingController();
     scrollingController = ScrollController();
     scrollingController.addListener(_scrollListener);
@@ -67,13 +77,23 @@ class _UserChatsState extends State<UserChats> {
                       : const SizedBox.shrink()),
             ),
             Expanded(
-              child: ListView.separated(
-                controller: scrollingController,
-                  itemBuilder: (context, index) => ChatCard(),
-                  separatorBuilder: (context, index) => SizedBox(
-                        height: 12.h,
+              child: BlocBuilder<ChatCubit, ChattingState>(
+                builder: (context, state) => state.currentState == ChatStates.getChatDoctorsLoading?
+                    const Center(child: CircularProgressIndicator(),) :
+                ListView.separated(
+                    controller: scrollingController,
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () => context.normalNewRoute(Chatting(info: state.chatDoctors![index])),
+                      child: ChatCard(
+                        info: state.chatDoctors![index],
                       ),
-                  itemCount: 10),
+                    ),
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 12.h,
+                    ),
+                    itemCount: state.chatDoctors!.length
+                ),
+              ),
             )
           ],
         ),

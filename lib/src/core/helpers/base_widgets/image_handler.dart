@@ -29,12 +29,10 @@ class NetworkImageHandler extends StatelessWidget {
             );
           }
         },
-        errorBuilder: (context, error, stackTrace) => Center(
-          child: MyText(
-            text: 'Failed Load Image',
-            color: Constants.appColor,
-            fontWeight: FontWeight.w500,
-          ),
+        errorBuilder: (context, error, stackTrace) => MyText(
+          text: 'Failed Load Image',
+          color: Constants.appColor,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

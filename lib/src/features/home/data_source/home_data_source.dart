@@ -74,4 +74,30 @@ class HomeDataSource{
   Stream<DatabaseEvent> getMessages(int receiverId){
     return _chat.getMessages(receiverId);
   }
+
+  Future<List<int>> getDoctorsIdsWhichUserChatWith()async{
+    return _chat.getPeopleIdsWhichUserChatWith();
+  }
+
+  Future<DoctorInfo> getDoctorsDataBasedOnChats(int doctorId)async{
+    final doctorData = await _apiService.callApi(
+        request: RequestModel(
+            method: Methods.GET,
+            endPoint: ApiConstants.showDoctorBasedId + doctorId.toString(),
+            headers: HeadersWithToken()
+        )
+    );
+    DoctorInfo doctorInfo = DoctorInfo.fromJson(doctorData.data['data']);
+    return doctorInfo;
+  }
+
+  Future<List<DoctorInfo>> getDoctorsChatsData()async{
+    List<DoctorInfo> doctors = [];
+    final List<int> doctorsIds = await getDoctorsIdsWhichUserChatWith();
+    for (int doctorId in doctorsIds) {
+      final doctorData = await getDoctorsDataBasedOnChats(doctorId);
+      doctors.add(doctorData);
+    }
+    return doctors;
+  }
 }

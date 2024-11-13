@@ -1,4 +1,6 @@
 import 'package:doctors_appointment/src/core/data_source/remote/api_service/extensions/future.dart';
+import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/error_handling/firebase_error_handler.dart';
+import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/extensions/future.dart';
 import 'package:doctors_appointment/src/features/home/data_source/home_data_source.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -25,4 +27,16 @@ class HomeGetRepo {
   Stream<DatabaseEvent> getMessages(int doctorId){
     return _homeDataSource.getMessages(doctorId);
   }
+
+  Future<Result<List<DoctorInfo>, FirebaseError>> getChatDoctorsInfo()async{
+    return await _homeDataSource
+        .getDoctorsChatsData()
+        .handleFirebaseCalls();
+  }
+  // Future<Result<List<int>, FirebaseError>> getPeopleIdsWhichUserChatWith()async{
+  //   return await _homeDataSource
+  //      .getDoctorsIdsWhichUserChatWith()
+  //      .handleFirebaseCalls();
+  // }
+
 }

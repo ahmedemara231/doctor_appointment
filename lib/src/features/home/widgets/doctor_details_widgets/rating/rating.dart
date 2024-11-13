@@ -4,11 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rating_summary/rating_summary.dart';
 
 import '../../../../../core/helpers/app_widgets/app_button.dart';
+import '../../../models/doctor_data.dart';
 
 class Rating extends StatelessWidget {
+  final DoctorInfo info;
   Rating({super.key,
-    required this.scaffoldKey
+    required this.scaffoldKey,
+    required this.info
   });
+
 
   late GlobalKey<ScaffoldState> scaffoldKey;
   @override
@@ -32,7 +36,9 @@ class Rating extends StatelessWidget {
           color: Colors.grey[350],
           onPressed: () {
           scaffoldKey.currentState!.showBottomSheet(
-                  (context) => const GiveRateSheet()
+                  (context) => GiveRateSheet(
+                    info: info,
+                  )
           );
           },
         ),

@@ -11,10 +11,12 @@ import '../../../../../../core/helpers/app_widgets/app_loading_button.dart';
 import '../../../../../../core/helpers/base_widgets/text.dart';
 import '../../../../blocs/home/cubit.dart';
 import '../../../../blocs/home/state.dart';
-
-
+import '../../../../models/doctor_data.dart';
 class GiveRateSheet extends StatefulWidget {
-  const GiveRateSheet({super.key});
+  final DoctorInfo info;
+  const GiveRateSheet({super.key,
+    required this.info,
+  });
 
   @override
   State<GiveRateSheet> createState() => _GiveRateSheetState();
@@ -88,7 +90,10 @@ class _GiveRateSheetState extends State<GiveRateSheet> {
                 },
                 child: AppLoadingButton(
                     onPressed: () {
-                      context.read<HomeCubit>().giveRate(rating);
+                      context.read<HomeCubit>().giveRate(
+                          rating: rating,
+                          doctorId: widget.info.id
+                      );
                     },
                     title: 'Submit',
                     btnController: controller

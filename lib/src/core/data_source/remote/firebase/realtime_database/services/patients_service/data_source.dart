@@ -83,4 +83,22 @@ class PatientsDataSource implements ChatWith{
         .child('messages')
         .onValue;
   }
+
+  @override
+  Future<List<int>> getPeopleIdsWhichUserChatWith()async{
+    try{
+      List<int> doctorsIds = [];
+      DatabaseReference reference = patientsRef
+          .child('chats');
+      DataSnapshot snapshot = await reference.get();
+      for (var child in snapshot.children) {
+        doctorsIds.add(int.parse(child.key!));
+      }
+
+      return doctorsIds;
+    }on FirebaseException catch(e){
+      throw RealTimeErrorHandler.handle(e);
+    }
+  }
+
 }
