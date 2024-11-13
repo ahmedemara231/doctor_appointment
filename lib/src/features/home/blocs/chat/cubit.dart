@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/src/core/helpers/helper_methods/file_picker.dart';
 import 'package:doctors_appointment/src/features/home/blocs/chat/state.dart';
 import 'package:doctors_appointment/src/features/home/repositories/get.dart';
 import 'package:doctors_appointment/src/features/home/repositories/post.dart';
@@ -47,7 +48,16 @@ class ChatCubit extends Cubit<ChattingState> {
     return homeGetRepo.getMessages(receiverId);
   }
 
-  void pickFile(){}
+  Future<void> pickFile(int receiverId)async{
+    final result = await MyFilePicker.pick();
+    if(result?.path != null){
+      emit(state.copyWith(state: ChatStates.selectFile, selectedFile: result));
+      sendMessage(message: result!.path, receiverId: receiverId);
+    }
+  }
+
+
+
   void saveFile(){}
   void pickImage(){}
   void saveImage(){}

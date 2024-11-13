@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/src/core/helpers/base_widgets/text.dart';
@@ -31,7 +32,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    context.read<HomeCubit>().getHomeData();
+    context.read<HomeCubit>().getHomeData()
+        .then((value) => PatientsDataSource.getInstance().initRef(
+        CacheHelper.getInstance().getUserData()![1]
+    ));
     super.initState();
   }
 

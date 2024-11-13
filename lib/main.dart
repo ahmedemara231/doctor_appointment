@@ -25,9 +25,7 @@ void main()async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  PatientsDataSource.getInstance()..initRef(
-      CacheHelper.getInstance().getUserData()![1]
-  )..databaseConfig();
+  PatientsDataSource.getInstance().databaseConfig();
 
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();

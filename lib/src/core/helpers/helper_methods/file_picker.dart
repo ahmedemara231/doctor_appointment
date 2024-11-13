@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 
 class MyFilePicker{
-  static Future<void> pick({bool? allowMultiply})async{
+  static Future<File?> pick({bool? allowMultiply})async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: allowMultiply?? false,
@@ -12,9 +11,9 @@ class MyFilePicker{
 
     if (result != null) {
       File file = File(result.files.single.path!);
-    } else {
-      // User canceled the picker
+      return file;
     }
+    return null;
   }
 
   static void save()async{
@@ -23,8 +22,6 @@ class MyFilePicker{
       fileName: 'output-file.pdf',
     );
 
-    if (outputFile == null) {
-      // User canceled the picker
-    }
+    if (outputFile != null) {}
   }
 }

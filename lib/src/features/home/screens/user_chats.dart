@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../core/data_source/local/shared.dart';
+import '../../../core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import '../../../core/helpers/app_widgets/doctors_search.dart';
 
 class UserChats extends StatefulWidget {
@@ -38,6 +40,9 @@ class _UserChatsState extends State<UserChats> {
   }
   @override
   void initState() {
+    PatientsDataSource.getInstance().initRef(
+        CacheHelper.getInstance().getUserData()![1]
+    ); // should be remove from here
     context.read<ChatCubit>().getChats();
     searchController = TextEditingController();
     scrollingController = ScrollController();

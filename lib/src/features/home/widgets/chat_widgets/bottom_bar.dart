@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart' as foundation;
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/helpers/base_widgets/text_field.dart';
-import '../../../../core/helpers/helper_methods/file_picker.dart';
 import '../../blocs/chat/cubit.dart';
 import '../../blocs/chat/state.dart';
 
@@ -74,7 +73,7 @@ class _ChatBottomBarState extends State<ChatBottomBar> {
                       child: Row(
                         children: [
                           IconButton(
-                              onPressed: () async => await MyFilePicker.pick(),
+                              onPressed: () async => await context.read<ChatCubit>().pickFile(widget.info.id),
                               icon: const Icon(Icons.attachment, color: Colors.grey,)
                           ),
                           IconButton(

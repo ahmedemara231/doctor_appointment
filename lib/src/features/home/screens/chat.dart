@@ -31,7 +31,7 @@ class _ChattingState extends State<Chatting> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: MyText(text: widget.info.name)
+          title: MyText(text: widget.info.name),
       ),
       body: StreamBuilder<DatabaseEvent>(
           stream: context.read<ChatCubit>().getMessages(receiverId: widget.info.id),
