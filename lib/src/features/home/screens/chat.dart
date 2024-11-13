@@ -49,9 +49,7 @@ class _ChattingState extends State<Chatting> {
                 ),).reversed.toList(),
                 showUserAvatars: true,
                 showUserNames: true,
-                onSendPressed: (message) {
-                  snapshot.data?.snapshot.children.last;
-                },
+                onSendPressed: (message) {},
                 user: _user,
                 customBottomWidget: ChatBottomBar(
                   info: widget.info,
