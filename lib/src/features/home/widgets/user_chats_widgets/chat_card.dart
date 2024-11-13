@@ -31,7 +31,8 @@ class ChatCard extends StatelessWidget {
           trailing: FittedBox(
             child: Column(
               children: [
-                MyText(text: DateFormat("d-M-yyyy").format(DateTime.now())),
+                MyText(text: ((snapshot.data!.snapshot.children.last.value as Map)['date'] as String).split("/").first),
+                MyText(text: ((snapshot.data!.snapshot.children.last.value as Map)['date'] as String).split("/").last),
                 // number of messages that didn't see
               ],
             ),
