@@ -35,7 +35,7 @@ class HomeState extends Equatable
   String? appointmentTime;
   String? appointmentType;
   List<dynamic>? doctorsBasedOnSpecialization;
-  DoctorInfo? selectedDoctor;
+  // DoctorInfo? selectedDoctor;
   List<String>? availableTimes;
   String? errorMsg;
   int? currentIndexTime;
@@ -48,7 +48,6 @@ class HomeState extends Equatable
     this.recommendedDoctors,
     this.filteredDoctors,
     this.doctorsBasedOnSpecialization,
-    this.selectedDoctor,
     this.availableTimes,
     this.errorMsg,
     this.currentIndexTime,
@@ -65,7 +64,6 @@ class HomeState extends Equatable
       recommendedDoctors : const [],
       filteredDoctors : const [],
       doctorsBasedOnSpecialization : const [],
-      selectedDoctor: null,
       availableTimes : const [],
       errorMsg : '',
       currentIndexTime : null,
@@ -96,7 +94,6 @@ class HomeState extends Equatable
       recommendedDoctors: recommendedDoctors?? this.recommendedDoctors,
       filteredDoctors: filteredDoctors?? this.filteredDoctors,
       doctorsBasedOnSpecialization: doctorsBasedOnSpecialization?? this.doctorsBasedOnSpecialization,
-      selectedDoctor: selectedDoctor?? this.selectedDoctor,
       availableTimes: availableTimes?? this.availableTimes,
       errorMsg: errorMessage?? errorMsg,
       appointmentDate: appointmentDate?? this.appointmentDate,
@@ -117,7 +114,6 @@ class HomeState extends Equatable
     doctorsBasedOnSpecialization,
     availableTimes,
     currentIndexTime,
-    selectedDoctor,
     appointmentTime,
     appointmentType,
     appointmentDate,

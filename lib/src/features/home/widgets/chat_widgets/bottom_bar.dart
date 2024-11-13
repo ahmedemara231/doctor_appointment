@@ -1,4 +1,5 @@
 import 'package:doctors_appointment/src/core/helpers/helper_methods/image_picker.dart';
+import 'package:doctors_appointment/src/features/home/models/doctor_data.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,11 +11,12 @@ import '../../../../core/helpers/base_widgets/text_field.dart';
 import '../../../../core/helpers/helper_methods/file_picker.dart';
 import '../../blocs/chat/cubit.dart';
 import '../../blocs/chat/state.dart';
-import '../../blocs/home/cubit.dart';
-import '../../blocs/home/state.dart';
 
 class ChatBottomBar extends StatefulWidget {
-  const ChatBottomBar({super.key});
+  final DoctorInfo info;
+  const ChatBottomBar({super.key,
+    required this.info,
+  });
   @override
   State<ChatBottomBar> createState() => _ChatBottomBarState();
 }
@@ -87,21 +89,18 @@ class _ChatBottomBarState extends State<ChatBottomBar> {
                 ),
               ),
               if(typingController.text.isNotEmpty)
-                BlocBuilder<HomeCubit, HomeState>(
-                  buildWhen: (previous, current) => current.currentState == States.homeInitial,
-                  builder: (context, state) => BlocConsumer<ChatCubit, ChattingState>(
-                    listener: (context, chatState) {
-                      if(chatState.currentState == ChatStates.sendMessageSuccess){
-                        typingController.clear();
-                      }
-                    },
-                    builder: (context, chatState) => IconButton(
-                        onPressed: () async=> context.read<ChatCubit>().sendMessage(
-                            message: typingController.text,
-                            receiverId: state.selectedDoctor!.id
-                        ),
-                        icon: Icon(Icons.send, color: Constants.appColor,)
-                    ),
+                BlocConsumer<ChatCubit, ChattingState>(
+                  listener: (context, chatState) {
+                    if(chatState.currentState == ChatStates.sendMessageSuccess){
+                      typingController.clear();
+                    }
+                  },
+                  builder: (context, chatState) => IconButton(
+                      onPressed: () async=> context.read<ChatCubit>().sendMessage(
+                          message: typingController.text,
+                          receiverId: widget.info.id
+                      ),
+                      icon: Icon(Icons.send, color: Constants.appColor,)
                   ),
                 ),
             ],

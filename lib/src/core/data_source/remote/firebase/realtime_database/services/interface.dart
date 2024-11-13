@@ -9,4 +9,6 @@ abstract interface class ChatWith{
   });
 
   Stream<DatabaseEvent> getMessages(int receiverId);
+
+  Future<List<int>> getPeopleIdsWhichUserChatWith();
 }

@@ -90,6 +90,7 @@ Government: ${widget.info.city.governate.name}
                       LocationWidget(city: widget.info.city.name),
                       Rating(
                         scaffoldKey: _scaffoldKey,
+                        info: widget.info,
                       )
                     ],
                   ),

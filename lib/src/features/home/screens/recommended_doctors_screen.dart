@@ -42,16 +42,17 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
   List<String> ratingValues = const <String>['1', '2', '3', '4', '5', 'All'];
 
   late ScrollController _scrollController;
-  // bool _isSearchBarVisible = true;
   ValueNotifier<bool> isSearchBarVisible = ValueNotifier(true);
 
   void _scrollListener() {
     if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        setState(() {
-          isSearchBarVisible.value = false;
-        });
+          if(isSearchBarVisible.value){
+            isSearchBarVisible.value = false;
+          }
     } else {
-      isSearchBarVisible.value = true;
+      if(!isSearchBarVisible.value){
+            isSearchBarVisible.value = true;
+      }
     }
   }
   @override

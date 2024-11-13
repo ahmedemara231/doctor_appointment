@@ -30,19 +30,15 @@ class DoctorsBasedSpecialities extends StatefulWidget {
 class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
   late TextEditingController controller;
   late ScrollController _scrollController;
-  bool _isSearchBarVisible = true;
+  ValueNotifier<bool> isSearchBarVisible = ValueNotifier(true);
   void _scrollListener() {
     if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-      if (_isSearchBarVisible) {
-        setState(() {
-          _isSearchBarVisible = false;
-        });
+      if (isSearchBarVisible.value) {
+          isSearchBarVisible.value = false;
       }
     } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
-      if (!_isSearchBarVisible) {
-        setState(() {
-          _isSearchBarVisible = true;
-        });
+      if (!isSearchBarVisible.value) {
+          isSearchBarVisible.value = true;
       }
     }
   }
@@ -77,13 +73,17 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
             padding: context.horizontalSymmetricPadding(12.w),
             child: Column(
               children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height: _isSearchBarVisible? 90.h : 0,
-                  child: _isSearchBarVisible? Padding(
-                    padding: context.verticalSymmetricPadding(12.h),
-                    child: DoctorsSearch(controller: controller, onChanged: (p0) {},),
-                  ) : const SizedBox.shrink()
+                ValueListenableBuilder(
+                  valueListenable: isSearchBarVisible,
+                  builder: (context, value, child) => AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      height: value ? 90.h : 0,
+                      child: value
+                          ? DoctorsSearch(
+                        controller: controller,
+                        onChanged: (p0) {},
+                      )
+                          : const SizedBox.shrink()),
                 ),
                 Expanded(
                   child: Skeletonizer(

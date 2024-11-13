@@ -13,6 +13,20 @@ class ChatCubit extends Cubit<ChattingState> {
   late final HomePostRepo homePostRepo;
   late final HomeGetRepo homeGetRepo;
 
+  // should be cache chats
+  Future<void> getChats()async{
+    emit(state.copyWith(state: ChatStates.getChatDoctorsLoading));
+    final result = await homeGetRepo.getChatDoctorsInfo();
+    result.when(
+            (success) => emit(state.copyWith(
+                state: ChatStates.getChatDoctorsSuccess, chatDoctors: success
+            )),
+            (error) => emit(
+                state.copyWith(state: ChatStates.getChatDoctorsError, errorMsg: error.errorMessage
+                )),
+    );
+  }
+
   Future<void> sendMessage({
     required String message,
     required int receiverId

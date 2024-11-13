@@ -161,13 +161,13 @@ class HomeCubit extends Cubit<HomeState>
     }
   }
 
-  Future<void> makeAppointment()async{
+  Future<void> makeAppointment(int doctorId)async{
     emit(state.copyWith(state: States.makeAppointmentLoading));
     final response = await postRepo.storeAppointment(
         model: MakeAppComponent(
           appointmentDate: state.appointmentDate!,
           appointmentTime: state.appointmentTime!,
-          doctorId: state.selectedDoctor!.id.toString()
+          doctorId: doctorId.toString()
         )
     );
     response.when(
@@ -176,10 +176,10 @@ class HomeCubit extends Cubit<HomeState>
     );
   }
 
-  Future<void> giveRate(double rating)async{
+  Future<void> giveRate({required double rating, required int doctorId})async{
     emit(state.copyWith(state: States.giveRateLoading));
     final result = await postRepo.giveRate(
-      doctorId: state.selectedDoctor!.id,
+      doctorId: doctorId,
       rating: rating
     );
     result.when(
