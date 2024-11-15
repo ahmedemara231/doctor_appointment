@@ -8,15 +8,21 @@ class AllDoctorsData{
 
 class DoctorsInSpecificField{
   String fieldName;
-  List<dynamic> allInfo;
+  List<DoctorInfo> allInfo;
 
   DoctorsInSpecificField({required this.allInfo, required this.fieldName});
+  factory DoctorsInSpecificField.fromJson(Map<String, dynamic> json) {
+    final List<Map<String, dynamic>> doctors = (json['doctors'] as List<dynamic>)
+        .map((e) => e as Map<String, dynamic>)
+        .toList();
 
-  factory DoctorsInSpecificField.fromJson(Map<String, dynamic> json) =>
-      DoctorsInSpecificField(
-        allInfo: json['doctors'].map((data) => DoctorInfo.fromJson(data)).toList(),
-        fieldName: json['name'],
-      );
+    return DoctorsInSpecificField(
+      allInfo: doctors
+          .map((data) =>
+          DoctorInfo.fromJson(data)).toList(),
+      fieldName: json['name'],
+    );
+  }
 }
 
 class DoctorInfo {

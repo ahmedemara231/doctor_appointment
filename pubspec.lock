@@ -1349,6 +1349,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  searchable_listview:
+    dependency: "direct main"
+    description:
+      name: searchable_listview
+      sha256: aed3d927d383d090a3484403ac0f323895e8e7de31c8642d72e36a1942c44a9f
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.15.2"
   share_plus:
     dependency: "direct main"
     description:

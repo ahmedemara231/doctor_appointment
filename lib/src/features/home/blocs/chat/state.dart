@@ -18,12 +18,14 @@ class ChattingState extends Equatable {
   String? msg;
   String? errorMsg;
   List<DoctorInfo>? chatDoctors;
+  List<DoctorInfo>? searchDoctorsList;
   File? selectedFile;
   ChattingState({
     this.currentState,
     this.msg,
     this.errorMsg,
     this.chatDoctors,
+    this.searchDoctorsList,
     this.selectedFile
   });
 
@@ -33,6 +35,7 @@ class ChattingState extends Equatable {
       msg: '',
       errorMsg: '',
       chatDoctors: const [],
+      searchDoctorsList: const [],
       selectedFile: null,
     );
   }
@@ -42,6 +45,7 @@ class ChattingState extends Equatable {
     String? msg,
     String? errorMsg,
     List<DoctorInfo>? chatDoctors,
+    List<DoctorInfo>? searchDoctorsList,
     File? selectedFile,
   }){
     return ChattingState(
@@ -49,6 +53,7 @@ class ChattingState extends Equatable {
       msg: msg?? this.msg,
       errorMsg: errorMsg?? this.errorMsg,
       chatDoctors: chatDoctors?? this.chatDoctors,
+      searchDoctorsList: searchDoctorsList?? this.searchDoctorsList,
       selectedFile: selectedFile?? this.selectedFile,
     );
   }
@@ -60,5 +65,6 @@ class ChattingState extends Equatable {
     msg,
     errorMsg,
     chatDoctors,
+    searchDoctorsList,
   ];
 }

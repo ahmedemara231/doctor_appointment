@@ -21,8 +21,6 @@ class RecommendedDoctors extends StatefulWidget {
 }
 
 class _RecommendedDoctorsState extends State<RecommendedDoctors> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   late LoadingButtonController btnController;
   late TextEditingController searchController;
 
@@ -57,7 +55,7 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
   }
   @override
   void initState() {
-    context.read<HomeCubit>().begin();
+    context.read<HomeCubit>().getRecommendedDoctors();
     searchController = TextEditingController();
     _scrollController = ScrollController()..addListener(_scrollListener);
     btnController = LoadingButtonController();
@@ -74,9 +72,8 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
-        title: const MyText(text: 'Recommendation Doctor', fontWeight: FontWeight.w500,),
+        title: const MyText(text: 'Recommended Doctor', fontWeight: FontWeight.w500,),
         centerTitle: true,
       ),
       body: Padding(
@@ -91,22 +88,19 @@ class _RecommendedDoctorsState extends State<RecommendedDoctors> {
                   child: value
                       ? DoctorsSearch(
                     controller: searchController,
-                    onChanged: (p0) {},
-                  )
-                      : const SizedBox.shrink()),
+                    onChanged: (p0) => context.read<HomeCubit>().search(
+                        pattern: p0,
+                        isByRecommended: true
+                    ),
+                  ) : const SizedBox.shrink()),
             ),
             SizedBox(height: 16.h),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) => Expanded(
-                // height: 400,
                 child: ListView.separated(
                   controller: _scrollController,
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
-                      context.read<HomeCubit>().selectDoctor(
-                          selectedDoctor: state.filteredDoctors![index]
-                      );
-
                       context.normalNewRoute(
                           DoctorDetails(info: state.filteredDoctors![index])
                       );

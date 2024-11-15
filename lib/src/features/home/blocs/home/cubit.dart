@@ -1,9 +1,7 @@
-import 'dart:developer';
 import 'package:doctors_appointment/src/features/home/blocs/home/state.dart';
 import 'package:doctors_appointment/src/features/home/repositories/get.dart';
 import 'package:doctors_appointment/src/features/home/repositories/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/helpers/data_types/make_appointment.dart';
 import '../../../../core/helpers/data_types/sorting_result.dart';
 import '../../models/doctor_data.dart';
@@ -11,29 +9,28 @@ import '../../models/doctor_data.dart';
 class HomeCubit extends Cubit<HomeState>
 {
   HomeCubit({required this.getRepo, required this.postRepo}) : super(HomeState.initial());
-  factory HomeCubit.getInstance(context) => BlocProvider.of(context);
 
   HomeGetRepo getRepo;
   HomePostRepo postRepo;
   Future<void> getHomeData()async{
     emit(state.copyWith(state: States.homeDataLoading));
     final homeData = await getRepo.getHomeData();
-    if(homeData.isSuccess()){
-      emit(state.copyWith(
-          state: States.homeDataSuccess,
-          homeData: homeData.getOrThrow().data
-      ));
-      getRecommendedDoctors();
-    }else{
-      emit(state.copyWith(
-          state: States.homeDataError,
-          errorMessage: homeData.tryGetError()?.message));
-    }
+    homeData.when(
+            (success) {
+              emit(state.copyWith(
+                  state: States.homeDataSuccess,
+                  homeData: success.data,
+              ));
+            },
+            (error) => emit(state.copyWith(
+                state: States.homeDataError,
+                errorMessage: homeData.tryGetError()?.message))
+    );
   }
 
   void getRecommendedDoctors() {
-    List recommendedDoctors = [];
-    List filteredDoctors = [];
+    List<DoctorInfo> recommendedDoctors = [];
+    List<DoctorInfo> filteredDoctors = [];
 
     for(int index = 0; index < state.homeData!.length; index++){
       for(int doctorIndex = 0; doctorIndex < state.homeData![index].allInfo.length; doctorIndex++){
@@ -45,17 +42,46 @@ class HomeCubit extends Cubit<HomeState>
         state.copyWith(
             state: States.homeDataSuccess,
             recommendedDoctors: recommendedDoctors,
-            filteredDoctors: filteredDoctors
+            filteredDoctors: filteredDoctors,
         )
     );
+  }
+
+  List<DoctorInfo> select(bool isByRecommended){
+      switch(isByRecommended){
+        case true:
+          return state.recommendedDoctors!;
+        case false:
+          return state.doctorsBasedOnSpecialization!;
+      }
+  }
+  void search({
+    required String pattern,
+    required bool isByRecommended,
+}){
+    final List<DoctorInfo> fullList = select(isByRecommended);
+    List<DoctorInfo> result = [];
+    switch(pattern){
+      case '':
+        result = List.from(fullList);
+
+      default:
+        result = fullList
+            .where((element) => element.name.toLowerCase().contains(pattern))
+            .toList();
+    }
+    emit(state.copyWith(
+        state: States.searchSuccess,
+        filteredDoctors: result
+    ));
   }
 
   void sortDoctors(SortingResult result) {
     final selectedSpeciality = result.speciality;
     final selectedRating = result.rating;
 
-    final List recommendedDoctors = List.from(state.recommendedDoctors!);
-    List filteredDoctors = [];
+    final List<DoctorInfo> recommendedDoctors = List.from(state.recommendedDoctors!);
+    List<DoctorInfo> filteredDoctors = [];
 
     switch(selectedSpeciality){
       case 'All':
@@ -71,34 +97,22 @@ class HomeCubit extends Cubit<HomeState>
     ));
   }
 
-  void begin(){
-    List filteredDoctors = List.from(state.recommendedDoctors!);
-    emit(state.copyWith(state: States.homeDataSuccess, filteredDoctors: filteredDoctors));
-  }
-
   Future<void> showDoctorsBasedOnSpeciality(int specializationIndex)async{
     emit(state.copyWith(state: States.doctorsBasedOnSpecializationLoading));
     final result = await getRepo.showDoctorsBasedOnSpecialization(specializationIndex);
-    if(result.isSuccess()){
-      log(result.getOrThrow().toString());
-      emit(state.copyWith(
-          state: States.homeDataSuccess,
-          doctorsBasedOnSpecialization: result.getOrThrow().allInfo
-      ));
-    }else{
-      emit(state.copyWith(
-          state: States.doctorsBasedOnSpecializationError,
-        errorMessage: 'Failed, Please try again.'
-      ));
-    }
+    result.when(
+            (success) => emit(state.copyWith(
+                state: States.homeDataSuccess,
+                doctorsBasedOnSpecialization: success.allInfo,
+                filteredDoctors: success.allInfo
+            )),
+            (error) => emit(state.copyWith(
+                state: States.doctorsBasedOnSpecializationError,
+                errorMessage: 'Failed, Please try again.'
+            ))
+    );
   }
 
-  void selectDoctor({required DoctorInfo? selectedDoctor}){
-    emit(state.copyWith(
-        state: States.selectDoctor,
-        selectedDoctor: selectedDoctor
-    ));
-  }
   void getAvailableTimes({DateTime? time, int? doctorId}) async{
     List<String> availableTimes = [];
     emit(state.copyWith(state: States.getAvailableTimesLoading));

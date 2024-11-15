@@ -1,5 +1,6 @@
 import 'package:doctors_appointment/src/core/helpers/helper_methods/file_picker.dart';
 import 'package:doctors_appointment/src/features/home/blocs/chat/state.dart';
+import 'package:doctors_appointment/src/features/home/models/doctor_data.dart';
 import 'package:doctors_appointment/src/features/home/repositories/get.dart';
 import 'package:doctors_appointment/src/features/home/repositories/post.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -20,12 +21,29 @@ class ChatCubit extends Cubit<ChattingState> {
     final result = await homeGetRepo.getChatDoctorsInfo();
     result.when(
             (success) => emit(state.copyWith(
-                state: ChatStates.getChatDoctorsSuccess, chatDoctors: success
+                state: ChatStates.getChatDoctorsSuccess,
+                chatDoctors: success,
+                searchDoctorsList: success
             )),
             (error) => emit(
                 state.copyWith(state: ChatStates.getChatDoctorsError, errorMsg: error.errorMessage
                 )),
     );
+  }
+
+  void search(String pattern){
+    List<DoctorInfo> result = [];
+    if(pattern.isEmpty){
+      result = List.from(state.chatDoctors!.toList());
+    }else{
+      result = state.chatDoctors!
+          .where((element) => element.name.toLowerCase().contains(pattern))
+          .toList();
+    }
+    emit(state.copyWith(
+        state: ChatStates.getChatDoctorsSuccess,
+        searchDoctorsList: result
+    ));
   }
 
   Future<void> sendMessage({

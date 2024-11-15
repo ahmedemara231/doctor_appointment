@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:searchable_listview/searchable_listview.dart';
 import '../../../core/data_source/local/shared.dart';
 import '../../../core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import '../../../core/helpers/app_widgets/doctors_search.dart';
+import '../models/doctor_data.dart';
 
 class UserChats extends StatefulWidget {
   UserChats({super.key});
@@ -67,40 +69,40 @@ class _UserChatsState extends State<UserChats> {
       ),
       body: Padding(
         padding: context.horizontalSymmetricPadding(12.w),
-        child: Column(
-          children: [
-            ValueListenableBuilder(
-              valueListenable: isSearchBarVisible,
-              builder: (context, value, child) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height: value ? 90.h : 0,
-                  child: value
-                      ? DoctorsSearch(
-                    controller: searchController,
-                    onChanged: (p0) {},
-                  )
-                      : const SizedBox.shrink()),
-            ),
-            Expanded(
-              child: BlocBuilder<ChatCubit, ChattingState>(
-                builder: (context, state) => state.currentState == ChatStates.getChatDoctorsLoading?
-                    const Center(child: CircularProgressIndicator(),) :
+        child: BlocBuilder<ChatCubit, ChattingState>(
+          builder: (context, state) => Column(
+            children: [
+              ValueListenableBuilder(
+                valueListenable: isSearchBarVisible,
+                builder: (context, value, child) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: value ? 90.h : 0,
+                    child: value
+                        ? DoctorsSearch(
+                      controller: searchController,
+                      onChanged: context.read<ChatCubit>().search,
+                    )
+                        : const SizedBox.shrink()),
+              ),
+              Expanded(
+                child: state.currentState == ChatStates.getChatDoctorsLoading?
+                const Center(child: CircularProgressIndicator()) :
                 ListView.separated(
                     controller: scrollingController,
                     itemBuilder: (context, index) => InkWell(
-                      onTap: () => context.normalNewRoute(Chatting(info: state.chatDoctors![index])),
+                      onTap: () => context.normalNewRoute(Chatting(info: state.searchDoctorsList![index])),
                       child: ChatCard(
-                        info: state.chatDoctors![index],
+                        info: state.searchDoctorsList![index],
                       ),
                     ),
                     separatorBuilder: (context, index) => SizedBox(
                       height: 12.h,
                     ),
-                    itemCount: state.chatDoctors!.length
+                    itemCount: state.searchDoctorsList!.length
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

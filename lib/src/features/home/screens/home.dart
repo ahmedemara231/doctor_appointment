@@ -154,7 +154,6 @@ class _HomeState extends State<Home> {
                             padding: context.verticalSymmetricPadding(12.h),
                             child: InkWell(
                               onTap: () {
-                                context.read<HomeCubit>().selectDoctor(selectedDoctor: state.homeData![index].allInfo[0]);
                                 context.normalNewRoute(
                                     DoctorDetails(info:  state.homeData![index].allInfo[0])
                                 );

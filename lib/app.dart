@@ -74,7 +74,7 @@ class _MediMeetAppState extends State<MediMeetApp> {
           // theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
           //     ? ThemeData.light()
           //     : ThemeData.dark(),
-          home: UserChats(),
+          home: Home(),
           builder: EasyLoading.init(),
         ),
       ),

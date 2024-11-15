@@ -25,16 +25,17 @@ enum States {
   giveRateSuccess,
   giveRateError,
   sendMessageError,
+  searchSuccess
 }
 class HomeState extends Equatable
 {
   States? currentState;
   List<dynamic>? homeData;
-  List<dynamic>? recommendedDoctors;
-  List<dynamic>? filteredDoctors;
+  List<DoctorInfo>? recommendedDoctors;
+  List<DoctorInfo>? filteredDoctors;
   String? appointmentTime;
   String? appointmentType;
-  List<dynamic>? doctorsBasedOnSpecialization;
+  List<DoctorInfo>? doctorsBasedOnSpecialization;
   // DoctorInfo? selectedDoctor;
   List<String>? availableTimes;
   String? errorMsg;
@@ -76,11 +77,10 @@ class HomeState extends Equatable
 
   HomeState copyWith({
     required States state,
-    dynamic homeData, String? errorMessage,
-    List<dynamic>? recommendedDoctors,
-    List<dynamic>? filteredDoctors,
-    List<dynamic>? doctorsBasedOnSpecialization,
-    DoctorInfo? selectedDoctor,
+    List<dynamic>? homeData, String? errorMessage,
+    List<DoctorInfo>? recommendedDoctors,
+    List<DoctorInfo>? filteredDoctors,
+    List<DoctorInfo>? doctorsBasedOnSpecialization,
     List<String>? availableTimes,
     int? currentIndexTime,
     int? currentPage,

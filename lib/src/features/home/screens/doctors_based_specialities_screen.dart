@@ -81,9 +81,11 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
                       child: value
                           ? DoctorsSearch(
                         controller: controller,
-                        onChanged: (p0) {},
-                      )
-                          : const SizedBox.shrink()),
+                        onChanged: (p0) => context.read<HomeCubit>().search(
+                            pattern: p0,
+                            isByRecommended: false
+                        ),
+                      ) : const SizedBox.shrink()),
                 ),
                 Expanded(
                   child: Skeletonizer(
@@ -98,25 +100,21 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
                         itemBuilder: (context, index) =>
                             InkWell(
                               onTap: () {
-                                context.read<HomeCubit>().selectDoctor(
-                                    selectedDoctor: state.doctorsBasedOnSpecialization?[index]
-                                );
-
                                 context.normalNewRoute(
-                                    DoctorDetails(info: state.doctorsBasedOnSpecialization?[index])
+                                    DoctorDetails(info: state.filteredDoctors![index])
                                 );
                               },
                               child: DoctorsCard(
-                                  url: state.doctorsBasedOnSpecialization?[index].photo,
-                                  doctorName: state.doctorsBasedOnSpecialization?[index].name,
-                                  speciality: state.doctorsBasedOnSpecialization?[index].specialization.name
+                                  url: state.filteredDoctors![index].photo,
+                                  doctorName: state.filteredDoctors![index].name,
+                                  speciality: state.filteredDoctors![index].specialization.name
                               ),
                             ),
                         separatorBuilder: (context, index) =>
                             SizedBox(
                               height: 16.h,
                             ),
-                        itemCount: state.doctorsBasedOnSpecialization!.length
+                        itemCount: state.filteredDoctors!.length
                     ),
                   ),
                 ),
