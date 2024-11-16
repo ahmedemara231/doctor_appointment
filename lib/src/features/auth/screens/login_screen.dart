@@ -6,12 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_icon_button/loading_icon_button.dart';
 
 import '../../../core/constants/app_constants.dart';
-import '../../../core/helpers/app_widgets/login_register_widger.dart';
+import '../widgets/login_register_widger.dart';
 import '../../../core/helpers/base_widgets/animated_snack_bar.dart';
 import '../../../core/helpers/base_widgets/text.dart';
 import '../../../core/helpers/helper_methods/validators.dart';
-import '../blocs/auth/auth_cubit.dart';
-import '../blocs/auth/auth_state.dart';
+import '../bloc/auth_cubit.dart';
+import '../bloc/auth_state.dart';
 import '../widgets/remember_and_forgot_pass.dart';
 import '../widgets/text_field.dart';
 

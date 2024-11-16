@@ -24,6 +24,7 @@ dependencies:
 
   #  state management
   flutter_bloc: ^8.1.4
+  rxdart: ^0.27.7
   get_it: ^7.6.7
   multiple_result: ^5.1.0
   permission_handler: ^11.3.1
@@ -95,7 +96,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
   flutter_lints: ^2.0.0
 
