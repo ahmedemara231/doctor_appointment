@@ -14,5 +14,6 @@ class ApiConstants
   // Home
   static const String home = '/home/index';
   static const String showDoctorBasedId = '/doctor/show/';
+  static const String doctorSearch = '/doctor/doctor-search';
 
 }

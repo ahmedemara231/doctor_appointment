@@ -42,9 +42,9 @@ class _UserChatsState extends State<UserChats> {
   }
   @override
   void initState() {
-    PatientsDataSource.getInstance().initRef(
-        CacheHelper.getInstance().getUserData()![1]
-    ); // should be remove from here
+    // PatientsDataSource.getInstance().initRef(
+    //     CacheHelper.getInstance().getUserData()![1]
+    // ); // should be remove from here
     context.read<ChatCubit>().getChats();
     searchController = TextEditingController();
     scrollingController = ScrollController();

@@ -1,3 +1,5 @@
+import 'package:doctors_appointment/src/core/data_source/local/shared.dart';
+import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:doctors_appointment/src/core/helpers/helper_methods/file_picker.dart';
 import 'package:doctors_appointment/src/features/home/blocs/chat/state.dart';
 import 'package:doctors_appointment/src/features/home/models/doctor_data.dart';
@@ -73,7 +75,6 @@ class ChatCubit extends Cubit<ChattingState> {
       sendMessage(message: result!.path, receiverId: receiverId);
     }
   }
-
 
 
   void saveFile(){}

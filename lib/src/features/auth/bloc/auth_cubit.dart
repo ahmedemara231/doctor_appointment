@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:doctors_appointment/src/features/auth/repositories/repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/data_source/local/secure.dart';
-import '../../../../core/data_source/local/shared.dart';
-import '../../../../core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
-import '../../../../core/helpers/data_types/register_inputs.dart';
+import '../../../core/data_source/local/secure.dart';
+import '../../../core/data_source/local/shared.dart';
+import '../../../core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
+import '../../../core/helpers/data_types/register_inputs.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -48,7 +48,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
 })async {
     await cacheDataOnLoginSuccess(token: token, name: name, email: email);
-    await registerOnRealtimeDatabase(name: name, email: email);
+    // await registerOnRealtimeDatabase(name: name, email: email);
     await createCustomer();
   }
 
@@ -67,10 +67,10 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> registerOnRealtimeDatabase({required String name, required String email})async{
-    PatientsDataSource.getInstance()
-      .initRef(email);
-  }
+  // Future<void> registerOnRealtimeDatabase({required String name, required String email})async{
+  //   PatientsDataSource.getInstance()
+  //     .initRef(email);
+  // }
   Future<void> createCustomer() async{
     // final cusId = await StripePostRepo(
     //     apiService: StripeConnection.getInstance()).createCustomer(

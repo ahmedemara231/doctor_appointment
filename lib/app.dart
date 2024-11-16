@@ -5,7 +5,7 @@ import 'package:doctors_appointment/src/core/data_source/remote/stripe/repos/pos
 import 'package:doctors_appointment/src/core/data_source/remote/stripe/service/stripe_connection.dart';
 import 'package:doctors_appointment/src/core/helpers/data_types/permession_process_model.dart';
 import 'package:doctors_appointment/src/core/helpers/helper_methods/handle_permissions.dart';
-import 'package:doctors_appointment/src/features/auth/blocs/auth/auth_cubit.dart';
+import 'package:doctors_appointment/src/features/auth/bloc/auth_cubit.dart';
 import 'package:doctors_appointment/src/features/auth/data_source/auth_data_source.dart';
 import 'package:doctors_appointment/src/features/auth/repositories/repo.dart';
 import 'package:doctors_appointment/src/features/auth/screens/login_screen.dart';
@@ -17,6 +17,9 @@ import 'package:doctors_appointment/src/features/home/repositories/get.dart';
 import 'package:doctors_appointment/src/features/home/repositories/post.dart';
 import 'package:doctors_appointment/src/features/home/screens/home.dart';
 import 'package:doctors_appointment/src/features/home/screens/user_chats.dart';
+import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
+import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
+import 'package:doctors_appointment/src/features/search/screen/main_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,6 +60,7 @@ class _MediMeetAppState extends State<MediMeetApp> {
           BlocProvider<HomeCubit>(  create: (context) => GetIt.instance.get<HomeCubit>(),),
           BlocProvider<PaymentCubit>(create: (context) => GetIt.instance.get<PaymentCubit>()),
           BlocProvider<ChatCubit>(create: (context) => GetIt.instance.get<ChatCubit>()),
+          BlocProvider<WholeSearchBloc>(create: (context) => GetIt.instance.get<WholeSearchBloc>()),
         ],
         child: MaterialApp(
           // shortcuts: ,
@@ -74,7 +78,7 @@ class _MediMeetAppState extends State<MediMeetApp> {
           // theme: CacheHelper.getInstance().shared.getBool('appTheme') == false
           //     ? ThemeData.light()
           //     : ThemeData.dark(),
-          home: Home(),
+          home: UserChats(),
           builder: EasyLoading.init(),
         ),
       ),

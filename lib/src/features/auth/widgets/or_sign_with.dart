@@ -2,8 +2,8 @@ import 'package:doctors_appointment/src/core/helpers/base_extensions/context/pad
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../base_widgets/divider.dart';
-import '../base_widgets/text.dart';
+import '../../../core/helpers/base_widgets/divider.dart';
+import '../../../core/helpers/base_widgets/text.dart';
 
 class OrSignWith extends StatelessWidget {
   const OrSignWith({Key? key}) : super(key: key);
