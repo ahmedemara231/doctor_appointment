@@ -241,6 +241,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.8"
+  curved_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: curved_navigation_bar
+      sha256: bb4ab128fcb6f4a9f0f1f72d227db531818b20218984789777f049fcbf919279
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.6"
   custom_rating_bar:
     dependency: "direct main"
     description:
@@ -1334,7 +1342,7 @@ packages:
     source: hosted
     version: "1.0.3+1"
   rxdart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: rxdart
       sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
@@ -1349,14 +1357,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
-  searchable_listview:
-    dependency: "direct main"
-    description:
-      name: searchable_listview
-      sha256: aed3d927d383d090a3484403ac0f323895e8e7de31c8642d72e36a1942c44a9f
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.15.2"
   share_plus:
     dependency: "direct main"
     description:

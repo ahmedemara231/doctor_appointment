@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_icon_button/loading_icon_button.dart';
 
-import '../../../features/auth/screens/login_screen.dart';
-import '../../../features/auth/screens/register_screen.dart';
-import '../../constants/app_constants.dart';
-import '../base_widgets/text.dart';
-import 'app_loading_button.dart';
+import '../screens/login_screen.dart';
+import '../screens/register_screen.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/helpers/base_widgets/text.dart';
+import '../../../core/helpers/app_widgets/app_loading_button.dart';
 import 'or_sign_with.dart';
-import 'other_options.dart';
 
 class LoginRegisterWidget extends StatelessWidget {
 
@@ -41,10 +40,10 @@ class LoginRegisterWidget extends StatelessWidget {
           ),
         ),
         const OrSignWith(),
-        Padding(
-          padding: context.verticalSymmetricPadding(16.h),
-          child: const OtherOptions(),
-        ),
+        // Padding(
+        //   padding: context.verticalSymmetricPadding(16.h),
+        //   child: const OtherOptions(),
+        // ),
         const Text.rich(
           TextSpan(
             text: 'By logging, you agree to our ', // Default style for the first part

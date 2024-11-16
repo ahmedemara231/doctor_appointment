@@ -10,31 +10,28 @@ import '../../../core/constants/app_constants.dart';
 import '../blocs/chat/cubit.dart';
 import '../widgets/chat_widgets/bottom_bar.dart';
 
-class Chatting extends StatefulWidget {
+class Chatting extends StatelessWidget {
   final DoctorInfo info;
   const Chatting({super.key,
     required this.info
   });
 
-  @override
-  State<Chatting> createState() => _ChattingState();
-}
-
-class _ChattingState extends State<Chatting> {
   final types.User _user = const types.User(id: 'user');
+
   final types.User _doctor = const types.User(id: 'doctor');
 
   int get _creatingTime {
     return DateTime.now().millisecondsSinceEpoch - 240000;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: MyText(text: widget.info.name),
+          title: MyText(text: info.name),
       ),
       body: StreamBuilder<DatabaseEvent>(
-          stream: context.read<ChatCubit>().getMessages(receiverId: widget.info.id),
+          stream: context.read<ChatCubit>().getMessages(receiverId: info.id),
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.waiting){
               return const Center(child: CircularProgressIndicator());
@@ -52,9 +49,8 @@ class _ChattingState extends State<Chatting> {
                 onSendPressed: (message) {},
                 user: _user,
                 customBottomWidget: ChatBottomBar(
-                  info: widget.info,
+                  info: info,
                 ),
-                audioMessageBuilder: (p0, {messageWidth = 100}) => const Icon(Icons.add),
                 theme: DefaultChatTheme(
                   inputBackgroundColor: Constants.appColor,
                   primaryColor: Constants.appColor,

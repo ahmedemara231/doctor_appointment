@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/src/core/helpers/app_widgets/empty_list_widget.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/constants/app_constants.dart';
-import '../../../core/helpers/app_widgets/doctors_search.dart';
+import '../../../core/helpers/app_widgets/search_sorting.dart';
 import '../../../core/helpers/base_widgets/error_builder/screen.dart';
 import '../../../core/helpers/base_widgets/text.dart';
 import '../blocs/home/cubit.dart';
@@ -30,6 +31,7 @@ class DoctorsBasedSpecialities extends StatefulWidget {
 class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
   late TextEditingController controller;
   late ScrollController _scrollController;
+  late final GlobalKey<ScaffoldState> scaffoldKey;
   ValueNotifier<bool> isSearchBarVisible = ValueNotifier(true);
   void _scrollListener() {
     if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
@@ -48,12 +50,14 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
   @override
   void initState() {
     _requestDoctorsBasedOnSpecialization();
+    scaffoldKey = GlobalKey<ScaffoldState>();
     controller = TextEditingController();
     _scrollController = ScrollController()..addListener(_scrollListener);
     super.initState();
   }
   @override
   void dispose() {
+    scaffoldKey.currentState?.dispose();
     controller.dispose();
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
@@ -74,18 +78,16 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
             child: Column(
               children: [
                 ValueListenableBuilder(
-                  valueListenable: isSearchBarVisible,
-                  builder: (context, value, child) => AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      height: value ? 90.h : 0,
-                      child: value
-                          ? DoctorsSearch(
+                    valueListenable: isSearchBarVisible,
+                    builder: (context, value, child) => SearchAndSorting(
+                        scaffoldKey: scaffoldKey,
                         controller: controller,
+                        value: value,
                         onChanged: (p0) => context.read<HomeCubit>().search(
                             pattern: p0,
                             isByRecommended: false
-                        ),
-                      ) : const SizedBox.shrink()),
+                        )
+                    )
                 ),
                 Expanded(
                   child: Skeletonizer(
@@ -94,16 +96,14 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
                     ErrorBuilder(
                       msg: state.errorMsg.toString(),
                       onPressed: () => _requestDoctorsBasedOnSpecialization,
-                    ) :
+                    ) : state.filteredDoctors!.isEmpty?
+                    const EmptyListWidget() :
                     ListView.separated(
                       controller: _scrollController,
-                        itemBuilder: (context, index) =>
-                            InkWell(
-                              onTap: () {
-                                context.normalNewRoute(
-                                    DoctorDetails(info: state.filteredDoctors![index])
-                                );
-                              },
+                        itemBuilder: (context, index) => InkWell(
+                              onTap: () => context.normalNewRoute(
+                                  DoctorDetails(info: state.filteredDoctors![index])
+                              ),
                               child: DoctorsCard(
                                   url: state.filteredDoctors![index].photo,
                                   doctorName: state.filteredDoctors![index].name,
