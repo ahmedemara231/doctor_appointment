@@ -12,6 +12,8 @@ class Assets {
   static const String imagesPediatric = 'assets/images/Pediatric.png';
   static const String imagesRadiology = 'assets/images/Radiology.png';
   static const String imagesSadFace = 'assets/images/sad_face.webp';
+  static const String imagesSplash1 = 'assets/images/splash1.svg';
+  static const String imagesSplash2 = 'assets/images/splash2.svg';
   static const String imagesSuccessfulPay = 'assets/images/successful_pay.svg';
   static const String imagesVisa = 'assets/images/visa.jpeg';
   static const String translationsArSA = 'assets/translations/ar-SA.json';

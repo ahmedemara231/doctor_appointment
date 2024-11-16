@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../core/data_source/local/shared.dart';
+import '../../core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import '../Profile/screens/profile.dart';
 
 class BottomBar extends StatefulWidget {
@@ -29,6 +31,13 @@ class _BottomBarState extends State<BottomBar> {
     setState(() {currentPage = index;});
   }
 
+  @override
+  void initState() {
+    PatientsDataSource.getInstance().initRef(
+        CacheHelper.getInstance().getUserData()![1]
+    );
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

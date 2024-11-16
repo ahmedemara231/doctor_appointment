@@ -32,10 +32,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    context.read<HomeCubit>().getHomeData()
-        .then((value) => PatientsDataSource.getInstance().initRef(
-        CacheHelper.getInstance().getUserData()![1]
-    ));
+    context.read<HomeCubit>().getHomeData();
     super.initState();
   }
 

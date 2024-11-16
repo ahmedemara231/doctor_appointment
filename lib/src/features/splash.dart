@@ -1,7 +1,12 @@
 import 'dart:async';
+import 'package:doctors_appointment/generated/assets.dart';
+import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:svg_flutter/svg.dart';
 import '../core/data_source/local/shared.dart';
 import '../core/helpers/helper_methods/internet_connection_interceptor.dart';
+import 'auth/screens/login_screen.dart';
+import 'bottom_bar/screen.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -30,18 +35,11 @@ class _SplashState extends State<Splash> {
   Future<void> _navigate() async {
     Timer(
         const Duration(seconds: 2), () {
-      switch (CacheHelper.getInstance().shared.getBool('finishOnBoarding'))
-      {
+      switch (userLoginState) {
         case true:
-          switch (userLoginState)
-          {
-            case true:
-              // context.removeOldRoute(const Login());
-            default:
-              // context.removeOldRoute(const BottomNavBar());
-          }
+          context.removeOldRoute(const Login());
         default:
-          // context.removeOldRoute(const OnBoarding());
+          context.removeOldRoute(const BottomBar());
       }
     });
   }
@@ -58,11 +56,14 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      body: const Center(
-        // child: Image.asset(
-        //   'images/app_logo.png',
-        //   color: Colors.white,
-        // ),
+      body: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            SvgPicture.asset(Assets.imagesSplash2),
+            SvgPicture.asset(Assets.imagesSplash1),
+          ],
+        ),
       ),
     );
   }

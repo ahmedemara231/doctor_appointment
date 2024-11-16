@@ -21,6 +21,7 @@ import 'package:doctors_appointment/src/features/home/screens/user_chats.dart';
 import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
 import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
 import 'package:doctors_appointment/src/features/search/screen/main_screen.dart';
+import 'package:doctors_appointment/src/features/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,7 +81,7 @@ class _MediMeetAppState extends State<MediMeetApp> {
           //     ? ThemeData.light()
           //     : ThemeData.dark(),
 
-          home: BottomBar(),
+          home: Splash(),
           builder: EasyLoading.init(),
         ),
       ),

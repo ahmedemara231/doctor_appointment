@@ -1,11 +1,13 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_icon_button/loading_icon_button.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../bottom_bar/screen.dart';
 import '../widgets/login_register_widger.dart';
 import '../../../core/helpers/base_widgets/animated_snack_bar.dart';
 import '../../../core/helpers/base_widgets/text.dart';
@@ -90,6 +92,7 @@ class _LoginState extends State<Login> {
                       btnController.success();
                       waitAndReset();
                       AppSnakeBar.show(context, title: state.resultMsg);
+                      context.removeOldRoute(const BottomBar());
 
                     case States.loginError:
                       btnController.error();
