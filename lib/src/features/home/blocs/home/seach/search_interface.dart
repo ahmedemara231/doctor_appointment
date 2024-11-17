@@ -1,5 +1,4 @@
 import 'package:doctors_appointment/src/features/home/models/doctor_data.dart';
-
 abstract class Search{
   static List<DoctorInfo> execute({
     required List<DoctorInfo> fullList,
@@ -10,7 +9,8 @@ abstract class Search{
       return List.from(fullList);
     }else{
       result = fullList
-          .where((element) => element.name.toLowerCase().contains(pattern))
+          .where((element) => element.name.toLowerCase()
+          .contains(pattern))
           .toList();
     }
     return result;

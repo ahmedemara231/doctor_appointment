@@ -1,5 +1,5 @@
 import 'package:doctors_appointment/src/core/helpers/app_widgets/empty_list_widget.dart';
-import 'package:doctors_appointment/src/core/helpers/app_widgets/search_sorting.dart';
+import 'package:doctors_appointment/src/features/home/widgets/recommended_doctors_widgets/sorting.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/src/core/helpers/base_widgets/error_builder/screen.dart';
@@ -85,24 +85,24 @@ class _WholeDoctorsSearchState extends State<WholeDoctorsSearch> {
         padding: context.horizontalSymmetricPadding(12.w),
         child: Column(
           children: [
-            ValueListenableBuilder(
-                valueListenable: isSearchBarVisible,
-                builder: (context, value, child) => SearchAndSorting(
-                  value: value,
-                  scaffoldKey: scaffoldKey,
-                  controller: searchController,
-                  onChanged: (pattern) => context.read<WholeSearchBloc>().add(ClickNewLetter(pattern)),
-                  // sortByWidgets: [
-                  //   SortByWidget(
-                  //       sortingType: 'Specialization',
-                  //       sortingValues: values,
-                  //       onSort: (selectedOption) {},
-                  //       selectedIndex: selectedIndex
-                  //   )
-                  // ],
-                  // onSortBtnPress: () => context.read<HomeCubit>().sortDoctors(result),
-                )
-            ),
+            // ValueListenableBuilder(
+            //     valueListenable: isSearchBarVisible,
+            //     builder: (context, value, child) => SearchAndSorting(
+            //       value: value,
+            //       scaffoldKey: scaffoldKey,
+            //       controller: searchController,
+            //       onChanged: (pattern) => context.read<WholeSearchBloc>().add(ClickNewLetter(pattern)),
+            //       // sortByWidgets: [
+            //       //   SortByWidget(
+            //       //       sortingType: 'Specialization',
+            //       //       sortingValues: values,
+            //       //       onSort: (selectedOption) {},
+            //       //       selectedIndex: selectedIndex
+            //       //   )
+            //       // ],
+            //       // onSortBtnPress: () => context.read<HomeCubit>().sortDoctors(result),
+            //     )
+            // ),
             BlocBuilder<WholeSearchBloc, SearchState>(
               builder: (context, state) => Expanded(
                 child: state.currentState == WholeSearchStates.searchLoading?

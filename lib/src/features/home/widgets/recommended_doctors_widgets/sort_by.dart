@@ -9,13 +9,11 @@ class SortByWidget extends StatefulWidget {
     required this.sortingType,
     required this.sortingValues,
     required this.onSort,
-    required this.selectedIndex
-  });
+});
 
-  final void Function(String selectedOption) onSort;
-  final String sortingType;
+final void Function(String selectedOption) onSort;
+final String sortingType;
   final List<String> sortingValues;
-  final int selectedIndex;
 
   @override
   State<SortByWidget> createState() => _SortByWidgetState();
@@ -24,9 +22,11 @@ class SortByWidget extends StatefulWidget {
 class _SortByWidgetState extends State<SortByWidget> {
 
   late int selected;
+
   @override
   void initState() {
-    selected = widget.selectedIndex;
+    selected = 0;
+    widget.onSort(widget.sortingValues[0]);
     super.initState();
   }
   @override
@@ -60,11 +60,13 @@ class _SortByWidgetState extends State<SortByWidget> {
                               if(widget.sortingType == 'Rating')
                                 Icon(
                                   Icons.star,
-                                  color: selected == index? Colors.white : Colors.grey.withOpacity(.4),
+                                  color: selected == index?
+                                  Colors.white : Colors.grey.withOpacity(.4),
                                 ),
                               MyText(
                                 text: widget.sortingValues[index],
-                                color: selected == index? Colors.white : Colors.grey.withOpacity(.4),
+                                color: selected == index?
+                                Colors.white : Colors.grey.withOpacity(.4),
                               ),
                             ],
                           )

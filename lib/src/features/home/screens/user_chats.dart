@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../../core/helpers/app_widgets/doctors_search.dart';
 
 class UserChats extends StatefulWidget {
@@ -21,8 +22,6 @@ class UserChats extends StatefulWidget {
 class _UserChatsState extends State<UserChats> {
   late final TextEditingController searchController;
   late final ScrollController scrollingController;
-  // bool isSearchBarVisible = true;
-
   ValueNotifier<bool> isSearchBarVisible = ValueNotifier(true);
 
   void _scrollListener() {
@@ -86,7 +85,10 @@ class _UserChatsState extends State<UserChats> {
                 ListView.separated(
                     controller: scrollingController,
                     itemBuilder: (context, index) => InkWell(
-                      onTap: () => context.normalNewRoute(Chatting(info: state.searchDoctorsList![index])),
+                      onTap: () => context.normalNewRoute(
+                          Chatting(info: state.searchDoctorsList![index]),
+                          type: PageTransitionType.rightToLeft
+                      ),
                       child: ChatCard(
                         info: state.searchDoctorsList![index],
                       ),

@@ -7,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/constants/app_constants.dart';
-import '../../../core/helpers/app_widgets/search_sorting.dart';
+import '../../../core/helpers/app_widgets/doctors_search.dart';
+import '../widgets/recommended_doctors_widgets/sorting.dart';
 import '../../../core/helpers/base_widgets/error_builder/screen.dart';
 import '../../../core/helpers/base_widgets/text.dart';
 import '../blocs/home/cubit.dart';
@@ -31,7 +32,7 @@ class DoctorsBasedSpecialities extends StatefulWidget {
 class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
   late TextEditingController controller;
   late ScrollController _scrollController;
-  late final GlobalKey<ScaffoldState> scaffoldKey;
+  late final GlobalKey<ScaffoldState> _scaffoldKey;
   ValueNotifier<bool> isSearchBarVisible = ValueNotifier(true);
   void _scrollListener() {
     if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
@@ -50,14 +51,14 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
   @override
   void initState() {
     _requestDoctorsBasedOnSpecialization();
-    scaffoldKey = GlobalKey<ScaffoldState>();
+    _scaffoldKey = GlobalKey<ScaffoldState>();
     controller = TextEditingController();
     _scrollController = ScrollController()..addListener(_scrollListener);
     super.initState();
   }
   @override
   void dispose() {
-    scaffoldKey.currentState?.dispose();
+    _scaffoldKey.currentState?.dispose();
     controller.dispose();
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
@@ -67,6 +68,7 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: MyText(text: Constants.specialities[widget.index].speciality),
         centerTitle: true,
@@ -79,14 +81,29 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
               children: [
                 ValueListenableBuilder(
                     valueListenable: isSearchBarVisible,
-                    builder: (context, value, child) => SearchAndSorting(
-                        scaffoldKey: scaffoldKey,
-                        controller: controller,
-                        value: value,
-                        onChanged: (p0) => context.read<HomeCubit>().search(
-                            pattern: p0,
-                            isByRecommended: false
+                    builder: (context, value, child) => Row(
+                      children: [
+                        Expanded(
+                          child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              height: isSearchBarVisible.value ? 90.h : 0,
+                              child: isSearchBarVisible.value ?
+                              DoctorsSearch(
+                                controller: controller,
+                                onChanged: (p0) => context.read<HomeCubit>().search(
+                                    pattern: p0,
+                                    isByRecommended: false
+                                ),
+                              ) : const SizedBox.shrink()
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () => _scaffoldKey.currentState!.showBottomSheet(
+                                    (context) => const Sorting(isRecommended: false)
+                            ),
+                            icon: const Icon(Icons.sort)
                         )
+                      ],
                     )
                 ),
                 Expanded(

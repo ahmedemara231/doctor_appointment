@@ -59,7 +59,7 @@ class HomeCubit extends Cubit<HomeState>
     required String pattern,
     required bool isByRecommended,
 }){
-    final List<DoctorInfo> fullList = select(isByRecommended);
+    final List<DoctorInfo> fullList = List.from( select(isByRecommended));
     List<DoctorInfo> result = [];
     switch(pattern){
       case '':
@@ -67,7 +67,8 @@ class HomeCubit extends Cubit<HomeState>
 
       default:
         result = fullList
-            .where((element) => element.name.toLowerCase().contains(pattern))
+            .where((element) => element.name.toLowerCase()
+            .contains(pattern))
             .toList();
     }
     emit(state.copyWith(
@@ -76,19 +77,24 @@ class HomeCubit extends Cubit<HomeState>
     ));
   }
 
-  void sortDoctors(SortingResult result) {
+  void sortDoctors({
+    required SortingResult result,
+    required bool isRecommended,
+}){
     final selectedSpeciality = result.speciality;
     final selectedRating = result.rating;
 
-    final List<DoctorInfo> recommendedDoctors = List.from(state.recommendedDoctors!);
+    final List<DoctorInfo> doctors = List.from(select(isRecommended));
     List<DoctorInfo> filteredDoctors = [];
 
     switch(selectedSpeciality){
       case 'All':
-        filteredDoctors = List.from(recommendedDoctors);
+        filteredDoctors = List.from(doctors);
 
       default:
-        filteredDoctors = recommendedDoctors.where((doctor) => doctor.specialization.name == selectedSpeciality).toList();
+        filteredDoctors = doctors
+            .where((doctor) => doctor.specialization.name == selectedSpeciality)
+            .toList();
     }
 
     emit(state.copyWith(
