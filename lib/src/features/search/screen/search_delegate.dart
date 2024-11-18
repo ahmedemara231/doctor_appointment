@@ -35,7 +35,7 @@ class AppSearch extends SearchDelegate{
   Widget buildSuggestions(BuildContext context) {
     context.read<WholeSearchBloc>().add(ClickNewLetter(query));
 
-    return  BlocBuilder<WholeSearchBloc, SearchState>(
+    return BlocBuilder<WholeSearchBloc, SearchState>(
       builder: (context, state) => state.currentState == WholeSearchStates.searchLoading?
       const Center(child: CircularProgressIndicator(),) : state.currentState == WholeSearchStates.searchError?
       ErrorBuilder(

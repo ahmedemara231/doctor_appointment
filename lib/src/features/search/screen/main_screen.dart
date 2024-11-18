@@ -2,9 +2,11 @@ import 'package:doctors_appointment/src/core/constants/app_constants.dart';
 import 'package:doctors_appointment/src/core/data_source/local/shared.dart';
 import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
+import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/src/core/helpers/base_widgets/text.dart';
 import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
 import 'package:doctors_appointment/src/features/search/screen/search_delegate.dart';
+import 'package:doctors_appointment/src/features/search/screen/search_on_former_result.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,17 +90,24 @@ class _WholeDoctorsSearchState extends State<WholeDoctorsSearch> {
                 itemBuilder: (context, snapshot, animation, index) {
                   return SizeTransition(
                     sizeFactor: animation,
-                    child: ListTile(
-                      leading: Icon(Icons.access_time, color: Colors.grey[400],),
-                      title: MyText(
-                          text: '${(snapshot.value as Map)['searchAbout']}',
-                          color: Colors.grey[400]
+                    child: InkWell(
+                      onTap: () => context.normalNewRoute(
+                          SearchOnFormerResult(pattern: snapshot.key.toString()
+                          )
                       ),
-                      trailing: IconButton(
-                        onPressed: ()async{
-                          snapshot.child(snapshot.key.toString()).ref.remove();
-                        },
-                        icon: Icon(Icons.delete, color: Colors.grey[400]),
+                      child: ListTile(
+                        leading: Icon(Icons.access_time, color: Colors.grey[400],),
+                        title: MyText(
+                          text: snapshot.key.toString(),
+                            // text: '${(snapshot.value as Map)['searchAbout']}',
+                            color: Colors.grey[400]
+                        ),
+                        trailing: IconButton(
+                          onPressed: ()async{
+                            snapshot.child(snapshot.key.toString()).ref.remove();
+                          },
+                          icon: Icon(Icons.delete, color: Colors.grey[400]),
+                        ),
                       ),
                     ),
                   );

@@ -13,10 +13,8 @@ class CacheHelper
 
   late SharedPreferences shared;
 
-  Future<void> cacheInit()async
-  {
+  Future<void> cacheInit()async {
     shared = await SharedPreferences.getInstance();
-    log('Done');
   }
 
   Future<void> setData({
@@ -24,8 +22,7 @@ class CacheHelper
     required dynamic value,
   })async
   {
-    switch(value.runtimeType)
-    {
+    switch(value.runtimeType) {
       case String:
         await shared.setString(key, value);
 
@@ -43,13 +40,11 @@ class CacheHelper
     }
   }
 
-  void clearCache()async
-  {
+  void clearCache()async {
     await shared.clear();
   }
 
-  List<String>? getUserData()
-  {
+  List<String>? getUserData() {
     return shared.getStringList('userData');
   }
 }
