@@ -11,6 +11,7 @@ class WholeSearchBloc extends Bloc<SearchEvent, SearchState> {
   WholeSearchBloc(this._repo) : super(SearchState.initial()) {
     on<SearchEvent>((event, emit) => _resetSearchState(emit));
     on<SortDoctor>((event, emit) => _sortDoctors(event.result, emit));
+    on<AddSearchHistory>((event, emit) => _addSearchHistory(event.result));
     on<ClickNewLetter>((event, emit)async =>  await _search(event.pattern, emit),
       transformer: debounce(const Duration(milliseconds: 250)),
     );
@@ -65,5 +66,9 @@ class WholeSearchBloc extends Bloc<SearchEvent, SearchState> {
       currentState: WholeSearchStates.searchSuccess,
       doctorsInfo: const []
     ));
+  }
+
+  Future<void> _addSearchHistory(String result)async{
+    await _repo.storeSearchResult(result);
   }
 }

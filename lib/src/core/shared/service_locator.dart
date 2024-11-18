@@ -56,7 +56,12 @@ class ServiceLocator{
         )
     ));
     _getIt.registerLazySingleton<WholeSearchBloc>(() => WholeSearchBloc(
-      SearchRepo(WholeSearchDataSource(DioConnection.getInstance()))
+      SearchRepo(
+          WholeSearchDataSource(
+              apiService: DioConnection.getInstance(),
+              dataSource: PatientsDataSource.getInstance()
+          )
+      )
     ));
 
   }

@@ -1,6 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 
-abstract interface class ChatWith{
+abstract interface class RealtimeServices{
   Future<String> sendMessage({
     required String message,
     required int receiverId

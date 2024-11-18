@@ -6,7 +6,7 @@ import '../error_handling/error_handler.dart';
 import '../error_handling/firebase_error_handler.dart';
 import '../interface.dart';
 
-class PatientsDataSource implements ChatWith{
+class PatientsDataSource implements RealtimeServices{
   late DatabaseReference patientsRef;
   static PatientsDataSource? _instance;
   PatientsDataSource._internal();
@@ -21,10 +21,12 @@ class PatientsDataSource implements ChatWith{
       ..goOnline();
   }
 
-  void initRef(String emailPart)async{
+  DatabaseReference initRef(String emailPart){
     patientsRef = FirebaseDatabase.instance.ref(
         'users/patients/$emailPart'
     );
+
+    return patientsRef;
   }
 
   Future<Result<void, FirebaseError>> registerAccountOnRealtimeDatabase({
@@ -101,4 +103,27 @@ class PatientsDataSource implements ChatWith{
     }
   }
 
+  // Future<int> get _calcNumberOfSearchResults async{
+  //   late int searchResultsLength;
+  //   DatabaseReference reference = patientsRef.child('searchHistory');
+  //   DataSnapshot snapshot = await reference.get();
+  //   searchResultsLength = snapshot.children.length;
+  //   return searchResultsLength;
+  // }
+
+  Future<String> storeSearchResult(String result)async{
+    try{
+      await patientsRef
+          .child('searchHistory')
+          .child(result)
+          .set({'searchAbout' : result});
+          // .child('s${await _calcNumberOfSearchResults + 1}')
+          // .set({'searchResult' : result});
+
+      return '';
+    }on FirebaseException catch(e){
+      throw RealTimeErrorHandler.handle(e);
+    }
+  }
+  
 }

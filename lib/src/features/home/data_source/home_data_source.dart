@@ -11,7 +11,7 @@ import '../../../core/helpers/data_types/make_appointment.dart';
 
 class HomeDataSource{
   final ApiService _apiService;
-  late final ChatWith _chat;
+  late final RealtimeServices _chat;
   HomeDataSource(this._apiService, this._chat);
 
   Future<AllDoctorsData> getHomeData()async{

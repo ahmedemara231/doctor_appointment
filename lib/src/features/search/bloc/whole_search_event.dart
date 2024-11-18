@@ -12,3 +12,7 @@ final class SortDoctor extends SearchEvent{
 }
 
 final class ResetSearchState extends SearchEvent{}
+final class AddSearchHistory extends SearchEvent{
+  String result;
+  AddSearchHistory(this.result);
+}

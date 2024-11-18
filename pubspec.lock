@@ -537,6 +537,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.6.8"
+  firebase_ui_database:
+    dependency: "direct main"
+    description:
+      name: firebase_ui_database
+      sha256: fa6e60e724edb0df566433cc8d25464f604b6d71c7fbf37dd0bb8a93426340fe
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.4.3"
+  firebase_ui_localizations:
+    dependency: transitive
+    description:
+      name: firebase_ui_localizations
+      sha256: "7c0d9f59a7f8dfe728019bc7ac5dc85e119f59ec9ede2e01b128b39b8492090b"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.13.0"
   fixnum:
     dependency: transitive
     description:
