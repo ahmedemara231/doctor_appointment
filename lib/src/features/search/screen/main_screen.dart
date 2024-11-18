@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/helpers/app_widgets/doctors_search.dart';
 import '../../home/widgets/main_screen_widgets/doctors_card.dart';
 
@@ -40,6 +39,7 @@ class _WholeDoctorsSearchState extends State<WholeDoctorsSearch> {
   }
   @override
   void initState() {
+    context.read<WholeSearchBloc>().add(ResetSearchState());
     searchController = TextEditingController();
     _scrollController = ScrollController()..addListener(_scrollListener);
     super.initState();

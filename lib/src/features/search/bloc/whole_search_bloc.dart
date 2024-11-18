@@ -9,15 +9,10 @@ part 'whole_search_state.dart';
 
 class WholeSearchBloc extends Bloc<SearchEvent, SearchState> {
   WholeSearchBloc(this._repo) : super(SearchState.initial()) {
-    on<SearchEvent>((event, emit)async {
-      switch(event){
-        case ClickNewLetter():
-          await _search(event.pattern, emit);
-
-        case SortDoctor():
-          _sortDoctors(event.result, emit);
-      }
-      }, transformer: debounce(const Duration(milliseconds: 250)),
+    on<SearchEvent>((event, emit) => _resetSearchState(emit));
+    on<SortDoctor>((event, emit) => _sortDoctors(event.result, emit));
+    on<ClickNewLetter>((event, emit)async =>  await _search(event.pattern, emit),
+      transformer: debounce(const Duration(milliseconds: 250)),
     );
   }
 
@@ -63,6 +58,12 @@ class WholeSearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(state.copyWith(
         currentState: WholeSearchStates.searchSuccess,
         filteredDoctors: filteredDoctors
+    ));
+  }
+  void _resetSearchState(Emitter<SearchState> emit){
+    emit(state.copyWith(
+      currentState: WholeSearchStates.searchSuccess,
+      doctorsInfo: const []
     ));
   }
 }

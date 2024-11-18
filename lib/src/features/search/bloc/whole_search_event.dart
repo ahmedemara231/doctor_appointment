@@ -10,3 +10,5 @@ final class SortDoctor extends SearchEvent{
   SortingResult result;
   SortDoctor(this.result);
 }
+
+final class ResetSearchState extends SearchEvent{}
