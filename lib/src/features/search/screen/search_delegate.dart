@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../../core/helpers/app_widgets/empty_list_widget.dart';
 import '../../../core/helpers/base_widgets/error_builder/screen.dart';
 import '../../home/screens/doctor_details.dart';
@@ -27,17 +26,10 @@ class AppSearch extends SearchDelegate{
 
   @override
   Widget buildResults(BuildContext context) {
-    context.read<WholeSearchBloc>().add(AddSearchHistory(query));
-    return const SizedBox.shrink();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
     context.read<WholeSearchBloc>().add(ClickNewLetter(query));
-
     return BlocBuilder<WholeSearchBloc, SearchState>(
       builder: (context, state) => state.currentState == WholeSearchStates.searchLoading?
-      const Center(child: CircularProgressIndicator(),) : state.currentState == WholeSearchStates.searchError?
+      const Center(child: CircularProgressIndicator()) : state.currentState == WholeSearchStates.searchError?
       ErrorBuilder(
         msg: state.errorMessage!,
         onPressed: () {},
@@ -71,6 +63,40 @@ class AppSearch extends SearchDelegate{
         ],
       ),
     );
+  }
+
+  @override
+  void showResults(BuildContext context) { // when enter pressed
+    context.read<WholeSearchBloc>().add(AddSearchHistory(query));
+    super.showResults(context);
+  }
+  @override
+  Widget buildSuggestions(BuildContext context) { // result
+    context.read<WholeSearchBloc>().add(ClickNewLetter(query));
+
+    return BlocBuilder<WholeSearchBloc, SearchState>(
+      builder: (context, state) => state.currentState == WholeSearchStates.searchLoading?
+      const Center(child: CircularProgressIndicator(),) : state.currentState == WholeSearchStates.searchError?
+      ErrorBuilder(
+        msg: state.errorMessage!,
+        onPressed: () {},
+      ) : state.doctorsInfo!.isEmpty? const EmptyListWidget() :
+      Expanded(
+        child: ListView.builder(
+          itemCount: state.doctorsInfo!.length ~/ 4,
+          itemBuilder: (context, index) => InkWell(
+            onTap: () => context.normalNewRoute(
+                DoctorDetails(info: state.doctorsInfo![index]
+                )
+            ),
+            child: ListTile(
+              title: MyText(text: state.doctorsInfo![index].name, fontSize: 14.sp, fontWeight: FontWeight.w500,),
+              subtitle: MyText(text: state.doctorsInfo![index].specialization.name, color: Colors.grey,fontSize: 12.sp,),
+              trailing: Icon(Icons.arrow_forward, size: 14.sp,),
+            ),
+          ),),
+      ),
+    );
 
     // BlocBuilder<WholeSearchBloc, SearchState>(
     //   builder: (context, state) => Expanded(
@@ -98,6 +124,5 @@ class AppSearch extends SearchDelegate{
     //     )
     //   ),
     // ),
-
   }
 }

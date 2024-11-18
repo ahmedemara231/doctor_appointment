@@ -6,13 +6,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class NetworkImageHandler extends StatelessWidget {
   final String url;
-  const NetworkImageHandler({super.key, required this.url});
+  final BoxShape? shape;
+  const NetworkImageHandler({super.key,
+    required this.url,
+    this.shape
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        shape: shape?? BoxShape.rectangle
+      ),
       child: Image.network(
         url,
         fit: BoxFit.fill,

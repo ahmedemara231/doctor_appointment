@@ -23,9 +23,12 @@ class SearchOnFormerResult extends StatefulWidget {
 
 class _SearchOnFormerResultState extends State<SearchOnFormerResult> {
 
+  Future<void> _search()async{
+    context.read<WholeSearchBloc>().add(ClickNewLetter(widget.pattern));
+  }
   @override
   void initState() {
-    context.read<WholeSearchBloc>().add(ClickNewLetter(widget.pattern));
+    _search();
     super.initState();
   }
   @override
@@ -41,7 +44,7 @@ class _SearchOnFormerResultState extends State<SearchOnFormerResult> {
           const Center(child: CircularProgressIndicator(),) : state.currentState == WholeSearchStates.searchError?
           ErrorBuilder(
             msg: state.errorMessage!,
-            onPressed: () {},
+            onPressed: () => _search(),
           ) : state.doctorsInfo!.isEmpty? const EmptyListWidget() :
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

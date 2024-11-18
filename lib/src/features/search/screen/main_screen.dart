@@ -99,7 +99,6 @@ class _WholeDoctorsSearchState extends State<WholeDoctorsSearch> {
                         leading: Icon(Icons.access_time, color: Colors.grey[400],),
                         title: MyText(
                           text: snapshot.key.toString(),
-                            // text: '${(snapshot.value as Map)['searchAbout']}',
                             color: Colors.grey[400]
                         ),
                         trailing: IconButton(

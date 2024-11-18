@@ -135,17 +135,16 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, state) {
-                      return Skeletonizer(
+                    builder: (context, state) => Skeletonizer(
                         enabled: state.currentState == States.homeDataLoading,
                         child: state.currentState == States.homeDataError?
                         SizedBox(
                           height: 200.h,
-                            child: ErrorBuilder(
-                              msg: state.errorMsg!,
-                              onPressed: () => context.read<HomeCubit>().getHomeData(),
-                            )
-                        ):
+                          child: ErrorBuilder(
+                            msg: state.errorMsg!,
+                            onPressed: () => context.read<HomeCubit>().getHomeData(),
+                          )
+                      ):
                         Column(
                           children: List.generate(state.homeData!.length, (index) => Padding(
                             padding: context.verticalSymmetricPadding(12.h),
@@ -162,9 +161,8 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ))
-                        )
-                      );
-                    },
+                      )
+                    ),
                   )
                 ],
               ),
