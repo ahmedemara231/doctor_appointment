@@ -1,10 +1,12 @@
 import 'package:doctors_appointment/generated/assets.dart';
+import 'package:doctors_appointment/src/features/home/widgets/doctor_details_widgets/base_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../core/helpers/base_widgets/text.dart';
 import '../../../blocs/home/cubit.dart';
 import '../../../blocs/home/state.dart';
+import '../../../models/doctor_data.dart';
 import '../interface.dart';
 
 class Summary extends StatelessWidget implements CheckingValue {

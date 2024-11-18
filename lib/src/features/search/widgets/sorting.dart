@@ -1,34 +1,24 @@
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/mediaQuery.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
-import 'package:doctors_appointment/src/features/home/blocs/home/sorting/impl.dart';
-import 'package:doctors_appointment/src/features/home/blocs/home/sorting/interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_icon_button/loading_icon_button.dart';
 
-import '../../blocs/home/cubit.dart';
-import '../../models/doctor_data.dart';
-import 'sort_by.dart';
-import '../../../../core/helpers/base_widgets/text.dart';
-import '../../../../core/helpers/data_types/sorting_result.dart';
-import '../../../../core/helpers/app_widgets/app_loading_button.dart';
+import '../../../core/helpers/app_widgets/app_loading_button.dart';
+import '../../../core/helpers/base_widgets/text.dart';
+import '../../../core/helpers/data_types/sorting_result.dart';
+import '../../home/widgets/recommended_doctors_widgets/sort_by.dart';
 
-class Sorting extends StatefulWidget {
 
-  final SortingInterface place;
-  final List<DoctorInfo> preSortedDoctorsList;
-
-  const Sorting({super.key,
-    required this.place,
-    required this.preSortedDoctorsList,
-  });
+class WholeSearchSorting extends StatefulWidget {
+  const WholeSearchSorting({super.key});
 
   @override
-  State<Sorting> createState() => _SortingState();
+  State<WholeSearchSorting> createState() => _WholeSearchSortingState();
 }
 
-class _SortingState extends State<Sorting> {
+class _WholeSearchSortingState extends State<WholeSearchSorting> {
 
   late LoadingButtonController btnController;
   SortingResult result = SortingResult();
@@ -67,10 +57,9 @@ class _SortingState extends State<Sorting> {
               padding: context.verticalSymmetricPadding(16.h),
               child: const Divider(),
             ),
-            if(widget.place is RecommendedDoctorsImpl)
-              SortByWidget(sortingType: 'Specialization', sortingValues: values, onSort: (selectedOption) {
-                result.speciality = selectedOption;
-              },),
+            SortByWidget(sortingType: 'Specialization', sortingValues: values, onSort: (selectedOption) {
+              result.speciality = selectedOption;
+            },),
             Padding(
               padding: context.verticalSymmetricPadding(22.h),
               child: SortByWidget(
@@ -78,16 +67,11 @@ class _SortingState extends State<Sorting> {
                 sortingValues: ratingValues,
                 onSort: (selectedOption) {
                   result.rating = selectedOption;
-                  },
-              ),
+                },),
             ),
             AppLoadingButton(
                 onPressed: () {
-                  context.read<HomeCubit>().sortDoctors(
-                      result: result,
-                      place: widget.place,
-                      preSortedDoctorsList: widget.preSortedDoctorsList,
-                  );
+
                   btnController.success();
                   Navigator.pop(context);
                 },

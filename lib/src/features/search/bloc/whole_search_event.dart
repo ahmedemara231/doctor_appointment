@@ -5,3 +5,8 @@ final class ClickNewLetter extends SearchEvent{
   String pattern;
   ClickNewLetter(this.pattern);
 }
+
+final class SortDoctor extends SearchEvent{
+  SortingResult result;
+  SortDoctor(this.result);
+}

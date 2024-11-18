@@ -4,11 +4,13 @@ enum WholeSearchStates{searchInitial, searchLoading, searchSuccess, searchError}
 final class SearchState extends Equatable {
   WholeSearchStates? currentState;
   List<DoctorInfo>? doctorsInfo;
+  List<DoctorInfo>? filteredDoctors;
   String? errorMessage;
 
   SearchState({
     this.currentState,
     this.doctorsInfo,
+    this.filteredDoctors,
     this.errorMessage
   });
 
@@ -16,6 +18,7 @@ final class SearchState extends Equatable {
     return SearchState(
       currentState: WholeSearchStates.searchInitial,
       doctorsInfo: const [],
+      filteredDoctors: const [],
       errorMessage: '',
     );
   }
@@ -23,11 +26,13 @@ final class SearchState extends Equatable {
   SearchState copyWith({
     WholeSearchStates? currentState,
     List<DoctorInfo>? doctorsInfo,
+    List<DoctorInfo>? filteredDoctors,
     String? errorMessage
 }){
     return SearchState(
       currentState: currentState,
       doctorsInfo: doctorsInfo?? doctorsInfo,
+      filteredDoctors: filteredDoctors?? filteredDoctors,
       errorMessage: errorMessage?? errorMessage,
     );
   }
@@ -35,6 +40,7 @@ final class SearchState extends Equatable {
   List<Object?> get props => [
     currentState,
     doctorsInfo,
+    filteredDoctors,
     errorMessage,
   ];
 }

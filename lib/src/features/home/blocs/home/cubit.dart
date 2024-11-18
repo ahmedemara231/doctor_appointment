@@ -1,3 +1,4 @@
+import 'package:doctors_appointment/src/features/home/blocs/home/sorting/interface.dart';
 import 'package:doctors_appointment/src/features/home/blocs/home/state.dart';
 import 'package:doctors_appointment/src/features/home/repositories/get.dart';
 import 'package:doctors_appointment/src/features/home/repositories/post.dart';
@@ -78,27 +79,17 @@ class HomeCubit extends Cubit<HomeState>
   }
 
   void sortDoctors({
+    required SortingInterface place,
     required SortingResult result,
-    required bool isRecommended,
+    required List<DoctorInfo> preSortedDoctorsList
 }){
-    final selectedSpeciality = result.speciality;
-    final selectedRating = result.rating;
-
-    final List<DoctorInfo> doctors = List.from(select(isRecommended));
-    List<DoctorInfo> filteredDoctors = [];
-
-    switch(selectedSpeciality){
-      case 'All':
-        filteredDoctors = List.from(doctors);
-
-      default:
-        filteredDoctors = doctors
-            .where((doctor) => doctor.specialization.name == selectedSpeciality)
-            .toList();
-    }
+    final List<DoctorInfo> filteredDoctors = place.execute(
+        result: result,
+        preSortedDoctorsList: preSortedDoctorsList
+    );
 
     emit(state.copyWith(
-        state: States.homeDataSuccess,
+        state: States.sortDoctors,
         filteredDoctors: filteredDoctors
     ));
   }
@@ -108,7 +99,7 @@ class HomeCubit extends Cubit<HomeState>
     final result = await getRepo.showDoctorsBasedOnSpecialization(specializationIndex);
     result.when(
             (success) => emit(state.copyWith(
-                state: States.homeDataSuccess,
+                state: States.doctorsBasedOnSpecializationSuccess,
                 doctorsBasedOnSpecialization: success.allInfo,
                 filteredDoctors: success.allInfo
             )),

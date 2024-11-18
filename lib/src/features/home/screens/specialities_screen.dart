@@ -12,7 +12,7 @@ class Specialities extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: MyText(text: 'Doctor Speciality'),
+        title: const MyText(text: 'Doctor Speciality'),
         centerTitle: true,
       ),
       body:  GridView.builder(

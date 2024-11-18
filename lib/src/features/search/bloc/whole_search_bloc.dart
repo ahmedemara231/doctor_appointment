@@ -2,14 +2,21 @@ import 'package:doctors_appointment/src/features/search/repositories/search_repo
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
+import '../../../core/helpers/data_types/sorting_result.dart';
 import '../../home/models/doctor_data.dart';
 part 'whole_search_event.dart';
 part 'whole_search_state.dart';
 
 class WholeSearchBloc extends Bloc<SearchEvent, SearchState> {
   WholeSearchBloc(this._repo) : super(SearchState.initial()) {
-    on<ClickNewLetter>((event, emit)async {
-      await _search(event.pattern, emit);
+    on<SearchEvent>((event, emit)async {
+      switch(event){
+        case ClickNewLetter():
+          await _search(event.pattern, emit);
+
+        case SortDoctor():
+          _sortDoctors(event.result, emit);
+      }
       }, transformer: debounce(const Duration(milliseconds: 250)),
     );
   }
@@ -34,5 +41,28 @@ class WholeSearchBloc extends Bloc<SearchEvent, SearchState> {
                     errorMessage: error.message
                 )),
     );
+  }
+
+  void _sortDoctors(SortingResult result, Emitter<SearchState> emit){
+    final selectedSpeciality = result.speciality;
+    final selectedRating = result.rating;
+
+    final List<DoctorInfo> doctors = List.from(state.doctorsInfo?? []);
+    List<DoctorInfo> filteredDoctors = [];
+
+    switch(selectedSpeciality){
+      case 'All':
+        filteredDoctors = List.from(doctors);
+
+      default:
+        filteredDoctors = doctors
+            .where((doctor) => doctor.specialization.name == selectedSpeciality)
+            .toList();
+    }
+
+    emit(state.copyWith(
+        currentState: WholeSearchStates.searchSuccess,
+        filteredDoctors: filteredDoctors
+    ));
   }
 }
