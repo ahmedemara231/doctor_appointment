@@ -2,6 +2,7 @@ import 'package:doctors_appointment/src/features/home/blocs/home/sorting/interfa
 import 'package:doctors_appointment/src/features/home/blocs/home/state.dart';
 import 'package:doctors_appointment/src/features/home/repositories/get.dart';
 import 'package:doctors_appointment/src/features/home/repositories/post.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/helpers/data_types/make_appointment.dart';
 import '../../../../core/helpers/data_types/sorting_result.dart';
@@ -109,6 +110,15 @@ class HomeCubit extends Cubit<HomeState>
             ))
     );
   }
+
+  void selectDoctor(DoctorInfo info){
+    emit(state.copyWith(
+        state: States.selectDoctor,
+        selectedDoctor: info
+    ));
+  }
+
+  late PageController makeDoctorAppointmentController;
 
   void getAvailableTimes({DateTime? time, int? doctorId}) async{
     List<String> availableTimes = [];

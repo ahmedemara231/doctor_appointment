@@ -1,9 +1,12 @@
-part of 'whole_search_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-enum WholeSearchStates{searchInitial, searchLoading, searchSuccess, searchError}
+import '../../home/models/doctor_data.dart';
+
+enum WholeSearchStates{searchInitial, searchLoading, searchSuccess, selectDoctor, searchError, resetResults}
 final class SearchState extends Equatable {
   WholeSearchStates? currentState;
   List<DoctorInfo>? doctorsInfo;
+  DoctorInfo? selectedDoctor;
   List<DoctorInfo>? filteredDoctors;
   String? errorMessage;
 
@@ -11,6 +14,7 @@ final class SearchState extends Equatable {
     this.currentState,
     this.doctorsInfo,
     this.filteredDoctors,
+    this.selectedDoctor,
     this.errorMessage
   });
 
@@ -18,28 +22,32 @@ final class SearchState extends Equatable {
     return SearchState(
       currentState: WholeSearchStates.searchInitial,
       doctorsInfo: const [],
+      selectedDoctor: null,
       filteredDoctors: const [],
       errorMessage: '',
     );
   }
 
   SearchState copyWith({
-    WholeSearchStates? currentState,
+    required WholeSearchStates currentState,
     List<DoctorInfo>? doctorsInfo,
+    DoctorInfo? selectedDoctor,
     List<DoctorInfo>? filteredDoctors,
     String? errorMessage
-}){
+  }){
     return SearchState(
       currentState: currentState,
-      doctorsInfo: doctorsInfo?? doctorsInfo,
-      filteredDoctors: filteredDoctors?? filteredDoctors,
-      errorMessage: errorMessage?? errorMessage,
+      doctorsInfo: doctorsInfo?? this.doctorsInfo,
+      selectedDoctor: selectedDoctor?? this.selectedDoctor,
+      filteredDoctors: filteredDoctors?? this.filteredDoctors,
+      errorMessage: errorMessage?? this.errorMessage,
     );
   }
   @override
   List<Object?> get props => [
     currentState,
     doctorsInfo,
+    selectedDoctor,
     filteredDoctors,
     errorMessage,
   ];

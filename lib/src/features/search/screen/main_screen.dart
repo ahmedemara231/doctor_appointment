@@ -4,13 +4,15 @@ import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtim
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
 import 'package:doctors_appointment/src/core/helpers/base_widgets/text.dart';
-import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
-import 'package:doctors_appointment/src/features/search/screen/search_delegate.dart';
+import 'package:doctors_appointment/src/features/search/screen/search.dart';
 import 'package:doctors_appointment/src/features/search/screen/search_on_former_result.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../bloc/events.dart';
+import '../bloc/search_bloc.dart';
 
 class WholeDoctorsSearch extends StatefulWidget {
   const WholeDoctorsSearch({super.key});
@@ -43,7 +45,7 @@ class _WholeDoctorsSearchState extends State<WholeDoctorsSearch> {
         child: Column(
           children: [
             InkWell(
-              onTap: () => showSearch(context: context, delegate: AppSearch()),
+              onTap: () => context.normalNewRoute(const AppSearch()),
               child: Container(
                 height: 50.h,
                 decoration: BoxDecoration(

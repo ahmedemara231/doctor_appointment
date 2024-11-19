@@ -8,11 +8,11 @@ class MyBlocObserver extends BlocObserver {
     log('onCreate -- ${bloc.runtimeType}');
   }
 
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    super.onChange(bloc, change);
-    log('onChange -- ${bloc.runtimeType}, $change');
-  }
+  // @override
+  // void onChange(BlocBase bloc, Change change) {
+  //   super.onChange(bloc, change);
+  //   log('onChange -- ${bloc.runtimeType}, $change');
+  // }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
@@ -24,5 +24,11 @@ class MyBlocObserver extends BlocObserver {
   void onClose(BlocBase bloc) {
     super.onClose(bloc);
     log('onClose -- ${bloc.runtimeType}');
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    log('onTransition : ${bloc.runtimeType} -- $transition');
+    super.onTransition(bloc, transition);
   }
 }
