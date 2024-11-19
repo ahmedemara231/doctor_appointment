@@ -123,9 +123,12 @@ class _DoctorsBasedSpecialitiesState extends State<DoctorsBasedSpecialities> {
                   ListView.separated(
                       controller: _scrollController,
                       itemBuilder: (context, index) => InkWell(
-                        onTap: () => context.normalNewRoute(
-                            DoctorDetails(info: state.filteredDoctors![index])
-                        ),
+                        onTap: () {
+                          context.read<HomeCubit>().selectDoctor(state.filteredDoctors![index]);
+                          context.normalNewRoute(
+                               DoctorDetails<HomeCubit>()
+                          );
+                        },
                         child: DoctorsCard(
                             url: state.filteredDoctors![index].photo,
                             doctorName: state.filteredDoctors![index].name,

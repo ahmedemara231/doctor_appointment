@@ -1,15 +1,16 @@
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/padding.dart';
 import 'package:doctors_appointment/src/core/helpers/base_extensions/context/routes.dart';
-import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../core/helpers/app_widgets/empty_list_widget.dart';
 import '../../../core/helpers/base_widgets/error_builder/screen.dart';
 import '../../../core/helpers/base_widgets/text.dart';
 import '../../home/screens/doctor_details.dart';
 import '../../home/widgets/main_screen_widgets/doctors_card.dart';
+import '../bloc/events.dart';
+import '../bloc/search_bloc.dart';
+import '../bloc/states.dart';
 
 class SearchOnFormerResult extends StatefulWidget {
   final String pattern;
@@ -18,7 +19,7 @@ class SearchOnFormerResult extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SearchOnFormerResultState createState() => _SearchOnFormerResultState();
+  State<SearchOnFormerResult> createState() => _SearchOnFormerResultState();
 }
 
 class _SearchOnFormerResultState extends State<SearchOnFormerResult> {
@@ -61,10 +62,12 @@ class _SearchOnFormerResultState extends State<SearchOnFormerResult> {
                 child: ListView.builder(
                   itemCount: state.doctorsInfo?.length?? 5,
                   itemBuilder: (context, index) => InkWell(
-                    onTap: () => context.normalNewRoute(
-                        DoctorDetails(info: state.doctorsInfo![index]
-                        )
-                    ),
+                    onTap: () {
+                      context.read<WholeSearchBloc>().add(SelectDoctor(state.doctorsInfo![index]));
+                      context.normalNewRoute(
+                           DoctorDetails<WholeSearchBloc>()
+                      );
+                    },
                     child: DoctorsCard(
                         url: state.doctorsInfo![index].photo,
                         doctorName: state.doctorsInfo![index].name,

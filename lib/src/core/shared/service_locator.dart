@@ -1,9 +1,7 @@
-import 'package:doctors_appointment/src/core/data_source/local/shared.dart';
 import 'package:doctors_appointment/src/core/data_source/remote/firebase/realtime_database/services/patients_service/data_source.dart';
 import 'package:doctors_appointment/src/features/auth/bloc/auth_cubit.dart';
 import 'package:doctors_appointment/src/features/auth/data_source/auth_data_source.dart';
 import 'package:doctors_appointment/src/features/auth/repositories/repo.dart';
-import 'package:doctors_appointment/src/features/search/bloc/whole_search_bloc.dart';
 import 'package:doctors_appointment/src/features/search/data_source/whole_search_data_source.dart';
 import 'package:doctors_appointment/src/features/search/repositories/search_repo.dart';
 import 'package:get_it/get_it.dart';
@@ -13,6 +11,7 @@ import '../../features/home/blocs/payment/cubit.dart';
 import '../../features/home/data_source/home_data_source.dart';
 import '../../features/home/repositories/get.dart';
 import '../../features/home/repositories/post.dart';
+import '../../features/search/bloc/search_bloc.dart';
 import '../data_source/remote/api_service/service/dio_connection.dart';
 import '../data_source/remote/stripe/repos/post.dart';
 import '../data_source/remote/stripe/service/stripe_connection.dart';
@@ -57,12 +56,12 @@ class ServiceLocator{
         )
     ));
     _getIt.registerLazySingleton<WholeSearchBloc>(() => WholeSearchBloc(
-      SearchRepo(
-          WholeSearchDataSource(
-              apiService: DioConnection.getInstance(),
-              dataSource: PatientsDataSource.getInstance()
-          )
-      )
+        SearchRepo(
+            WholeSearchDataSource(
+                apiService: DioConnection.getInstance(),
+                dataSource: PatientsDataSource.getInstance()
+            )
+        )
     ));
 
   }

@@ -32,6 +32,7 @@ enum States {
 class HomeState extends Equatable
 {
   States? currentState;
+  DoctorInfo? selectedDoctor;
   List<dynamic>? homeData;
   List<DoctorInfo>? recommendedDoctors;
   List<DoctorInfo>? filteredDoctors;
@@ -48,6 +49,7 @@ class HomeState extends Equatable
   HomeState({
     this.currentState,
     this.homeData,
+    this.selectedDoctor,
     this.recommendedDoctors,
     this.filteredDoctors,
     this.doctorsBasedOnSpecialization,
@@ -63,6 +65,7 @@ class HomeState extends Equatable
   factory HomeState.initial(){
     return HomeState(
       currentState : States.homeInitial,
+      selectedDoctor: null,
       homeData : const [],
       recommendedDoctors : const [],
       filteredDoctors : const [],
@@ -79,6 +82,7 @@ class HomeState extends Equatable
 
   HomeState copyWith({
     required States state,
+    DoctorInfo? selectedDoctor,
     List<dynamic>? homeData, String? errorMessage,
     List<DoctorInfo>? recommendedDoctors,
     List<DoctorInfo>? filteredDoctors,
@@ -92,6 +96,7 @@ class HomeState extends Equatable
   }) {
     return HomeState(
       currentState: state,
+      selectedDoctor: selectedDoctor?? this.selectedDoctor,
       homeData: homeData?? this.homeData,
       recommendedDoctors: recommendedDoctors?? this.recommendedDoctors,
       filteredDoctors: filteredDoctors?? this.filteredDoctors,
@@ -109,6 +114,7 @@ class HomeState extends Equatable
   @override
   List<Object?> get props => [
     currentState,
+    selectedDoctor,
     homeData,
     errorMsg,
     recommendedDoctors,

@@ -1,19 +1,16 @@
 import 'package:doctors_appointment/generated/assets.dart';
-import 'package:doctors_appointment/src/features/home/widgets/doctor_details_widgets/base_details.dart';
+import 'package:doctors_appointment/src/core/helpers/data_types/appointment_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../../core/helpers/app_widgets/app_button.dart';
 import '../../../../../core/helpers/base_widgets/text.dart';
 import '../../../blocs/home/cubit.dart';
 import '../../../blocs/home/state.dart';
-import '../../../models/doctor_data.dart';
-import '../interface.dart';
+import '../../../blocs/payment/cubit.dart';
 
-class Summary extends StatelessWidget implements CheckingValue {
-  Summary({Key? key}) : super(key: key);
-
-  @override
-  var mainValue = '';
+class Summary extends StatelessWidget{
+  const Summary({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +31,22 @@ class Summary extends StatelessWidget implements CheckingValue {
                 leading: SvgPicture.asset(Assets.iconsApoointmentType),
                 title: const MyText(text: 'Appointment Type', fontWeight: FontWeight.w500,),
                 subtitle: MyText(text: state.appointmentType!),
+              ),
+              const Spacer(),
+              AppButton(
+                  title: 'Pay',
+                  onPressed: () async {
+                    UserAppointmentDetails details = UserAppointmentDetails(
+                        appointmentDate: state.appointmentDate!,
+                        appointmentTime: state.appointmentTime!,
+                        appointmentType: state.appointmentType!
+                    );
+                    context.read<PaymentCubit>().pay(
+                        context,
+                        amount: 100,
+                        details: details
+                    );
+                  }
               ),
             ],
           );
